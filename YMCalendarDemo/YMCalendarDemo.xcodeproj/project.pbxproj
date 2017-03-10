@@ -13,7 +13,6 @@
 		13A518D11E72E6BA00F539ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A518D01E72E6BA00F539ED /* Assets.xcassets */; };
 		13A518D41E72E6BA00F539ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A518D21E72E6BA00F539ED /* LaunchScreen.storyboard */; };
 		13A518DF1E72E6BA00F539ED /* YMCalendarDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518DE1E72E6BA00F539ED /* YMCalendarDemoUITests.swift */; };
-		13A518EB1E72E8A900F539ED /* YMCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A518EA1E72E8A900F539ED /* YMCalendar.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +25,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		13A5194B1E72F8D000F539ED /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		13A518C61E72E6BA00F539ED /* YMCalendarDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YMCalendarDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518C91E72E6BA00F539ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +49,6 @@
 		13A518DA1E72E6BA00F539ED /* YMCalendarDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YMCalendarDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518DE1E72E6BA00F539ED /* YMCalendarDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YMCalendarDemoUITests.swift; sourceTree = "<group>"; };
 		13A518E01E72E6BA00F539ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		13A518EA1E72E8A900F539ED /* YMCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YMCalendar.framework; path = "../build/Debug-iphoneos/YMCalendar.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +56,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13A518EB1E72E8A900F539ED /* YMCalendar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +113,6 @@
 		13A518E91E72E8A900F539ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				13A518EA1E72E8A900F539ED /* YMCalendar.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,6 +128,7 @@
 				13A518C31E72E6BA00F539ED /* Frameworks */,
 				13A518C41E72E6BA00F539ED /* Resources */,
 				13A518EC1E72E8B300F539ED /* Run Script(Carhage) */,
+				13A5194B1E72F8D000F539ED /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

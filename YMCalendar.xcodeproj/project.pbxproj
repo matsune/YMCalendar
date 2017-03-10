@@ -8,12 +8,74 @@
 
 /* Begin PBXBuildFile section */
 		13A518B71E72E5A400F539ED /* YMCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = 13A518B51E72E5A400F539ED /* YMCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		13A519051E72EA3100F539ED /* CalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518EE1E72EA3100F539ED /* CalendarExtension.swift */; };
+		13A519071E72EA3100F539ED /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F01E72EA3100F539ED /* DateRange.swift */; };
+		13A519081E72EA3100F539ED /* DecelerationRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F11E72EA3100F539ED /* DecelerationRate.swift */; };
+		13A519091E72EA3100F539ED /* YMEventsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F21E72EA3100F539ED /* YMEventsRowView.swift */; };
+		13A5190A1E72EA3100F539ED /* EventStandartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F31E72EA3100F539ED /* EventStandartView.swift */; };
+		13A5190B1E72EA3100F539ED /* YMEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F41E72EA3100F539ED /* YMEventView.swift */; };
+		13A5190C1E72EA3100F539ED /* YMMonthBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */; };
+		13A5190D1E72EA3100F539ED /* YMMonthBackgroundAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F61E72EA3100F539ED /* YMMonthBackgroundAppearance.swift */; };
+		13A5190E1E72EA3100F539ED /* YMMonthDayCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */; };
+		13A5190F1E72EA3100F539ED /* YMMonthLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F81E72EA3100F539ED /* YMMonthLayout.swift */; };
+		13A519101E72EA3100F539ED /* YMMonthLayoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F91E72EA3100F539ED /* YMMonthLayoutDelegate.swift */; };
+		13A519111E72EA3100F539ED /* MonthScrollAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FA1E72EA3100F539ED /* MonthScrollAlignment.swift */; };
+		13A519121E72EA3100F539ED /* YMMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FB1E72EA3100F539ED /* YMMonthView.swift */; };
+		13A519131E72EA3100F539ED /* YMMonthViewAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FC1E72EA3100F539ED /* YMMonthViewAppearance.swift */; };
+		13A519141E72EA3100F539ED /* YMMonthViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FD1E72EA3100F539ED /* YMMonthViewDataSource.swift */; };
+		13A519151E72EA3100F539ED /* YMMonthViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FE1E72EA3100F539ED /* YMMonthViewDelegate.swift */; };
+		13A519161E72EA3100F539ED /* YMMonthWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FF1E72EA3100F539ED /* YMMonthWeekView.swift */; };
+		13A519171E72EA3100F539ED /* ReusableIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519001E72EA3100F539ED /* ReusableIdentifier.swift */; };
+		13A519181E72EA3100F539ED /* ReusableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519011E72EA3100F539ED /* ReusableObject.swift */; };
+		13A519191E72EA3100F539ED /* ScrollDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519021E72EA3100F539ED /* ScrollDirection.swift */; };
+		13A5191A1E72EA3100F539ED /* YMWeekHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519031E72EA3100F539ED /* YMWeekHeaderView.swift */; };
+		13A519311E72F0B100F539ED /* YMEventsRowViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		13A5193D1E72F72200F539ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 13A518C61E72E6BA00F539ED;
+			remoteInfo = YMCalendarDemo;
+		};
+		13A5193F1E72F72200F539ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 13A518DA1E72E6BA00F539ED;
+			remoteInfo = YMCalendarDemoUITests;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		13A518B21E72E5A400F539ED /* YMCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YMCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518B51E72E5A400F539ED /* YMCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMCalendar.h; sourceTree = "<group>"; };
 		13A518B61E72E5A400F539ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13A518EE1E72EA3100F539ED /* CalendarExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarExtension.swift; sourceTree = "<group>"; };
+		13A518F01E72EA3100F539ED /* DateRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateRange.swift; sourceTree = "<group>"; };
+		13A518F11E72EA3100F539ED /* DecelerationRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecelerationRate.swift; sourceTree = "<group>"; };
+		13A518F21E72EA3100F539ED /* YMEventsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventsRowView.swift; sourceTree = "<group>"; };
+		13A518F31E72EA3100F539ED /* EventStandartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventStandartView.swift; sourceTree = "<group>"; };
+		13A518F41E72EA3100F539ED /* YMEventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventView.swift; sourceTree = "<group>"; };
+		13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthBackgroundView.swift; sourceTree = "<group>"; };
+		13A518F61E72EA3100F539ED /* YMMonthBackgroundAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthBackgroundAppearance.swift; sourceTree = "<group>"; };
+		13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthDayCollectionCell.swift; sourceTree = "<group>"; };
+		13A518F81E72EA3100F539ED /* YMMonthLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthLayout.swift; sourceTree = "<group>"; };
+		13A518F91E72EA3100F539ED /* YMMonthLayoutDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthLayoutDelegate.swift; sourceTree = "<group>"; };
+		13A518FA1E72EA3100F539ED /* MonthScrollAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthScrollAlignment.swift; sourceTree = "<group>"; };
+		13A518FB1E72EA3100F539ED /* YMMonthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthView.swift; sourceTree = "<group>"; };
+		13A518FC1E72EA3100F539ED /* YMMonthViewAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthViewAppearance.swift; sourceTree = "<group>"; };
+		13A518FD1E72EA3100F539ED /* YMMonthViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthViewDataSource.swift; sourceTree = "<group>"; };
+		13A518FE1E72EA3100F539ED /* YMMonthViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthViewDelegate.swift; sourceTree = "<group>"; };
+		13A518FF1E72EA3100F539ED /* YMMonthWeekView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthWeekView.swift; sourceTree = "<group>"; };
+		13A519001E72EA3100F539ED /* ReusableIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableIdentifier.swift; sourceTree = "<group>"; };
+		13A519011E72EA3100F539ED /* ReusableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableObject.swift; sourceTree = "<group>"; };
+		13A519021E72EA3100F539ED /* ScrollDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollDirection.swift; sourceTree = "<group>"; };
+		13A519031E72EA3100F539ED /* YMWeekHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMWeekHeaderView.swift; sourceTree = "<group>"; };
+		13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventsRowViewDelegate.swift; sourceTree = "<group>"; };
+		13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = YMCalendarDemo.xcodeproj; path = YMCalendarDemo/YMCalendarDemo.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +92,7 @@
 		13A518A81E72E5A400F539ED = {
 			isa = PBXGroup;
 			children = (
+				13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */,
 				13A518B41E72E5A400F539ED /* YMCalendar */,
 				13A518B31E72E5A400F539ED /* Products */,
 			);
@@ -48,8 +111,127 @@
 			children = (
 				13A518B51E72E5A400F539ED /* YMCalendar.h */,
 				13A518B61E72E5A400F539ED /* Info.plist */,
+				13A519261E72EE8A00F539ED /* Enum */,
+				13A519281E72EECE00F539ED /* Layout */,
+				13A519291E72EEE000F539ED /* MonthView */,
+				13A519271E72EEA100F539ED /* ReusableView */,
+				13A519251E72EE7A00F539ED /* Utils */,
+				13A5192D1E72EF5500F539ED /* WeekHeaderView */,
 			);
 			path = YMCalendar;
+			sourceTree = "<group>";
+		};
+		13A519251E72EE7A00F539ED /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				13A518EE1E72EA3100F539ED /* CalendarExtension.swift */,
+				13A518F01E72EA3100F539ED /* DateRange.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		13A519261E72EE8A00F539ED /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				13A518F11E72EA3100F539ED /* DecelerationRate.swift */,
+				13A518FA1E72EA3100F539ED /* MonthScrollAlignment.swift */,
+				13A519021E72EA3100F539ED /* ScrollDirection.swift */,
+			);
+			name = Enum;
+			sourceTree = "<group>";
+		};
+		13A519271E72EEA100F539ED /* ReusableView */ = {
+			isa = PBXGroup;
+			children = (
+				13A519001E72EA3100F539ED /* ReusableIdentifier.swift */,
+				13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */,
+				13A518FF1E72EA3100F539ED /* YMMonthWeekView.swift */,
+			);
+			name = ReusableView;
+			sourceTree = "<group>";
+		};
+		13A519281E72EECE00F539ED /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				13A518F81E72EA3100F539ED /* YMMonthLayout.swift */,
+				13A518F91E72EA3100F539ED /* YMMonthLayoutDelegate.swift */,
+			);
+			name = Layout;
+			sourceTree = "<group>";
+		};
+		13A519291E72EEE000F539ED /* MonthView */ = {
+			isa = PBXGroup;
+			children = (
+				13A518FB1E72EA3100F539ED /* YMMonthView.swift */,
+				13A5192C1E72EF0C00F539ED /* Appearance */,
+				13A5192F1E72EF9600F539ED /* CollectionCell */,
+				13A5192B1E72EF0100F539ED /* DataSource */,
+				13A5192A1E72EEF000F539ED /* Delegate */,
+				13A5192E1E72EF6900F539ED /* EventView */,
+			);
+			name = MonthView;
+			sourceTree = "<group>";
+		};
+		13A5192A1E72EEF000F539ED /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				13A518FE1E72EA3100F539ED /* YMMonthViewDelegate.swift */,
+				13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */,
+			);
+			name = Delegate;
+			sourceTree = "<group>";
+		};
+		13A5192B1E72EF0100F539ED /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				13A518FD1E72EA3100F539ED /* YMMonthViewDataSource.swift */,
+			);
+			name = DataSource;
+			sourceTree = "<group>";
+		};
+		13A5192C1E72EF0C00F539ED /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				13A518FC1E72EA3100F539ED /* YMMonthViewAppearance.swift */,
+				13A518F61E72EA3100F539ED /* YMMonthBackgroundAppearance.swift */,
+			);
+			name = Appearance;
+			sourceTree = "<group>";
+		};
+		13A5192D1E72EF5500F539ED /* WeekHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				13A519031E72EA3100F539ED /* YMWeekHeaderView.swift */,
+			);
+			name = WeekHeaderView;
+			sourceTree = "<group>";
+		};
+		13A5192E1E72EF6900F539ED /* EventView */ = {
+			isa = PBXGroup;
+			children = (
+				13A518F31E72EA3100F539ED /* EventStandartView.swift */,
+				13A519011E72EA3100F539ED /* ReusableObject.swift */,
+				13A518F21E72EA3100F539ED /* YMEventsRowView.swift */,
+				13A518F41E72EA3100F539ED /* YMEventView.swift */,
+			);
+			name = EventView;
+			sourceTree = "<group>";
+		};
+		13A5192F1E72EF9600F539ED /* CollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */,
+			);
+			name = CollectionCell;
+			sourceTree = "<group>";
+		};
+		13A519391E72F72200F539ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13A5193E1E72F72200F539ED /* YMCalendarDemo.app */,
+				13A519401E72F72200F539ED /* YMCalendarDemoUITests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,6 +277,7 @@
 				TargetAttributes = {
 					13A518B11E72E5A400F539ED = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -109,12 +292,35 @@
 			mainGroup = 13A518A81E72E5A400F539ED;
 			productRefGroup = 13A518B31E72E5A400F539ED /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 13A519391E72F72200F539ED /* Products */;
+					ProjectRef = 13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13A518B11E72E5A400F539ED /* YMCalendar */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		13A5193E1E72F72200F539ED /* YMCalendarDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = YMCalendarDemo.app;
+			remoteRef = 13A5193D1E72F72200F539ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		13A519401E72F72200F539ED /* YMCalendarDemoUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = YMCalendarDemoUITests.xctest;
+			remoteRef = 13A5193F1E72F72200F539ED /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		13A518B01E72E5A400F539ED /* Resources */ = {
@@ -131,6 +337,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13A519101E72EA3100F539ED /* YMMonthLayoutDelegate.swift in Sources */,
+				13A519121E72EA3100F539ED /* YMMonthView.swift in Sources */,
+				13A519151E72EA3100F539ED /* YMMonthViewDelegate.swift in Sources */,
+				13A519091E72EA3100F539ED /* YMEventsRowView.swift in Sources */,
+				13A5190D1E72EA3100F539ED /* YMMonthBackgroundAppearance.swift in Sources */,
+				13A5190C1E72EA3100F539ED /* YMMonthBackgroundView.swift in Sources */,
+				13A519131E72EA3100F539ED /* YMMonthViewAppearance.swift in Sources */,
+				13A5191A1E72EA3100F539ED /* YMWeekHeaderView.swift in Sources */,
+				13A519191E72EA3100F539ED /* ScrollDirection.swift in Sources */,
+				13A5190F1E72EA3100F539ED /* YMMonthLayout.swift in Sources */,
+				13A519171E72EA3100F539ED /* ReusableIdentifier.swift in Sources */,
+				13A519141E72EA3100F539ED /* YMMonthViewDataSource.swift in Sources */,
+				13A519071E72EA3100F539ED /* DateRange.swift in Sources */,
+				13A519311E72F0B100F539ED /* YMEventsRowViewDelegate.swift in Sources */,
+				13A519111E72EA3100F539ED /* MonthScrollAlignment.swift in Sources */,
+				13A519051E72EA3100F539ED /* CalendarExtension.swift in Sources */,
+				13A5190E1E72EA3100F539ED /* YMMonthDayCollectionCell.swift in Sources */,
+				13A519181E72EA3100F539ED /* ReusableObject.swift in Sources */,
+				13A5190A1E72EA3100F539ED /* EventStandartView.swift in Sources */,
+				13A519161E72EA3100F539ED /* YMMonthWeekView.swift in Sources */,
+				13A519081E72EA3100F539ED /* DecelerationRate.swift in Sources */,
+				13A5190B1E72EA3100F539ED /* YMEventView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +467,7 @@
 		13A518BB1E72E5A400F539ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -250,6 +479,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.matsune.YMCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -257,6 +487,7 @@
 		13A518BC1E72E5A400F539ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -291,6 +522,7 @@
 				13A518BC1E72E5A400F539ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

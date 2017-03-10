@@ -1,0 +1,23 @@
+//
+//  DecelerationRate.swift
+//  YMCalendar
+//
+//  Created by Yuma Matsune on 2017/03/05.
+//  Copyright © 2017年 Yuma Matsune. All rights reserved.
+//
+
+import Foundation
+import UIKit
+
+enum DecelerationRate {
+    case normal, fast
+    
+    var value: CGFloat {
+        switch self {
+        case .normal:
+            return UIScrollViewDecelerationRateNormal
+        case .fast:
+            return UIScrollViewDecelerationRateFast
+        }
+    }
+}
