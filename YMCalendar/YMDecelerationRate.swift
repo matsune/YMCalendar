@@ -1,5 +1,5 @@
 //
-//  DecelerationRate.swift
+//  YMDecelerationRate.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/03/05.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum DecelerationRate {
+public enum YMDecelerationRate {
     case normal, fast
     
     var value: CGFloat {

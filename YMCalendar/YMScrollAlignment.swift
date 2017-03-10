@@ -1,5 +1,5 @@
 //
-//  MonthScrollAlignment.swift
+//  YMScrollAlignment.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/03/10.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MonthScrollAlignment {
+enum YMScrollAlignment {
     case headerTop
     case headerBottom
     case weekRow

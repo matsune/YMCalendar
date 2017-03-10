@@ -1,5 +1,5 @@
 //
-//  YMMonthAppearance.swift
+//  YMCalendarAppearance.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/03/06.
@@ -9,4 +9,4 @@
 import Foundation
 import UIKit
 
-public protocol YMMonthAppearance: YMMonthBackgroundAppearance {}
+public protocol YMCalendarAppearance: YMMonthBackgroundAppearance {}

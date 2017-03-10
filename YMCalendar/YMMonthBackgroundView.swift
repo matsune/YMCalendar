@@ -29,10 +29,8 @@ final class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAp
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setAppearance(_ appearance: YMMonthBackgroundAppearance?, numberOfColumns: Int, numberOfRows: Int, lastColumn: Int) {
-        if let appearance = appearance {
-            self.appearance = appearance
-        }
+    func setAppearance(_ appearance: YMMonthBackgroundAppearance, numberOfColumns: Int, numberOfRows: Int, lastColumn: Int) {
+        self.appearance = appearance
         self.numberOfColumns = numberOfColumns
         self.numberOfRows = numberOfRows
     }
@@ -43,10 +41,9 @@ final class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAp
     }
     
     override func draw(_ rect: CGRect) {
-        guard let appearance = appearance else {
-            return
-        }
-        
+
+        let appearance: YMMonthBackgroundAppearance = self.appearance ?? self
+
         let c = UIGraphicsGetCurrentContext()
         
         let colWidth = numberOfColumns > 0 ? (bounds.width / CGFloat(numberOfColumns)) : bounds.width

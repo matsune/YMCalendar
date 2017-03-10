@@ -26,7 +26,7 @@ struct ReusableIdentifier {
             case .rowView:
                 return YMEventsRowView.self
             case .standardView:
-                return EventStandardView.self
+                return YMEventStandardView.self
             }
         }
     }

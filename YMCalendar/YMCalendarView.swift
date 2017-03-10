@@ -1,5 +1,5 @@
 //
-//  YMMonth.swift
+//  YMCalendarView.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/02/21.
@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 
-public final class YMMonthView: UIView, YMMonthAppearance {
+public final class YMCalendarView: UIView, YMCalendarAppearance {
     
-    weak var appearance: YMMonthAppearance?
+    weak var appearance: YMCalendarAppearance?
 
-    weak var delegate: YMMonthDelegate?
+    weak var delegate: YMCalendarDelegate?
     
-    weak var dataSource: YMMonthDataSource?
+    weak var dataSource: YMCalendarDataSource?
     
     var calendar = Calendar.current
     
@@ -44,12 +44,12 @@ public final class YMMonthView: UIView, YMMonthAppearance {
         }
     }
 
-    var layout: YMMonthLayout {
+    var layout: YMCalendarLayout {
         set {
             collectionView.collectionViewLayout = newValue
         }
         get {
-            return collectionView.collectionViewLayout as! YMMonthLayout
+            return collectionView.collectionViewLayout as! YMCalendarLayout
         }
     }
     
@@ -62,15 +62,15 @@ public final class YMMonthView: UIView, YMMonthAppearance {
         }
     }
     
-    var decelerationRate: DecelerationRate = .normal {
+    var decelerationRate: YMDecelerationRate = .normal {
         didSet {
             collectionView.decelerationRate = decelerationRate.value
         }
     }
     
-    var scrollDirection: ScrollDirection = .vertical {
+    var scrollDirection: YMScrollDirection = .vertical {
         didSet {
-            let monthLayout = YMMonthLayout(scrollDirection: scrollDirection)
+            let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
             monthLayout.delegate = self
             monthLayout.monthInsets = monthInsets
             monthLayout.dayHeaderHeight = dayHeaderHeight
@@ -151,11 +151,10 @@ public final class YMMonthView: UIView, YMMonthAppearance {
     }
     
     private func commonInit() {
-        appearance = self
         
         reuseQueue.registerClass(ReusableIdentifier.Events.rowView.classType, forObjectWithReuseIdentifier: ReusableIdentifier.Events.rowView.identifier)
 
-        let monthLayout = YMMonthLayout(scrollDirection: scrollDirection)
+        let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
         monthLayout.delegate = self
         monthLayout.monthInsets = monthInsets
         
@@ -195,7 +194,7 @@ public final class YMMonthView: UIView, YMMonthAppearance {
     
 }
 
-extension YMMonthView {
+extension YMCalendarView {
     // MARK: - Utils
     
     func dateForDayAtIndexPath(_ indexPath: IndexPath) -> Date {
@@ -320,7 +319,7 @@ extension YMMonthView {
     }
 }
 
-extension YMMonthView {
+extension YMCalendarView {
     // MARK: - Public
     func registerClass(_ objectClass: ReusableObject.Type, forEventCellReuseIdentifier identifier: String) {
         reuseQueue.registerClass(objectClass, forObjectWithReuseIdentifier: identifier)
@@ -429,7 +428,7 @@ extension YMMonthView {
     }
 }
 
-extension YMMonthView {
+extension YMCalendarView {
     // MARK: - Selection
     
     var selectedEventView: YMEventView? {
@@ -471,14 +470,14 @@ extension YMMonthView {
     }
 }
 
-extension YMMonthView {
+extension YMCalendarView {
     // MARK: - Scrolling
     
     func scrollToDate(_ date: Date, animated: Bool) {
         scrollToDate(date, alignment: .headerTop, animated: animated)
     }
     
-    func scrollToDate(_ date: Date, alignment: MonthScrollAlignment, animated: Bool) {
+    func scrollToDate(_ date: Date, alignment: YMScrollAlignment, animated: Bool) {
         if let dateRange = dateRange, !dateRange.contains(date: date) {
             fatalError()
         }
@@ -494,7 +493,7 @@ extension YMMonthView {
             collectionView.setContentOffset(CGPoint(x: offset, y: 0), animated: animated)
         }
         
-        delegate?.monthViewDidScroll?(self)
+        delegate?.calendarViewDidScroll?(self)
     }
     
     func adjustStartDateForCenteredMonth(date: Date) -> Int {
@@ -569,7 +568,7 @@ extension YMMonthView {
     }
 }
 
-extension YMMonthView {
+extension YMCalendarView {
     // MARK: - Rows Handling
     var visibleEventRows: [YMEventsRowView] {
         var rows: [YMEventsRowView] = []
@@ -652,7 +651,7 @@ extension YMMonthView {
     }
 }
 
-extension YMMonthView: UICollectionViewDataSource {
+extension YMCalendarView: UICollectionViewDataSource {
     // MARK: - UICollectionViewDataSource
     
     // 読み込む月の数
@@ -688,7 +687,7 @@ extension YMMonthView: UICollectionViewDataSource {
                                               for: indexPath) as? YMMonthBackgroundView else {
                                                 fatalError()
         }
-        view.setAppearance(appearance, numberOfColumns: 7, numberOfRows: numRows, lastColumn: lastColumn)
+        view.setAppearance(appearance ?? self, numberOfColumns: 7, numberOfRows: numRows, lastColumn: lastColumn)
         view.setNeedsDisplay()
         
         return view
@@ -706,13 +705,13 @@ extension YMMonthView: UICollectionViewDataSource {
     }
 }
 
-extension YMMonthView: YMEventsRowViewDelegate {
+extension YMCalendarView: YMEventsRowViewDelegate {
     // MARK: - YMEventsRowViewDelegate
     func eventsRowView(_ view: YMEventsRowView, numberOfEventsForDayAtIndex day: Int) -> Int {
         var comps = DateComponents()
         comps.day = day
         guard let date = calendar.date(byAdding: comps, to: view.referenceDate),
-        let count = dataSource?.YMMonthView(self, numberOfEventsAtDate: date) else {
+        let count = dataSource?.calendarView(self, numberOfEventsAtDate: date) else {
             return 0
         }
         return count
@@ -722,7 +721,7 @@ extension YMMonthView: YMEventsRowViewDelegate {
         var comps = DateComponents()
         comps.day = indexPath.section
         guard let date = calendar.date(byAdding: comps, to: view.referenceDate),
-            let dateRange = dataSource?.YMMonthView(self, dateRangeForEventAtIndex: indexPath.item, date: date) else {
+            let dateRange = dataSource?.calendarView(self, dateRangeForEventAtIndex: indexPath.item, date: date) else {
             return NSRange()
         }
         
@@ -740,20 +739,20 @@ extension YMMonthView: YMEventsRowViewDelegate {
         guard let date = calendar.date(byAdding: comps, to: view.referenceDate) else {
             return nil
         }
-        return dataSource?.YMMonthView(self, cellForEventAtIndex: indexPath.item, date: date)
+        return dataSource?.calendarView(self, cellForEventAtIndex: indexPath.item, date: date)
     }
 }
 
-extension YMMonthView: YMMonthLayoutDelegate {
+extension YMCalendarView: YMCalendarLayoutDelegate {
     // MARK: - MonthLayoutDelegate
     
-    func collectionView(_ collectionView: UICollectionView, layout: YMMonthLayout, columnForDayAtIndexPath indexPath: IndexPath) -> Int {
+    func collectionView(_ collectionView: UICollectionView, layout: YMCalendarLayout, columnForDayAtIndexPath indexPath: IndexPath) -> Int {
         return columnForDayAtIndexPath(indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let date = dateForDayAtIndexPath(indexPath)
-        delegate?.monthView?(self, didSelectDayCellAtDate: date)
+        delegate?.calendarView?(self, didSelectDayCellAtDate: date)
         
         if let selectedIndex = collectionView.indexPathsForSelectedItems?.first {
             collectionView.deselectItem(at: selectedIndex, animated: true)
@@ -780,7 +779,7 @@ extension YMMonthView: YMMonthLayoutDelegate {
         }
         
         if let date = dayAtPoint(center) {
-            delegate?.monthView?(self, didShowDate: date)
+            delegate?.calendarView?(self, didShowDate: date)
         }
     }
 }

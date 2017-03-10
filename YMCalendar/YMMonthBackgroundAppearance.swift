@@ -1,5 +1,5 @@
 //
-//  MonthBackgroundViewAppearance.swift
+//  YMMonthBackgroundAppearance.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/03/06.

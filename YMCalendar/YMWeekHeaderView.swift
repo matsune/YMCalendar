@@ -1,5 +1,5 @@
 //
-//  WeekHeaderView.swift
+//  YMWeekHeaderView.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/03/06.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class YMWeekHeaderView: UIView {
+public final class YMWeekHeaderView: UIView {
 
     var symbols: [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     private var symbolLabels: [UILabel] = []
@@ -19,7 +19,7 @@ final class YMWeekHeaderView: UIView {
         commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -34,7 +34,7 @@ final class YMWeekHeaderView: UIView {
         }
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         for i in 0..<symbolLabels.count {
             let w = bounds.width / CGFloat(symbolLabels.count)

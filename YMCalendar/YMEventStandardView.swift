@@ -1,5 +1,5 @@
 //
-//  EventStandartView.swift
+//  YMEventStandardView.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/03/09.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class EventStandardView: YMEventView {
+public class YMEventStandardView: YMEventView {
     
     let kSpace: CGFloat = 2
     
@@ -21,12 +21,12 @@ class EventStandardView: YMEventView {
     
     var attrString = NSMutableAttributedString()
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         setNeedsDisplay()
     }
     
-    override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         setNeedsDisplay()
     }
@@ -43,7 +43,7 @@ class EventStandardView: YMEventView {
         attrString = attributedString
     }
     
-    override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         let drawRect = rect.insetBy(dx: kSpace, dy: 0)
         redrawStringInRect(drawRect)
         

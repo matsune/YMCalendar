@@ -1,5 +1,5 @@
 //
-//  ScrollDirection.swift
+//  YMScrollDirection.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/02/23.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ScrollDirection {
+enum YMScrollDirection {
     case horizontal
     case vertical
 }

@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class YMEventView: UIView, ReusableObject {
+public class YMEventView: UIView, ReusableObject {
     
-    var reuseIdentifier: String = ""
+    public var reuseIdentifier: String = ""
     
     var selected: Bool = false
     
@@ -22,7 +22,7 @@ class YMEventView: UIView, ReusableObject {
         commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -32,7 +32,7 @@ class YMEventView: UIView, ReusableObject {
         clipsToBounds = true
     }
     
-    func prepareForReuse() {
+    public func prepareForReuse() {
         selected = false
     }
 }

@@ -1,5 +1,5 @@
 //
-//  MonthDayCollectionCell.swift
+//  YMMonthDayCollectionCell.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/02/21.

@@ -1,5 +1,5 @@
 //
-//  YMMonthLayout.swift
+//  YMCalendarLayout.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/02/21.
@@ -9,21 +9,21 @@
 import Foundation
 import UIKit
 
-final class YMMonthLayout: UICollectionViewLayout {
+final class YMCalendarLayout: UICollectionViewLayout {
 
     typealias AttrDict = [IndexPath : UICollectionViewLayoutAttributes]
     
-    private var scrollDirection: ScrollDirection
+    private var scrollDirection: YMScrollDirection
     
     var layoutAttrDict: [String : AttrDict] = [:]
     var isShowEvents = true
     var monthInsets: UIEdgeInsets = .zero
-    weak var delegate: YMMonthLayoutDelegate!
+    weak var delegate: YMCalendarLayoutDelegate!
 
     var dayHeaderHeight: CGFloat = 15.0
     var contentSize: CGSize = .zero
     
-    init(scrollDirection: ScrollDirection) {
+    init(scrollDirection: YMScrollDirection) {
         self.scrollDirection = scrollDirection
         super.init()
     }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct DateRange {
+public struct DateRange {
     let start: Date
     let end: Date
     
