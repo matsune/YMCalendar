@@ -1,0 +1,6 @@
+framework module YMCalendar {
+  umbrella header "YMCalendar.h"
+
+  export *
+  module * { export * }
+}

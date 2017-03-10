@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>YMCalendar.xcscheme_^#shared#^_</key>
+		<key>YMCalendarDemo.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,7 +12,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>13A518B11E72E5A400F539ED</key>
+		<key>13A518C51E72E6BA00F539ED</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>13A518D91E72E6BA00F539ED</key>
 		<dict>
 			<key>primary</key>
 			<true/>
