@@ -32,23 +32,6 @@
 		13A519311E72F0B100F539ED /* YMEventsRowViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		13A5193D1E72F72200F539ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 13A518C61E72E6BA00F539ED;
-			remoteInfo = YMCalendarDemo;
-		};
-		13A5193F1E72F72200F539ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 13A518DA1E72E6BA00F539ED;
-			remoteInfo = YMCalendarDemoUITests;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		13A518B21E72E5A400F539ED /* YMCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YMCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518B51E72E5A400F539ED /* YMCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMCalendar.h; sourceTree = "<group>"; };
@@ -75,7 +58,6 @@
 		13A519021E72EA3100F539ED /* YMScrollDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMScrollDirection.swift; sourceTree = "<group>"; };
 		13A519031E72EA3100F539ED /* YMWeekHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMWeekHeaderView.swift; sourceTree = "<group>"; };
 		13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventsRowViewDelegate.swift; sourceTree = "<group>"; };
-		13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = YMCalendarDemo.xcodeproj; path = YMCalendarDemo/YMCalendarDemo.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +74,6 @@
 		13A518A81E72E5A400F539ED = {
 			isa = PBXGroup;
 			children = (
-				13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */,
 				13A518B41E72E5A400F539ED /* YMCalendar */,
 				13A518B31E72E5A400F539ED /* Products */,
 			);
@@ -217,15 +198,6 @@
 			name = CollectionCell;
 			sourceTree = "<group>";
 		};
-		13A519391E72F72200F539ED /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				13A5193E1E72F72200F539ED /* YMCalendarDemo.app */,
-				13A519401E72F72200F539ED /* YMCalendarDemoUITests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -284,35 +256,12 @@
 			mainGroup = 13A518A81E72E5A400F539ED;
 			productRefGroup = 13A518B31E72E5A400F539ED /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 13A519391E72F72200F539ED /* Products */;
-					ProjectRef = 13A519381E72F72200F539ED /* YMCalendarDemo.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				13A518B11E72E5A400F539ED /* YMCalendar */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		13A5193E1E72F72200F539ED /* YMCalendarDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = YMCalendarDemo.app;
-			remoteRef = 13A5193D1E72F72200F539ED /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		13A519401E72F72200F539ED /* YMCalendarDemoUITests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = YMCalendarDemoUITests.xctest;
-			remoteRef = 13A5193F1E72F72200F539ED /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		13A518B01E72E5A400F539ED /* Resources */ = {
@@ -460,7 +409,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -480,7 +429,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

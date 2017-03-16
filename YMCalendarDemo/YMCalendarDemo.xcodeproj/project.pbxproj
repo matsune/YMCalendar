@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130EAD711E7AC4B1003F8ECD /* YMCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 130EAD701E7AC4B1003F8ECD /* YMCalendar.framework */; };
+		130EAD721E7AC4B1003F8ECD /* YMCalendar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 130EAD701E7AC4B1003F8ECD /* YMCalendar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1377CAE81E782B4C000A7019 /* SingleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1377CAE71E782B4C000A7019 /* SingleViewController.swift */; };
+		1377CAEA1E782B58000A7019 /* EventKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1377CAE91E782B58000A7019 /* EventKitViewController.swift */; };
 		13A518CA1E72E6BA00F539ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518C91E72E6BA00F539ED /* AppDelegate.swift */; };
 		13A518CC1E72E6BA00F539ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518CB1E72E6BA00F539ED /* ViewController.swift */; };
 		13A518CF1E72E6BA00F539ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A518CD1E72E6BA00F539ED /* Main.storyboard */; };
@@ -26,12 +30,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		13A5194B1E72F8D000F539ED /* Embed Frameworks */ = {
+		130EAD6F1E7AC434003F8ECD /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				130EAD721E7AC4B1003F8ECD /* YMCalendar.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,6 +44,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		130EAD701E7AC4B1003F8ECD /* YMCalendar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YMCalendar.framework; path = ../Carthage/Build/iOS/YMCalendar.framework; sourceTree = "<group>"; };
+		1377CAE71E782B4C000A7019 /* SingleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleViewController.swift; sourceTree = "<group>"; };
+		1377CAE91E782B58000A7019 /* EventKitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventKitViewController.swift; sourceTree = "<group>"; };
 		13A518C61E72E6BA00F539ED /* YMCalendarDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YMCalendarDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518C91E72E6BA00F539ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A518CB1E72E6BA00F539ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				130EAD711E7AC4B1003F8ECD /* YMCalendar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,12 +100,14 @@
 		13A518C81E72E6BA00F539ED /* YMCalendarDemo */ = {
 			isa = PBXGroup;
 			children = (
+				13A518D51E72E6BA00F539ED /* Info.plist */,
 				13A518C91E72E6BA00F539ED /* AppDelegate.swift */,
+				1377CAE91E782B58000A7019 /* EventKitViewController.swift */,
+				1377CAE71E782B4C000A7019 /* SingleViewController.swift */,
 				13A518CB1E72E6BA00F539ED /* ViewController.swift */,
-				13A518CD1E72E6BA00F539ED /* Main.storyboard */,
 				13A518D01E72E6BA00F539ED /* Assets.xcassets */,
 				13A518D21E72E6BA00F539ED /* LaunchScreen.storyboard */,
-				13A518D51E72E6BA00F539ED /* Info.plist */,
+				13A518CD1E72E6BA00F539ED /* Main.storyboard */,
 			);
 			path = YMCalendarDemo;
 			sourceTree = "<group>";
@@ -113,6 +124,7 @@
 		13A518E91E72E8A900F539ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				130EAD701E7AC4B1003F8ECD /* YMCalendar.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,8 +139,7 @@
 				13A518C21E72E6BA00F539ED /* Sources */,
 				13A518C31E72E6BA00F539ED /* Frameworks */,
 				13A518C41E72E6BA00F539ED /* Resources */,
-				13A518EC1E72E8B300F539ED /* Run Script(Carhage) */,
-				13A5194B1E72F8D000F539ED /* Embed Frameworks */,
+				130EAD6F1E7AC434003F8ECD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -217,29 +228,13 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		13A518EC1E72E8B300F539ED /* Run Script(Carhage) */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/../Carthage/Build/iOS/YMCalendar.framework",
-			);
-			name = "Run Script(Carhage)";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		13A518C21E72E6BA00F539ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1377CAEA1E782B58000A7019 /* EventKitViewController.swift in Sources */,
+				1377CAE81E782B4C000A7019 /* SingleViewController.swift in Sources */,
 				13A518CC1E72E6BA00F539ED /* ViewController.swift in Sources */,
 				13A518CA1E72E6BA00F539ED /* AppDelegate.swift in Sources */,
 			);
@@ -380,6 +375,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS/";
 				INFOPLIST_FILE = YMCalendarDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.matsune.YMCalendarDemo;
@@ -392,6 +389,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS/";
 				INFOPLIST_FILE = YMCalendarDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.matsune.YMCalendarDemo;

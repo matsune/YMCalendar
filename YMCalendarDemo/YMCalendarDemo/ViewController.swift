@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import YMCalendar
+//import YMCalendar
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

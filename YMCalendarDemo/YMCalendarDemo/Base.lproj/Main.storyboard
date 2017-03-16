@@ -20,13 +20,101 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zv0-xb-VDY">
+                                <rect key="frame" x="100" y="318" width="43" height="30"/>
+                                <state key="normal" title="Single"/>
+                                <connections>
+                                    <segue destination="nV3-Yo-bzP" kind="show" id="pq7-hI-DO4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wkb-rA-K7Y">
+                                <rect key="frame" x="218" y="318" width="57" height="30"/>
+                                <state key="normal" title="EventKit"/>
+                                <connections>
+                                    <segue destination="Xbe-ag-R3n" kind="show" id="FI5-E2-99i"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Wkb-rA-K7Y" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="B26-w6-qtk"/>
+                            <constraint firstItem="zv0-xb-VDY" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="100" id="ZFj-hZ-Wpo"/>
+                            <constraint firstAttribute="trailing" secondItem="Wkb-rA-K7Y" secondAttribute="trailing" constant="100" id="hYs-pr-p5w"/>
+                            <constraint firstItem="zv0-xb-VDY" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="oyy-9J-QqU"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="2OC-Sd-qfi"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1068" y="-546"/>
+        </scene>
+        <!--Event Kit View Controller-->
+        <scene sceneID="Jg3-v3-AHj">
+            <objects>
+                <viewController id="Xbe-ag-R3n" customClass="EventKitViewController" customModule="YMCalendarDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lxu-TM-G28"/>
+                        <viewControllerLayoutGuide type="bottom" id="KaY-vS-z4e"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="q5s-Bt-yh9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ReW-8e-NcB" customClass="YMCalendarView" customModule="YMCalendar">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ReW-8e-NcB" firstAttribute="top" secondItem="lxu-TM-G28" secondAttribute="bottom" id="4kf-vU-MqN"/>
+                            <constraint firstItem="KaY-vS-z4e" firstAttribute="top" secondItem="ReW-8e-NcB" secondAttribute="bottom" id="IDF-qO-yq5"/>
+                            <constraint firstAttribute="trailing" secondItem="ReW-8e-NcB" secondAttribute="trailing" id="QDq-Mu-kbN"/>
+                            <constraint firstItem="ReW-8e-NcB" firstAttribute="leading" secondItem="q5s-Bt-yh9" secondAttribute="leading" id="YaO-MT-djM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="calendarView" destination="ReW-8e-NcB" id="bwr-2F-8eg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j8h-Mu-Khb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2126" y="-178"/>
+        </scene>
+        <!--Single View Controller-->
+        <scene sceneID="dG3-5j-Qx8">
+            <objects>
+                <viewController id="nV3-Yo-bzP" customClass="SingleViewController" customModule="YMCalendarDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XCe-Op-EYM"/>
+                        <viewControllerLayoutGuide type="bottom" id="4qe-ju-dlu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cgF-N4-Q4g">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W0U-Ma-zCB" customClass="YMCalendarView" customModule="YMCalendar">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4qe-ju-dlu" firstAttribute="top" secondItem="W0U-Ma-zCB" secondAttribute="bottom" id="Xlu-BF-Xlf"/>
+                            <constraint firstItem="W0U-Ma-zCB" firstAttribute="top" secondItem="XCe-Op-EYM" secondAttribute="bottom" id="qCE-nD-FD1"/>
+                            <constraint firstAttribute="trailing" secondItem="W0U-Ma-zCB" secondAttribute="trailing" id="uVs-fE-jKj"/>
+                            <constraint firstItem="W0U-Ma-zCB" firstAttribute="leading" secondItem="cgF-N4-Q4g" secondAttribute="leading" id="yW9-8P-lLq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="calendarView" destination="W0U-Ma-zCB" id="7Lu-uB-hd7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xOI-Cu-eoe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2127" y="-1021"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="KGV-Hu-sxR">
