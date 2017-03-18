@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum YMScrollDirection {
+public enum YMScrollDirection {
     case horizontal
     case vertical
 }

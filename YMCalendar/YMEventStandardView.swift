@@ -13,13 +13,13 @@ public class YMEventStandardView: YMEventView {
     
     let kSpace: CGFloat = 2
     
-    var title: String = ""
+    public var title: String = ""
     
-    var color: UIColor = .black
+    public var color: UIColor = .black
     
-    var font: UIFont = .systemFont(ofSize: 12.0)
+    public var font: UIFont = .systemFont(ofSize: 12.0)
     
-    var attrString = NSMutableAttributedString()
+    public var attrString = NSMutableAttributedString()
     
     override public func layoutSubviews() {
         super.layoutSubviews()

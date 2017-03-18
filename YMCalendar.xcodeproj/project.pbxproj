@@ -32,7 +32,25 @@
 		13A519311E72F0B100F539ED /* YMEventsRowViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		130EAD841E7ACC84003F8ECD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 130EAD7F1E7ACC84003F8ECD /* YMCalendarDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 13A518C61E72E6BA00F539ED;
+			remoteInfo = YMCalendarDemo;
+		};
+		130EAD861E7ACC84003F8ECD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 130EAD7F1E7ACC84003F8ECD /* YMCalendarDemo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 13A518DA1E72E6BA00F539ED;
+			remoteInfo = YMCalendarDemoUITests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		130EAD7F1E7ACC84003F8ECD /* YMCalendarDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = YMCalendarDemo.xcodeproj; path = YMCalendarDemo/YMCalendarDemo.xcodeproj; sourceTree = "<group>"; };
 		13A518B21E72E5A400F539ED /* YMCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YMCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518B51E72E5A400F539ED /* YMCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMCalendar.h; sourceTree = "<group>"; };
 		13A518B61E72E5A400F539ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -71,9 +89,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		130EAD801E7ACC84003F8ECD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				130EAD851E7ACC84003F8ECD /* YMCalendarDemo.app */,
+				130EAD871E7ACC84003F8ECD /* YMCalendarDemoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		13A518A81E72E5A400F539ED = {
 			isa = PBXGroup;
 			children = (
+				130EAD7F1E7ACC84003F8ECD /* YMCalendarDemo.xcodeproj */,
 				13A518B41E72E5A400F539ED /* YMCalendar */,
 				13A518B31E72E5A400F539ED /* Products */,
 			);
@@ -256,12 +284,35 @@
 			mainGroup = 13A518A81E72E5A400F539ED;
 			productRefGroup = 13A518B31E72E5A400F539ED /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 130EAD801E7ACC84003F8ECD /* Products */;
+					ProjectRef = 130EAD7F1E7ACC84003F8ECD /* YMCalendarDemo.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13A518B11E72E5A400F539ED /* YMCalendar */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		130EAD851E7ACC84003F8ECD /* YMCalendarDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = YMCalendarDemo.app;
+			remoteRef = 130EAD841E7ACC84003F8ECD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		130EAD871E7ACC84003F8ECD /* YMCalendarDemoUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = YMCalendarDemoUITests.xctest;
+			remoteRef = 130EAD861E7ACC84003F8ECD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		13A518B01E72E5A400F539ED /* Resources */ = {

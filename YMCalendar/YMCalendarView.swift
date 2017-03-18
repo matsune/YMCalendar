@@ -11,13 +11,13 @@ import UIKit
 
 public final class YMCalendarView: UIView, YMCalendarAppearance {
     
-    weak var appearance: YMCalendarAppearance?
+    public weak var appearance: YMCalendarAppearance?
 
-    weak var delegate: YMCalendarDelegate?
+    public weak var delegate: YMCalendarDelegate?
     
-    weak var dataSource: YMCalendarDataSource?
+    public weak var dataSource: YMCalendarDataSource?
     
-    var calendar = Calendar.current
+    public var calendar = Calendar.current
     
     var collectionView: UICollectionView!
     
@@ -29,22 +29,22 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     var reuseQueue = ReusableObjectQueue()
     
-    var allowsSelection: Bool = true
+    public var allowsSelection: Bool = true
     
-    var dateRange: DateRange?
+    public var dateRange: DateRange?
     
     var visibleMonths: DateRange?
     
-    var didLayout: Bool = false
+    private var didLayout: Bool = false
     
-    var dayHeaderHeight: CGFloat = 15 {
+    public var dayHeaderHeight: CGFloat = 15 {
         didSet {
             layout.dayHeaderHeight = dayHeaderHeight
             collectionView.reloadData()
         }
     }
 
-    var layout: YMCalendarLayout {
+    public var layout: YMCalendarLayout {
         set {
             collectionView.collectionViewLayout = newValue
         }
@@ -53,7 +53,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         }
     }
     
-    var isPagingEnabled: Bool {
+    public var isPagingEnabled: Bool {
         set {
             collectionView.isPagingEnabled = newValue
         }
@@ -62,13 +62,13 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         }
     }
     
-    var decelerationRate: YMDecelerationRate = .normal {
+    public var decelerationRate: YMDecelerationRate = .normal {
         didSet {
             collectionView.decelerationRate = decelerationRate.value
         }
     }
     
-    var scrollDirection: YMScrollDirection = .vertical {
+    public var scrollDirection: YMScrollDirection = .vertical {
         didSet {
             let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
             monthLayout.delegate = self
@@ -78,7 +78,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         }
     }
     
-    var startDate: Date {
+    public var startDate: Date {
         didSet {
             if startDate != oldValue {
                 startDate = calendar.startOfMonthForDate(startDate)
@@ -94,7 +94,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         }
     }
     
-    var monthInsets: UIEdgeInsets = .zero {
+    public var monthInsets: UIEdgeInsets = .zero {
         didSet {
             layout.monthInsets = monthInsets
             setNeedsLayout()
@@ -106,6 +106,9 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     var selectedEventIndex: Int = 0
     
     fileprivate var numberOfLoadedMonths: Int {
+        if !didLayout {
+            return 9
+        }
         var numMonths = 9
         let minContentHeight = collectionView.bounds.height + 2 * collectionView.bounds.height
         let minLoadedMonths = Int(ceil(minContentHeight / collectionView.bounds.height))
@@ -115,7 +118,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     var visibleDateRange = DateRange()
     
-    var visibleDays: DateRange? {
+    public var visibleDays: DateRange? {
         collectionView.layoutIfNeeded()
         var range: DateRange? = nil
         
@@ -321,11 +324,11 @@ extension YMCalendarView {
 
 extension YMCalendarView {
     // MARK: - Public
-    func registerClass(_ objectClass: ReusableObject.Type, forEventCellReuseIdentifier identifier: String) {
+    public func registerClass(_ objectClass: ReusableObject.Type, forEventCellReuseIdentifier identifier: String) {
         reuseQueue.registerClass(objectClass, forObjectWithReuseIdentifier: identifier)
     }
     
-    func dequeueReusableCellWithIdentifier<T: YMEventView>(_ identifier: String, forEventAtIndex index: Int, date: Date) -> T? {
+    public func dequeueReusableCellWithIdentifier<T: YMEventView>(_ identifier: String, forEventAtIndex index: Int, date: Date) -> T? {
         let cell: T? = reuseQueue.dequeueReusableObjectWithIdentifier(identifier)
         if let selectedDate = selectedEventDate, calendar.isDate(selectedDate, inSameDayAs: date) && index == selectedEventIndex {
             cell?.selected = true
@@ -333,7 +336,7 @@ extension YMCalendarView {
         return cell
     }
     
-    func reloadEvents() {
+    public func reloadEvents() {
         deselectEventWithDelegate(true)
         guard let visibleDateRange = visibleDays else {
             return
@@ -348,7 +351,7 @@ extension YMCalendarView {
         }
     }
     
-    func reloadEventsAtDate(_ date: Date) {
+    public func reloadEventsAtDate(_ date: Date) {
         if let selectedEventDate = selectedEventDate, calendar.isDate(selectedEventDate, inSameDayAs: date) {
             deselectEventWithDelegate(true)
         }
@@ -366,7 +369,7 @@ extension YMCalendarView {
         }
     }
     
-    func reloadEventsInRange(_ range: DateRange) {
+    public func reloadEventsInRange(_ range: DateRange) {
         if let selectedEventDate = selectedEventDate, range.contains(date: selectedEventDate) {
             deselectEventWithDelegate(true)
         }
@@ -384,7 +387,7 @@ extension YMCalendarView {
         }
     }
     
-    var visibleEventCells: [YMEventView] {
+    public var visibleEventCells: [YMEventView] {
         var cells: [YMEventView] = []
         for rowView in visibleEventRows {
             let rect = rowView.convert(bounds, from: self)
@@ -393,7 +396,7 @@ extension YMCalendarView {
         return cells
     }
     
-    func cellForEventAtIndex(_ index: Int, date: Date) -> YMEventView? {
+    public func cellForEventAtIndex(_ index: Int, date: Date) -> YMEventView? {
         for rowView in visibleEventRows {
             guard let day = calendar.dateComponents([.day], from: rowView.referenceDate, to: date).day else {
                 return nil
@@ -405,7 +408,7 @@ extension YMCalendarView {
         return nil
     }
     
-    func eventCellAtPoint(_ pt: CGPoint, date: inout Date, index: inout Int) -> YMEventView? {
+    public func eventCellAtPoint(_ pt: CGPoint, date: inout Date, index: inout Int) -> YMEventView? {
         for rowView in visibleEventRows {
             let ptInRow = rowView.convert(pt, from: self)
             if let path = rowView.indexPathForCellAtPoint(ptInRow) {
@@ -419,7 +422,7 @@ extension YMCalendarView {
         return nil
     }
     
-    func dayAtPoint(_ point: CGPoint) -> Date? {
+    public func dayAtPoint(_ point: CGPoint) -> Date? {
         let pt = collectionView.convert(point, from: self)
         if let indexPath = collectionView.indexPathForItem(at: pt) {
             return dateForDayAtIndexPath(indexPath)

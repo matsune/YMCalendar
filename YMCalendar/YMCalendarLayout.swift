@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class YMCalendarLayout: UICollectionViewLayout {
+public final class YMCalendarLayout: UICollectionViewLayout {
 
     typealias AttrDict = [IndexPath : UICollectionViewLayoutAttributes]
     
@@ -28,7 +28,7 @@ final class YMCalendarLayout: UICollectionViewLayout {
         super.init()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         self.scrollDirection = .horizontal
         super.init(coder: aDecoder)
     }
@@ -47,7 +47,7 @@ final class YMCalendarLayout: UICollectionViewLayout {
         return widthForColumnRange(NSRange(location: colIndex, length: 1))
     }
     
-    override func prepare() {
+    override public func prepare() {
         
         let numberOfMonths = collectionView?.numberOfSections ?? 0
         
@@ -145,11 +145,11 @@ final class YMCalendarLayout: UICollectionViewLayout {
         layoutAttrDict.updateValue(rowsAttrDict, forKey: "RowsAttrDict")
     }
     
-    override var collectionViewContentSize: CGSize {
+    override public var collectionViewContentSize: CGSize {
         return contentSize
     }
     
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    override public func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard let layout = layoutAttrDict["DayCellAttrDict"],
             let attr = layout[indexPath] else {
             return nil
@@ -157,7 +157,7 @@ final class YMCalendarLayout: UICollectionViewLayout {
         return attr
     }
     
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    override public func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var allAttributes: [UICollectionViewLayoutAttributes] = []
         layoutAttrDict.forEach { (kind, attributeDict) in
             attributeDict.forEach({ (path, attributes) in
@@ -169,7 +169,7 @@ final class YMCalendarLayout: UICollectionViewLayout {
         return allAttributes
     }
     
-    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    override public func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         var attributes: UICollectionViewLayoutAttributes? = nil
         if elementKind == ReusableIdentifier.Month.BackgroundView.kind {
             if let layout = layoutAttrDict["MonthAttrDict"] {

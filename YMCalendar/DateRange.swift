@@ -9,51 +9,72 @@
 import Foundation
 
 public struct DateRange {
-    let start: Date
-    let end: Date
+    public var start: Date
+    public var end: Date
     
-    init(start: Date = Date(), end: Date = Date()){
+    public init(start: Date = Date(), end: Date = Date()){
         self.start = start
         self.end = end
     }
     
-    func contains(date : Date) -> Bool {
+    public func components(_ unitFlags: Set<Calendar.Component>, forCalendar calendar: Calendar) -> DateComponents {
+        checkIfValid()
+        return calendar.dateComponents(unitFlags, from: start, to: end)
+    }
+    
+    public func contains(date : Date) -> Bool {
         checkIfValid()
         
         return date.compare(start) != .orderedAscending && date.compare(end) == .orderedAscending
     }
     
-//    func intersectDateRange(_ range: DateRange) {
-//        checkIfValid()
-//        
-//        if range.end.compare(start) != .orderedDescending || end.compare(range.start) != .orderedDescending {
-//            end = start
-//            return
-//        }
-//        
-//        if start.compare(range.start) == .orderedAscending {
-//            start = range.start
-//        }
-//        if range.end.compare(end) == .orderedAscending {
-//            end = range.end
-//        }
-//    }
-//    
-    func intersectsDateRange(_ range: DateRange) -> Bool {
+    public mutating func intersectDateRange(_ range: DateRange) {
+        checkIfValid()
+        
+        if range.end.compare(start) != .orderedDescending || end.compare(range.start) != .orderedDescending {
+            end = start
+            return
+        }
+        
+        if start.compare(range.start) == .orderedAscending {
+            start = range.start
+        }
+        if range.end.compare(end) == .orderedAscending {
+            end = range.end
+        }
+    }
+    
+    public func intersectsDateRange(_ range: DateRange) -> Bool {
         return !(range.end.compare(start) != .orderedDescending || end.compare(range.start) != .orderedDescending)
     }
     
     func checkIfValid() {
-        if start.compare(end) != .orderedDescending {
+        if start.compare(end) != .orderedAscending {
             assertionFailure("End date earlier than start date in DateRange object!")
+        }
+    }
+    
+    public func enumerateDaysWithCalendar(_ calendar: Calendar, usingBlock block: (Date, Bool) -> ()) {
+        var comp = DateComponents()
+        comp.day = 1
+        
+        var date = start
+        var stop = false
+        
+        while !stop && date.compare(end) == .orderedAscending {
+            block(date, stop)
+            if let d = calendar.date(byAdding: comp, to: start), let day = comp.day {
+                date = d
+                comp.day = day + 1
+            }
         }
     }
 }
 
-func ==(lhs: DateRange, rhs: DateRange) -> Bool {
+public func ==(lhs: DateRange, rhs: DateRange) -> Bool {
     return lhs.start == rhs.start && lhs.end == rhs.end
 }
 
-func !=(lhs: DateRange, rhs: DateRange) -> Bool {
+public func !=(lhs: DateRange, rhs: DateRange) -> Bool {
     return !(lhs == rhs)
 }
