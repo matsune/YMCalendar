@@ -111,57 +111,61 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
         
         var daysWithMoreEvents: [Int : Int] = [:]
         var lines = [IndexSet]()
-        eventRanges.forEach { indexPath, range in
-            var numLine = -1
+        
+        eventRanges
+            .sorted(by: {$0.0.value.location < $0.1.value.location})
+            .forEach { indexPath, range in
             
-            for i in 0..<lines.count {
-                let indexes = lines[i]
-                if !indexes.intersects(integersIn: range.toRange()!) {
-                    numLine = i
-                    break
-                }
-            }
-            if numLine == -1 {
-                numLine = lines.count
-                lines.append(IndexSet(integersIn: range.toRange()!))
-            } else {
-                lines[numLine].insert(integersIn: range.toRange()!)
-            }
+                var numLine = -1
             
-            let maxVisibleEvents = maxVisibleLinesForDaysInRange(range)
-            if numLine < maxVisibleEvents {
-                if let cell = eventsRowDelegate?.eventsRowView(self, cellForEventAtIndexPath: indexPath) {
-                    cell.frame = rectForCellWithRange(range, line: numLine)
-                    eventsRowDelegate?.eventsRowView?(self, willDisplayCell: cell, forEventAtIndexPath: indexPath)
-                    addSubview(cell)
-                    cell.setNeedsDisplay()
-                    
-                    cells[indexPath] = cell
+                for i in 0..<lines.count {
+                    let indexes = lines[i]
+                    if !indexes.intersects(integersIn: range.toRange()!) {
+                        numLine = i
+                        break
+                    }
                 }
-            } else {
+                if numLine == -1 {
+                    numLine = lines.count
+                    lines.append(IndexSet(integersIn: range.toRange()!))
+                } else {
+                    lines[numLine].insert(integersIn: range.toRange()!)
+                }
+                
+                let maxVisibleEvents = maxVisibleLinesForDaysInRange(range)
+                if numLine < maxVisibleEvents {
+                    if let cell = eventsRowDelegate?.eventsRowView(self, cellForEventAtIndexPath: indexPath) {
+                        cell.frame = rectForCellWithRange(range, line: numLine)
+                        eventsRowDelegate?.eventsRowView?(self, willDisplayCell: cell, forEventAtIndexPath: indexPath)
+                        addSubview(cell)
+                        cell.setNeedsDisplay()
+                        
+                        cells[indexPath] = cell
+                    }
+                } else {
+                    for day in range.location..<NSMaxRange(range) {
+                        if let daysCount = daysWithMoreEvents[day] {
+                            var count = daysCount
+                            count += 1
+                            daysWithMoreEvents[day] = count
+                        }
+                    }
+                }
+                
                 for day in range.location..<NSMaxRange(range) {
-                    if let daysCount = daysWithMoreEvents[day] {
-                        var count = daysCount
-                        count += 1
-                        daysWithMoreEvents[day] = count
+                    if let hiddenCount = daysWithMoreEvents[day], hiddenCount > 0 {
+                        let label = UILabel(frame: .zero)
+                        label.text = "\(hiddenCount) more.."
+                        label.textColor = .gray
+                        label.textAlignment = .right
+                        label.font = .systemFont(ofSize: 11)
+                        label.frame = rectForCellWithRange(NSRange(location: day, length: 1), line: maxVisibleLines - 1)
+                        
+                        addSubview(label)
+                        labels.append(label)
                     }
                 }
             }
-            
-            for day in range.location..<NSMaxRange(range) {
-                if let hiddenCount = daysWithMoreEvents[day], hiddenCount > 0 {
-                    let label = UILabel(frame: .zero)
-                    label.text = "\(hiddenCount) more.."
-                    label.textColor = .gray
-                    label.textAlignment = .right
-                    label.font = .systemFont(ofSize: 11)
-                    label.frame = rectForCellWithRange(NSRange(location: day, length: 1), line: maxVisibleLines - 1)
-                    
-                    addSubview(label)
-                    labels.append(label)
-                }
-            }
-        }
     }
     
     func cellsInRect(_ rect: CGRect) -> [YMEventView] {

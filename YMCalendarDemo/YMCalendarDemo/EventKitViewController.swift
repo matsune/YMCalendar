@@ -173,6 +173,10 @@ final class EventKitViewController: UIViewController {
 }
 
 extension EventKitViewController: YMCalendarDelegate {
+    func calendarView(_ view: YMCalendarView, didSelectDayCellAtDate date: Date) {
+        print(view.visibleDays)
+    }
+    
     func calendarViewDidScroll(_ view: YMCalendarView) {
         if let visibleMonthsRange = visibleMonthsRange, visibleMonths != visibleMonthsRange {
             self.visibleMonths = visibleMonthsRange
@@ -185,6 +189,12 @@ extension EventKitViewController: YMCalendarDelegate {
             let rect = view.convert(cell.bounds, from: cell)
             print(rect)
         }
+    }
+    
+    func calendarView(_ view: YMCalendarView, didShowDate date: Date) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY/MM/dd"
+        navigationItem.title = formatter.string(from: date)
     }
 }
 

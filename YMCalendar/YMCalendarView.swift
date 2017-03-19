@@ -525,6 +525,7 @@ extension YMCalendarView {
             collectionView.contentOffset = .zero
             collectionView.contentInset = .zero
             layoutIfNeeded()
+            return
         }
         
         if scrollDirection == .vertical {
@@ -606,27 +607,27 @@ extension YMCalendarView {
         }
     }
     
-    func YMEventsRowViewAtDate(_ rowStart: Date) -> YMEventsRowView {
-        var YMEventsRowView: YMEventsRowView? = eventRows[rowStart]
-        if YMEventsRowView == nil {
-            YMEventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier(ReusableIdentifier.Events.rowView.identifier)
+    func eventsRowViewAtDate(_ rowStart: Date) -> YMEventsRowView {
+        var eventsRowView: YMEventsRowView? = eventRows[rowStart]
+        if eventsRowView == nil {
+            eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier(ReusableIdentifier.Events.rowView.identifier)
             let referenceDate = calendar.startOfMonthForDate(rowStart)
             let first = calendar.dateComponents([.day], from: referenceDate, to: rowStart).day
             if let range = calendar.range(of: .day, in: .weekOfMonth, for: rowStart) {
                 let numDays = range.upperBound - range.lowerBound
                 
-                YMEventsRowView?.referenceDate = referenceDate
-                YMEventsRowView?.isScrollEnabled = false
-                YMEventsRowView?.itemHeight = itemHeight
-                YMEventsRowView?.eventsRowDelegate = self
-                YMEventsRowView?.daysRange = NSMakeRange(first!, numDays)
-                YMEventsRowView?.dayWidth = bounds.width / 7
+                eventsRowView?.referenceDate = referenceDate
+                eventsRowView?.isScrollEnabled = false
+                eventsRowView?.itemHeight = itemHeight
+                eventsRowView?.eventsRowDelegate = self
+                eventsRowView?.daysRange = NSMakeRange(first!, numDays)
+                eventsRowView?.dayWidth = bounds.width / 7
                 
-                YMEventsRowView?.reload()
+                eventsRowView?.reload()
             }
         }
-        cacheRow(YMEventsRowView!, forDate: rowStart)
-        return YMEventsRowView!
+        cacheRow(eventsRowView!, forDate: rowStart)
+        return eventsRowView!
     }
     
     func cacheRow(_ eventsView: YMEventsRowView, forDate date: Date) {
@@ -642,12 +643,12 @@ extension YMCalendarView {
         }
     }
     
-    func monthRowViewForAtIndexPath(_ indexPath: IndexPath) -> YMMonthWeekView {
+    func monthRowViewAtIndexPath(_ indexPath: IndexPath) -> YMMonthWeekView {
         let rowStart = dateForDayAtIndexPath(indexPath)
         guard let rowView = collectionView.dequeueReusableSupplementaryView(ofKind: ReusableIdentifier.Month.RowView.kind, withReuseIdentifier: ReusableIdentifier.Month.RowView.identifier, for: indexPath) as? YMMonthWeekView else {
             fatalError()
         }
-        let eventsView = YMEventsRowViewAtDate(rowStart)
+        let eventsView = eventsRowViewAtDate(rowStart)
         
         rowView.eventsView = eventsView
         return rowView
@@ -701,7 +702,7 @@ extension YMCalendarView: UICollectionViewDataSource {
         case ReusableIdentifier.Month.BackgroundView.kind:
             return backgroundViewForAtIndexPath(indexPath)
         case ReusableIdentifier.Month.RowView.kind:
-            return monthRowViewForAtIndexPath(indexPath)
+            return monthRowViewAtIndexPath(indexPath)
         default:
             fatalError()
         }
@@ -778,11 +779,12 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         
         if let visibleMonthRange = visibleMonthRange, let visibleMonths = self.visibleMonths, visibleMonthRange != visibleMonths {
             self.visibleMonths = visibleMonths
-            // loadEventsIfNeeded()
         }
         
         if let date = dayAtPoint(center) {
             delegate?.calendarView?(self, didShowDate: date)
         }
+        
+        delegate?.calendarViewDidScroll?(self)
     }
 }

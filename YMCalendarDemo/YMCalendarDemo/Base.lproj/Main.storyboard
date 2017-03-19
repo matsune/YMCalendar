@@ -32,7 +32,7 @@
                                 <rect key="frame" x="218" y="318" width="57" height="30"/>
                                 <state key="normal" title="EventKit"/>
                                 <connections>
-                                    <segue destination="Xbe-ag-R3n" kind="show" id="FI5-E2-99i"/>
+                                    <segue destination="sYr-ya-WfW" kind="show" id="etP-fh-T7S"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -51,37 +51,37 @@
             <point key="canvasLocation" x="1068" y="-546"/>
         </scene>
         <!--Event Kit View Controller-->
-        <scene sceneID="Jg3-v3-AHj">
+        <scene sceneID="F0s-4f-jkx">
             <objects>
-                <viewController id="Xbe-ag-R3n" customClass="EventKitViewController" customModule="YMCalendarDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="sYr-ya-WfW" customClass="EventKitViewController" customModule="YMCalendarDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="lxu-TM-G28"/>
-                        <viewControllerLayoutGuide type="bottom" id="KaY-vS-z4e"/>
+                        <viewControllerLayoutGuide type="top" id="cVc-yN-5ON"/>
+                        <viewControllerLayoutGuide type="bottom" id="TDj-v8-2hY"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="q5s-Bt-yh9">
+                    <view key="view" contentMode="scaleToFill" id="lVH-Pc-98w">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ReW-8e-NcB" customClass="YMCalendarView" customModule="YMCalendar">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rib-61-zTm" customClass="YMCalendarView" customModule="YMCalendar">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ReW-8e-NcB" firstAttribute="top" secondItem="lxu-TM-G28" secondAttribute="bottom" id="4kf-vU-MqN"/>
-                            <constraint firstItem="KaY-vS-z4e" firstAttribute="top" secondItem="ReW-8e-NcB" secondAttribute="bottom" id="IDF-qO-yq5"/>
-                            <constraint firstAttribute="trailing" secondItem="ReW-8e-NcB" secondAttribute="trailing" id="QDq-Mu-kbN"/>
-                            <constraint firstItem="ReW-8e-NcB" firstAttribute="leading" secondItem="q5s-Bt-yh9" secondAttribute="leading" id="YaO-MT-djM"/>
+                            <constraint firstItem="TDj-v8-2hY" firstAttribute="top" secondItem="Rib-61-zTm" secondAttribute="bottom" id="DhP-qH-dFr"/>
+                            <constraint firstAttribute="trailing" secondItem="Rib-61-zTm" secondAttribute="trailing" id="ODL-vD-2kk"/>
+                            <constraint firstItem="Rib-61-zTm" firstAttribute="top" secondItem="cVc-yN-5ON" secondAttribute="bottom" id="fhu-6A-7rj"/>
+                            <constraint firstItem="Rib-61-zTm" firstAttribute="leading" secondItem="lVH-Pc-98w" secondAttribute="leading" id="hEX-6y-1qt"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="calendarView" destination="ReW-8e-NcB" id="bwr-2F-8eg"/>
+                        <outlet property="calendarView" destination="Rib-61-zTm" id="SBk-QV-eEh"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="j8h-Mu-Khb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Stu-ls-c7c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2126" y="-178"/>
+            <point key="canvasLocation" x="1905" y="-25"/>
         </scene>
         <!--Single View Controller-->
         <scene sceneID="dG3-5j-Qx8">
