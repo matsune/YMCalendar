@@ -33,7 +33,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     public var dateRange: DateRange?
     
-    private var didLayout: Bool = false
+    fileprivate var didLayout: Bool = false
     
     public var dayHeaderHeight: CGFloat = 15 {
         didSet {
@@ -176,18 +176,15 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     // MARK: - UIView
     override public func layoutSubviews() {
         super.layoutSubviews()
-        collectionView.frame = bounds
-    }
-    
-    override public func draw(_ rect: CGRect) {
-        collectionView.contentInset = .zero
-        
         if !didLayout {
-            recenterIfNeeded()
+            collectionView.frame = bounds
+            collectionView.contentSize = CGSize(width: bounds.width, height: bounds.height * 9)
+            
             didLayout = true
+            
+            scrollToDate(Date(), alignment: .headerTop, animated: false)
+            
         }
-        
-        super.draw(rect)
     }
     
 }
@@ -475,7 +472,7 @@ extension YMCalendarView {
         scrollToDate(date, alignment: .headerTop, animated: animated)
     }
     
-    func scrollToDate(_ date: Date, alignment: YMScrollAlignment, animated: Bool) {
+    public func scrollToDate(_ date: Date, alignment: YMScrollAlignment, animated: Bool) {
         if let dateRange = dateRange, !dateRange.contains(date: date) {
             fatalError()
         }
@@ -516,13 +513,6 @@ extension YMCalendarView {
     }
     
     func recenterIfNeeded() {
-        if collectionView.bounds.height == 0 {
-            collectionView.contentOffset = .zero
-            collectionView.contentInset = .zero
-            layoutIfNeeded()
-            return
-        }
-        
         if scrollDirection == .vertical {
             let yOffset = collectionView.contentOffset.y
             let contentHeight = collectionView.contentSize.height
@@ -621,7 +611,9 @@ extension YMCalendarView {
                 eventsRowView?.reload()
             }
         }
+        
         cacheRow(eventsRowView!, forDate: rowStart)
+        
         return eventsRowView!
     }
     
@@ -644,6 +636,8 @@ extension YMCalendarView {
             fatalError()
         }
         let eventsView = eventsRowViewAtDate(rowStart)
+        
+        print(rowStart)
         
         rowView.eventsView = eventsView
         return rowView
@@ -769,8 +763,11 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !didLayout {
+            return
+        }
         recenterIfNeeded()
-
+        
         if let date = dayAtPoint(center) {
             delegate?.calendarView?(self, didShowDate: date)
         }

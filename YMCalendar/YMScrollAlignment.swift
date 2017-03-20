@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum YMScrollAlignment {
+public enum YMScrollAlignment {
     case headerTop
     case headerBottom
     case weekRow

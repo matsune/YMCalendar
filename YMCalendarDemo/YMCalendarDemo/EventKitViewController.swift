@@ -171,7 +171,7 @@ final class EventKitViewController: UIViewController {
 
 extension EventKitViewController: YMCalendarDelegate {
     func calendarView(_ view: YMCalendarView, didSelectDayCellAtDate date: Date) {
-        print(view.visibleDays)
+        print(view.dateRange)
     }
     
     func calendarViewDidScroll(_ view: YMCalendarView) {
