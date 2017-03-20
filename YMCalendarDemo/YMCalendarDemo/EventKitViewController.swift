@@ -147,7 +147,7 @@ final class EventKitViewController: UIViewController {
             let months = visibleMonthsRange.components([.month], forCalendar: calendar).month else {
             return
         }
-        for i in 0..<(months+1) {
+        for i in 0..<months {
             var dc = DateComponents()
             dc.month = i
             if let date = calendar.date(byAdding: dc, to: visibleMonthsRange.start) {

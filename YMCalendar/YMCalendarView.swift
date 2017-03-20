@@ -624,7 +624,7 @@ extension YMCalendarView {
         eventRows[date] = eventsView
         
         if eventRows.count >= rowCacheSize {
-            if let first = eventRows.map({$0.key}).first {
+            if let first = eventRows.sorted(by: {$0.0.key.compare($0.1.key) == .orderedAscending}).map({$0.key}).first {
                 removeRowAtDate(first)
             }
         }
@@ -632,15 +632,22 @@ extension YMCalendarView {
     
     func monthRowViewAtIndexPath(_ indexPath: IndexPath) -> YMMonthWeekView {
         let rowStart = dateForDayAtIndexPath(indexPath)
-        guard let rowView = collectionView.dequeueReusableSupplementaryView(ofKind: ReusableIdentifier.Month.RowView.kind, withReuseIdentifier: ReusableIdentifier.Month.RowView.identifier, for: indexPath) as? YMMonthWeekView else {
-            fatalError()
+        var rowView: YMMonthWeekView?
+        var dequeued: Bool = false
+        while !dequeued {
+            guard let weekView = collectionView.dequeueReusableSupplementaryView(ofKind: ReusableIdentifier.Month.RowView.kind, withReuseIdentifier: ReusableIdentifier.Month.RowView.identifier, for: indexPath) as? YMMonthWeekView else {
+                fatalError()
+            }
+            rowView = weekView
+            if !visibleEventRows.contains(rowView!.eventsView) {
+                dequeued = true
+            }
         }
+        
         let eventsView = eventsRowViewAtDate(rowStart)
         
-        print(rowStart)
-        
-        rowView.eventsView = eventsView
-        return rowView
+        rowView!.eventsView = eventsView
+        return rowView!
     }
 }
 
@@ -756,7 +763,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         let visibleDaysRange = visibleDays
         if let visibleDaysRange = visibleDaysRange {
             let start = calendar.startOfMonthForDate(visibleDaysRange.start)
-            let end = calendar.endOfMonthForDate(visibleDaysRange.end)
+            let end = calendar.nextStartOfMonthForDate(visibleDaysRange.end)
             return DateRange(start: start, end: end)
         }
         return nil
