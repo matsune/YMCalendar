@@ -38,10 +38,7 @@ final class EventKitViewController: UIViewController {
     }
     
     var visibleMonthsRange: DateRange? {
-        if let visibleDaysRange = calendarView.visibleDays {
-            return DateRange(start: calendar.startOfMonthForDate(visibleDaysRange.start), end: calendar.nextStartOfMonthForDate(visibleDaysRange.end))
-        }
-        return nil
+        return calendarView.visibleMonthRange
     }
     
     var visibleMonths: DateRange = DateRange()
@@ -150,7 +147,7 @@ final class EventKitViewController: UIViewController {
             let months = visibleMonthsRange.components([.month], forCalendar: calendar).month else {
             return
         }
-        for i in 0..<months {
+        for i in 0..<(months+1) {
             var dc = DateComponents()
             dc.month = i
             if let date = calendar.date(byAdding: dc, to: visibleMonthsRange.start) {

@@ -33,8 +33,6 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     public var dateRange: DateRange?
     
-    var visibleMonths: DateRange?
-    
     private var didLayout: Bool = false
     
     public var dayHeaderHeight: CGFloat = 15 {
@@ -116,8 +114,6 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         return numMonths
     }
     
-    var visibleDateRange = DateRange()
-    
     public var visibleDays: DateRange? {
         collectionView.layoutIfNeeded()
         var range: DateRange? = nil
@@ -125,9 +121,8 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         let visible = collectionView.indexPathsForVisibleItems.sorted()
         if let firstIdx = visible.first, let lastIdx = visible.last, !visible.isEmpty {
             let first = dateForDayAtIndexPath(firstIdx)
-            var last  = dateForDayAtIndexPath(lastIdx)
+            let last  = dateForDayAtIndexPath(lastIdx)
             
-            last = calendar.date(byAdding: .day, value: 1, to: last)!
             range = DateRange(start: first, end: last)
         }
         return range
@@ -763,24 +758,19 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         }
     }
     
-    var visibleMonthRange: DateRange? {
-        var visibleMonths: DateRange? = nil
+    public var visibleMonthRange: DateRange? {
         let visibleDaysRange = visibleDays
         if let visibleDaysRange = visibleDaysRange {
             let start = calendar.startOfMonthForDate(visibleDaysRange.start)
-            let end = calendar.nextStartOfMonthForDate(visibleDaysRange.end)
-            visibleMonths = DateRange(start: start, end: end)
+            let end = calendar.endOfMonthForDate(visibleDaysRange.end)
+            return DateRange(start: start, end: end)
         }
-        return visibleMonths
+        return nil
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         recenterIfNeeded()
-        
-        if let visibleMonthRange = visibleMonthRange, let visibleMonths = self.visibleMonths, visibleMonthRange != visibleMonths {
-            self.visibleMonths = visibleMonths
-        }
-        
+
         if let date = dayAtPoint(center) {
             delegate?.calendarView?(self, didShowDate: date)
         }
