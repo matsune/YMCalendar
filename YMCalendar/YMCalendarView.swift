@@ -21,7 +21,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     var collectionView: UICollectionView!
     
-    var eventRows: [Date : YMEventsRowView] = [:]
+    var eventRows = ArrayDictionary<Date, YMEventsRowView>()
     
     let itemHeight: CGFloat = 16
     
@@ -562,38 +562,38 @@ extension YMCalendarView {
     var visibleEventRows: [YMEventsRowView] {
         var rows: [YMEventsRowView] = []
         if let visibleRange = visibleDays {
-            for hash in eventRows {
-                if visibleRange.contains(date: hash.key) {
-                    rows.append(hash.value)
+            eventRows.forEach({ date, rowView in
+                if visibleRange.contains(date: date) {
+                    rows.append(rowView)
                 }
-            }
+            })
         }
         return rows
     }
     
     func clearRowsCacheInDateRange(_ range: DateRange?) {
         if let range = range {
-            for hash in eventRows {
-                if range.contains(date: hash.key) {
-                    removeRowAtDate(hash.key)
+            eventRows.forEach({ date, rowView in
+                if range.contains(date: date) {
+                    removeRowAtDate(date)
                 }
-            }
+            })
         } else {
-            for hash in eventRows {
-                removeRowAtDate(hash.key)
-            }
+            eventRows.forEach({ date, rowView in
+                removeRowAtDate(date)
+            })
         }
     }
     
     func removeRowAtDate(_ date: Date) {
-        if let remove = eventRows[date] {
+        if let remove = eventRows.value(forKey: date) {
             reuseQueue.enqueueReusableObject(remove)
             eventRows.removeValue(forKey: date)
         }
     }
     
     func eventsRowViewAtDate(_ rowStart: Date) -> YMEventsRowView {
-        var eventsRowView: YMEventsRowView? = eventRows[rowStart]
+        var eventsRowView: YMEventsRowView? = eventRows.value(forKey: rowStart)
         if eventsRowView == nil {
             eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier(ReusableIdentifier.Events.rowView.identifier)
             let referenceDate = calendar.startOfMonthForDate(rowStart)
@@ -618,13 +618,13 @@ extension YMCalendarView {
     }
     
     func cacheRow(_ eventsView: YMEventsRowView, forDate date: Date) {
-        if let _ = eventRows[date] {
+        if let _ = eventRows.value(forKey: date) {
             eventRows.removeValue(forKey: date)
         }
-        eventRows[date] = eventsView
+        eventRows.setValue(eventsView, forKey: date)
         
         if eventRows.count >= rowCacheSize {
-            if let first = eventRows.sorted(by: {$0.0.key.compare($0.1.key) == .orderedAscending}).map({$0.key}).first {
+            if let first = eventRows.first?.0 {
                 removeRowAtDate(first)
             }
         }

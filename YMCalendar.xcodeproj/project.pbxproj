@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		134A38141E8180C4000CE177 /* ArrayDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134A38131E8180C4000CE177 /* ArrayDictionary.swift */; };
 		13A518B71E72E5A400F539ED /* YMCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = 13A518B51E72E5A400F539ED /* YMCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		13A519051E72EA3100F539ED /* CalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518EE1E72EA3100F539ED /* CalendarExtension.swift */; };
 		13A519071E72EA3100F539ED /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F01E72EA3100F539ED /* DateRange.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		130EAD7F1E7ACC84003F8ECD /* YMCalendarDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = YMCalendarDemo.xcodeproj; path = YMCalendarDemo/YMCalendarDemo.xcodeproj; sourceTree = "<group>"; };
+		134A38131E8180C4000CE177 /* ArrayDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayDictionary.swift; sourceTree = "<group>"; };
 		13A518B21E72E5A400F539ED /* YMCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YMCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518B51E72E5A400F539ED /* YMCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMCalendar.h; sourceTree = "<group>"; };
 		13A518B61E72E5A400F539ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				13A518EE1E72EA3100F539ED /* CalendarExtension.swift */,
 				13A518F01E72EA3100F539ED /* DateRange.swift */,
+				134A38131E8180C4000CE177 /* ArrayDictionary.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				13A519121E72EA3100F539ED /* YMCalendarView.swift in Sources */,
 				13A519151E72EA3100F539ED /* YMCalendarDelegate.swift in Sources */,
 				13A519091E72EA3100F539ED /* YMEventsRowView.swift in Sources */,
+				134A38141E8180C4000CE177 /* ArrayDictionary.swift in Sources */,
 				13A5190D1E72EA3100F539ED /* YMMonthBackgroundAppearance.swift in Sources */,
 				13A5190C1E72EA3100F539ED /* YMMonthBackgroundView.swift in Sources */,
 				13A519131E72EA3100F539ED /* YMCalendarAppearance.swift in Sources */,
