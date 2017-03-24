@@ -239,6 +239,8 @@ extension EventKitViewController: YMCalendarDataSource {
             let event = events[index]
             cell = view.dequeueReusableCellWithIdentifier(EventCellReuseIdentifier, forEventAtIndex: index, date: date)
             cell?.title = event.title
+            cell?.font = .systemFont(ofSize: 10.0)
+            cell?.baselineOffset = -1.5
             cell?.layer.cornerRadius = 1.5
             cell?.layer.masksToBounds = true
             cell?.backgroundColor = UIColor(cgColor: event.calendar.cgColor)

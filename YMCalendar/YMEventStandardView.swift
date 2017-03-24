@@ -21,6 +21,8 @@ public class YMEventStandardView: YMEventView {
     
     public var attrString = NSMutableAttributedString()
     
+    public var baselineOffset: Float = 0.0
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
         setNeedsDisplay()
@@ -32,17 +34,15 @@ public class YMEventStandardView: YMEventView {
     }
     
     func redrawStringInRect(_ rect: CGRect) {
-        var s = ""
-        s += title
-        
         let style = NSMutableParagraphStyle()
         style.lineBreakMode = .byClipping
         
-        let attributedString = NSMutableAttributedString(string: s,
+        let attributedString = NSMutableAttributedString(string: title,
                                                          attributes: [
                                                             NSFontAttributeName : font,
                                                             NSParagraphStyleAttributeName : style,
-                                                            NSForegroundColorAttributeName : textColor])
+                                                            NSForegroundColorAttributeName : textColor,
+                                                            NSBaselineOffsetAttributeName : baselineOffset])
         
         attrString = attributedString
     }
