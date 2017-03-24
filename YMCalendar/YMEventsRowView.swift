@@ -99,7 +99,7 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
             if eventsCount == nil {
                 eventsCount = [:]
             }
-            eventsCount![count!] = day
+            eventsCount![day] = count!
             return count!
         }
     }

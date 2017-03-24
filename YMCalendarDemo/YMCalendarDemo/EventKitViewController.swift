@@ -53,6 +53,7 @@ final class EventKitViewController: UIViewController {
         super.viewDidLoad()
         calendarView.delegate = self
         calendarView.dataSource = self
+        calendarView.backgroundColor = .white
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
