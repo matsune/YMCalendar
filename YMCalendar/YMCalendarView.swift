@@ -35,9 +35,9 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     fileprivate var didLayout: Bool = false
     
-    public var dayHeaderHeight: CGFloat = 15 {
+    public var dayLabelHeight: CGFloat = 15 {
         didSet {
-            layout.dayHeaderHeight = dayHeaderHeight
+            layout.dayHeaderHeight = dayLabelHeight
             collectionView.reloadData()
         }
     }
@@ -71,7 +71,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
             let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
             monthLayout.delegate = self
             monthLayout.monthInsets = monthInsets
-            monthLayout.dayHeaderHeight = dayHeaderHeight
+            monthLayout.dayHeaderHeight = dayLabelHeight
             layout = monthLayout
         }
     }
@@ -666,19 +666,20 @@ extension YMCalendarView: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let appearance = self.appearance ?? self
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableIdentifier.Month.DayCell.identifier, for: indexPath) as? YMMonthDayCollectionCell else {
             fatalError()
         }
         let date = dateForDayAtIndexPath(indexPath)
-        
-        cell.setDay(calendar.day(date))
-        
+        let font = appearance.dayLabelFontAtDate(date)
+        cell.bind(day: calendar.day(date), font: font, textColor: appearance.dayLabelTextColorAtDate(date))
+        cell.dayLabelHeight = dayLabelHeight
         return cell
     }
     
     func backgroundViewForAtIndexPath(_ indexPath: IndexPath) -> UICollectionReusableView {
         let date = dateStartingMonthAtIndex(indexPath.section)
-        
         
         let lastColumn: Int = columnForDayAtIndexPath(IndexPath(item: 0, section: indexPath.section + 1))
         let numRows: Int = calendar.numberOfWeeksInMonthForDate(date)

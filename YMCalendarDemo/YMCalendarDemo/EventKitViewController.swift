@@ -59,6 +59,7 @@ final class EventKitViewController: UIViewController {
         calendarView.backgroundColor = .white
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
+        calendarView.dayLabelHeight = 16.0
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
@@ -238,12 +239,12 @@ extension EventKitViewController: YMCalendarDataSource {
         if index <= events.count {
             let event = events[index]
             cell = view.dequeueReusableCellWithIdentifier(EventCellReuseIdentifier, forEventAtIndex: index, date: date)
-            cell?.title = event.title
-            cell?.font = .systemFont(ofSize: 10.0)
-            cell?.baselineOffset = -1.5
             cell?.layer.cornerRadius = 1.5
             cell?.layer.masksToBounds = true
             cell?.backgroundColor = UIColor(cgColor: event.calendar.cgColor)
+            cell?.title = event.title
+            cell?.font = .systemFont(ofSize: 10.0)
+            cell?.baselineOffset = -1.5
         }
         return cell ?? YMEventStandardView()
     }
@@ -278,5 +279,21 @@ extension EventKitViewController: YMCalendarAppearance {
     
     func horizontalGridlineWidth() -> CGFloat {
         return 1.0
+    }
+    
+    func dayLabelFontAtDate(_ date: Date) -> UIFont {
+        return .systemFont(ofSize: 10.0)
+    }
+    
+    func dayLabelTextColorAtDate(_ date: Date) -> UIColor {
+        let weekday = calendar.component(.weekday, from: date)
+        switch weekday {
+        case 1:
+            return .red
+        case 7:
+            return .blue
+        default:
+            return .black
+        }
     }
 }

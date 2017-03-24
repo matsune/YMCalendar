@@ -19,13 +19,13 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
         }
     }
     
-    var headerHeight: CGFloat = 15 {
+    var dayLabelHeight: CGFloat = 15 {
         didSet {
             setNeedsLayout()
         }
     }
     
-    let headerMargin: CGFloat = 2.0
+    let dayLabelMargin: CGFloat = 2.0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,11 +53,13 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let headerFrame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: headerHeight)
-        dayLabel.frame = headerFrame.insetBy(dx: headerMargin, dy: headerMargin)
+        let headerFrame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: dayLabelHeight)
+        dayLabel.frame = headerFrame.insetBy(dx: dayLabelMargin, dy: dayLabelMargin)
     }
     
-    func setDay(_ day: Int) {
+    func bind(day: Int, font: UIFont, textColor: UIColor) {
         dayLabel.text = "\(day)"
+        dayLabel.font = font
+        dayLabel.textColor = textColor
     }
 }
