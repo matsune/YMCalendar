@@ -7,10 +7,11 @@
 //
 
 import Foundation
-struct ArrayDictionary<Key, Value> where Key: Hashable, Key: Comparable, Value: Any {
-    typealias Dict = (Key, Value)
+
+public struct ArrayDictionary<Key, Value> where Key: Hashable, Key: Comparable, Value: Any {
+    public typealias Dict = (Key, Value)
     
-    var dictArray: [Dict]
+    public var dictArray: [Dict]
     
     init() {
         dictArray = []
@@ -18,45 +19,44 @@ struct ArrayDictionary<Key, Value> where Key: Hashable, Key: Comparable, Value: 
     
     // - MARK: subscript
     
-    subscript(index: Int) -> Dict {
+    public subscript(index: Int) -> Dict {
         return dictArray[index]
     }
     
     // - MARK: variables
     
-    var count: Int {
+    public var count: Int {
         return dictArray.count
     }
     
-    func indexOf(key: Key) -> Int? {
+    public func indexOf(key: Key) -> Int? {
         return dictArray.index(where: {$0.0 == key})
     }
     
-    var first: Dict? {
+    public var first: Dict? {
         return dictArray.first
     }
     
-    var last: Dict? {
+    public var last: Dict? {
         return dictArray.last
     }
     
     // - MARK: public
     
-    func value(forKey key: Key) -> Value? {
+    public func value(forKey key: Key) -> Value? {
         guard let dict = dictArray.first(where: {$0.0 == key}) else {
             return nil
         }
         return dict.1
     }
     
-    func forEach(_ handler: (Key, Value) -> ()) {
+    public func forEach(_ handler: (Key, Value) -> ()) {
         dictArray.forEach { handler($0.0, $0.1) }
     }
     
-    
     // - MARK: mutating
     
-    mutating func setValue(_ value: Value, forKey key: Key) {
+    public mutating func setValue(_ value: Value, forKey key: Key) {
         if let index = indexOf(key: key) {
             dictArray[index].1 = value
         } else {
@@ -64,10 +64,9 @@ struct ArrayDictionary<Key, Value> where Key: Hashable, Key: Comparable, Value: 
         }
     }
     
-    mutating func removeValue(forKey key: Key) {
+    public mutating func removeValue(forKey key: Key) {
         if let index = indexOf(key: key) {
             dictArray.remove(at: index)
         }
     }
-    
 }

@@ -15,8 +15,6 @@ final class EventKitViewController: UIViewController {
 
     @IBOutlet weak var calendarView: YMCalendarView!
     
-    let eventKitManager = EventKitManager()
-    
     var cachedMonths: [Date : [Date : [EKEvent]]] = [:]
     
     var datesForMonthsToLoad: [Date] = []
@@ -43,11 +41,15 @@ final class EventKitViewController: UIViewController {
     
     var visibleMonths: DateRange = DateRange()
     
+    let eventKitManager = EventKitManager()
+    
     var eventStore: EKEventStore {
         return eventKitManager.eventStore
     }
     
     let EventCellReuseIdentifier = "EventCellReuseIdentifier"
+    
+    var reloadButtonItem: UIBarButtonItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +66,9 @@ final class EventKitViewController: UIViewController {
                 self?.reloadEvents()
             }
         }
+        
+        reloadButtonItem = UIBarButtonItem(title: "reload", style: .plain, target: self, action: #selector(reloadEvents))
+        navigationItem.rightBarButtonItems = [reloadButtonItem!]
     }
     
     func reloadEvents() {
