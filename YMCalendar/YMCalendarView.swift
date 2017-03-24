@@ -183,12 +183,9 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
             } else {
                 collectionView.contentSize = CGSize(width: bounds.width * 9, height: bounds.height)
             }
-            
-            
             didLayout = true
             
             scrollToDate(Date(), alignment: .headerTop, animated: false)
-            
         }
     }
     

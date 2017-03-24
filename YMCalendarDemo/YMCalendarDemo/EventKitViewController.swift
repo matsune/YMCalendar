@@ -239,8 +239,9 @@ extension EventKitViewController: YMCalendarDataSource {
             let event = events[index]
             cell = view.dequeueReusableCellWithIdentifier(EventCellReuseIdentifier, forEventAtIndex: index, date: date)
             cell?.title = event.title
-            cell?.color = UIColor(cgColor: event.calendar.cgColor)
-            cell?.backgroundColor = .white
+            cell?.layer.cornerRadius = 1.5
+            cell?.layer.masksToBounds = true
+            cell?.backgroundColor = UIColor(cgColor: event.calendar.cgColor)
         }
         return cell ?? YMEventStandardView()
     }
@@ -262,7 +263,7 @@ extension EventKitViewController: YMCalendarDataSource {
 
 extension EventKitViewController: YMCalendarAppearance {
     func verticalGridlineColor() -> UIColor {
-        return .orange
+        return .gray
     }
     
     func verticalGridlineWidth() -> CGFloat {

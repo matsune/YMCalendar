@@ -15,7 +15,7 @@ public class YMEventStandardView: YMEventView {
     
     public var title: String = ""
     
-    public var color: UIColor = .black
+    public var textColor: UIColor = .white
     
     public var font: UIFont = .systemFont(ofSize: 12.0)
     
@@ -35,10 +35,14 @@ public class YMEventStandardView: YMEventView {
         var s = ""
         s += title
         
-        let attributedString = NSMutableAttributedString(string: s, attributes: [NSFontAttributeName : font])
+        let style = NSMutableParagraphStyle()
+        style.lineBreakMode = .byClipping
         
-        let c: UIColor = selected ? .white : color
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: c, range: NSMakeRange(0, attributedString.length))
+        let attributedString = NSMutableAttributedString(string: s,
+                                                         attributes: [
+                                                            NSFontAttributeName : font,
+                                                            NSParagraphStyleAttributeName : style,
+                                                            NSForegroundColorAttributeName : textColor])
         
         attrString = attributedString
     }
