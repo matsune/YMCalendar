@@ -17,6 +17,7 @@ final class SingleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        calendarView.scrollDirection = .horizontal
     }
     
 }

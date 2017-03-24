@@ -57,6 +57,8 @@ final class EventKitViewController: UIViewController {
         calendarView.dataSource = self
         calendarView.appearance = self
         calendarView.backgroundColor = .white
+        calendarView.scrollDirection = .horizontal
+        calendarView.isPagingEnabled = true
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
@@ -260,7 +262,7 @@ extension EventKitViewController: YMCalendarDataSource {
 
 extension EventKitViewController: YMCalendarAppearance {
     func verticalGridlineColor() -> UIColor {
-        return .gray
+        return .orange
     }
     
     func verticalGridlineWidth() -> CGFloat {

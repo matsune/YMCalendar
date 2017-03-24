@@ -178,7 +178,12 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         super.layoutSubviews()
         if !didLayout {
             collectionView.frame = bounds
-            collectionView.contentSize = CGSize(width: bounds.width, height: bounds.height * 9)
+            if scrollDirection == .vertical {
+                collectionView.contentSize = CGSize(width: bounds.width, height: bounds.height * 9)
+            } else {
+                collectionView.contentSize = CGSize(width: bounds.width * 9, height: bounds.height)
+            }
+            
             
             didLayout = true
             
