@@ -733,6 +733,7 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         end = min(end, NSMaxRange(view.daysRange))
         return NSMakeRange(start, end - start)
     }
+    
     func eventsRowView(_ view: YMEventsRowView, cellForEventAtIndexPath indexPath: IndexPath) -> YMEventView?  {
         var comps = DateComponents()
         comps.day = indexPath.section
@@ -740,6 +741,21 @@ extension YMCalendarView: YMEventsRowViewDelegate {
             return nil
         }
         return dataSource?.calendarView(self, cellForEventAtIndex: indexPath.item, date: date)
+    }
+    
+    func eventsRowView(_ view: YMEventsRowView, didSelectCellAtIndexPath indexPath: IndexPath) {
+        deselectEventWithDelegate(true)
+        
+        var comps = DateComponents()
+        comps.day = indexPath.section
+        guard let date = calendar.date(byAdding: comps, to: view.referenceDate) else {
+            return
+        }
+        
+        selectedEventDate = date
+        selectedEventIndex = indexPath.item
+        
+        delegate?.calendarView?(self, didSelectEventAtIndex: indexPath.item, date: date)
     }
 }
 

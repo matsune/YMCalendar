@@ -177,7 +177,9 @@ final class EventKitViewController: UIViewController {
 
 extension EventKitViewController: YMCalendarDelegate {
     func calendarView(_ view: YMCalendarView, didSelectDayCellAtDate date: Date) {
-        print(view.dateRange)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY/MM/dd"
+        navigationItem.title = formatter.string(from: date)
     }
     
     func calendarViewDidScroll(_ view: YMCalendarView) {
@@ -187,17 +189,22 @@ extension EventKitViewController: YMCalendarDelegate {
         }
     }
     
+    func calendarView(_ view: YMCalendarView, didSelectEventAtIndex index: Int, date: Date) {
+        if let cell = view.cellForEventAtIndex(index, date: date) {
+            let rect = view.convert(cell.bounds, from: cell)
+            print("didSelectEventAtIndex")
+        }
+    }
+    
     func monthView(_ view: YMCalendarView, didDeselectEventAtIndex index: Int, date: Date) {
         if let cell = view.cellForEventAtIndex(index, date: date) {
             let rect = view.convert(cell.bounds, from: cell)
-            print(rect)
+            print("didDeselectEventAtIndex")
         }
     }
     
     func calendarView(_ view: YMCalendarView, didShowDate date: Date) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY/MM/dd"
-        navigationItem.title = formatter.string(from: date)
+        
     }
 }
 
@@ -223,12 +230,8 @@ extension EventKitViewController: YMCalendarDataSource {
             let event = events[index]
             cell = view.dequeueReusableCellWithIdentifier(EventCellReuseIdentifier, forEventAtIndex: index, date: date)
             cell?.title = event.title
-            cell?.color = UIColor.init(cgColor: event.calendar.cgColor)
-            
-//            let start = calendar.startOfDay(for: event.startDate)
-//            let end = calendar.nextStartOfMonthForDate(event.endDate)
-//            let range = DateRange(start: start, end: end)
-//            let numDays = range.components([.day], forCalendar: calendar)
+            cell?.color = UIColor(cgColor: event.calendar.cgColor)
+            cell?.backgroundColor = .white
         }
         return cell ?? YMEventStandardView()
     }

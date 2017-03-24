@@ -28,7 +28,6 @@ public class YMEventView: UIView, ReusableObject {
     }
     
     private func commonInit() {
-        backgroundColor = .gray
         clipsToBounds = true
     }
     
