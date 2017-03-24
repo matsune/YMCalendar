@@ -49,24 +49,26 @@ final class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAp
         let colWidth = numberOfColumns > 0 ? (bounds.width / CGFloat(numberOfColumns)) : bounds.width
         let rowHeight = numberOfRows > 0 ? (bounds.height / CGFloat(numberOfRows)) : bounds.height
         
-        c?.setStrokeColor(appearance.gridColor().cgColor)
-        c?.setLineWidth(appearance.gridLineWidth())
-        
-        c?.beginPath()
         
         var x1: CGFloat
         var y1: CGFloat
         var x2: CGFloat
         var y2: CGFloat
         
-        if appearance.isDrawHorizontalLines() {
+        let verticalLineWidth = appearance.verticalGridlineWidth()
+        
+        c?.setStrokeColor(appearance.verticalGridlineColor().cgColor)
+        c?.setLineWidth(verticalLineWidth)
+        c?.beginPath()
+        
+        if verticalLineWidth > 0 {
             var i: Int = 0
             while i <= numberOfRows && numberOfRows != 0 {
                 y1 = rowHeight * CGFloat(i)
                 y2 = y1
                 x1 = 0
                 x2 = i == numberOfRows ? CGFloat(lastColumn) * colWidth : rect.maxX
-
+                
                 c?.move(to: CGPoint(x: x1, y: y1))
                 c?.addLine(to: CGPoint(x: x2, y: y2))
                 
@@ -74,7 +76,16 @@ final class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAp
             }
         }
         
-        if appearance.isDrawVerticalLines() {
+        c?.strokePath()
+        
+        
+        let horizontalLineWidth = appearance.horizontalGridlineWidth()
+        
+        c?.setStrokeColor(appearance.horizontalGridlineColor().cgColor)
+        c?.setLineWidth(horizontalLineWidth)
+        c?.beginPath()
+        
+        if horizontalLineWidth > 0 {
             for j in 0...numberOfColumns {
                 x1 = colWidth * CGFloat(j)
                 x2 = x1

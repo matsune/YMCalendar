@@ -47,14 +47,15 @@ final class EventKitViewController: UIViewController {
         return eventKitManager.eventStore
     }
     
-    let EventCellReuseIdentifier = "EventCellReuseIdentifier"
+    let EventCellReuseIdentifier = "YMEventStandardView"
     
     var reloadButtonItem: UIBarButtonItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        calendarView.delegate = self
+        calendarView.delegate   = self
         calendarView.dataSource = self
+        calendarView.appearance = self
         calendarView.backgroundColor = .white
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
@@ -173,6 +174,11 @@ final class EventKitViewController: UIViewController {
         }
         return []
     }
+
+    func eventAtIndex(_ index: Int, date: Date) -> EKEvent {
+        let events = eventsAtDate(date)
+        return events[index]
+    }
 }
 
 extension EventKitViewController: YMCalendarDelegate {
@@ -190,17 +196,18 @@ extension EventKitViewController: YMCalendarDelegate {
     }
     
     func calendarView(_ view: YMCalendarView, didSelectEventAtIndex index: Int, date: Date) {
-        if let cell = view.cellForEventAtIndex(index, date: date) {
-            let rect = view.convert(cell.bounds, from: cell)
-            print("didSelectEventAtIndex")
-        }
+        print(eventAtIndex(index, date: date).title)
+//        if let cell = view.cellForEventAtIndex(index, date: date) {
+//            let rect = view.convert(cell.bounds, from: cell)
+//            
+//        }
     }
     
     func monthView(_ view: YMCalendarView, didDeselectEventAtIndex index: Int, date: Date) {
-        if let cell = view.cellForEventAtIndex(index, date: date) {
-            let rect = view.convert(cell.bounds, from: cell)
-            print("didDeselectEventAtIndex")
-        }
+//        if let cell = view.cellForEventAtIndex(index, date: date) {
+//            let rect = view.convert(cell.bounds, from: cell)
+//            print("didDeselectEventAtIndex")
+//        }
     }
     
     func calendarView(_ view: YMCalendarView, didShowDate date: Date) {
@@ -248,5 +255,23 @@ extension EventKitViewController: YMCalendarDataSource {
         cell.title = "New Event"
         
         return cell
+    }
+}
+
+extension EventKitViewController: YMCalendarAppearance {
+    func verticalGridlineColor() -> UIColor {
+        return .gray
+    }
+    
+    func verticalGridlineWidth() -> CGFloat {
+        return 1.0
+    }
+    
+    func horizontalGridlineColor() -> UIColor {
+        return .gray
+    }
+    
+    func horizontalGridlineWidth() -> CGFloat {
+        return 1.0
     }
 }

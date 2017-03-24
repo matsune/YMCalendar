@@ -10,24 +10,26 @@ import Foundation
 import UIKit
 
 public protocol YMMonthBackgroundAppearance: class {
-    func isDrawVerticalLines() -> Bool
-    func isDrawHorizontalLines() -> Bool
-    
-    func gridColor() -> UIColor
-    func gridLineWidth() -> CGFloat
+    func verticalGridlineColor() -> UIColor
+    func verticalGridlineWidth() -> CGFloat
+    func horizontalGridlineColor() -> UIColor
+    func horizontalGridlineWidth() -> CGFloat
 }
 
 extension YMMonthBackgroundAppearance {
-    public func isDrawHorizontalLines() -> Bool {
-        return true
-    }
-    public func isDrawVerticalLines() -> Bool {
-        return true
-    }
-    public func gridColor() -> UIColor {
+    public func verticalGridlineColor() -> UIColor {
         return .black
     }
-    public func gridLineWidth() -> CGFloat {
-        return 0.5
+    
+    public func verticalGridlineWidth() -> CGFloat {
+        return 0.3
+    }
+    
+    public func horizontalGridlineColor() -> UIColor {
+        return .black
+    }
+    
+    public func horizontalGridlineWidth() -> CGFloat {
+        return 0.3
     }
 }

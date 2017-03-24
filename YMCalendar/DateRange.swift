@@ -54,7 +54,7 @@ public struct DateRange {
         }
     }
     
-    public func enumerateDaysWithCalendar(_ calendar: Calendar, usingBlock block: (Date, Bool) -> ()) {
+    public func enumerateDaysWithCalendar(_ calendar: Calendar, usingBlock block: (Date, inout Bool) -> ()) {
         var comp = DateComponents()
         comp.day = 1
         
@@ -62,7 +62,7 @@ public struct DateRange {
         var stop = false
         
         while !stop && date.compare(end) == .orderedAscending {
-            block(date, stop)
+            block(date, &stop)
             if let d = calendar.date(byAdding: comp, to: start), let day = comp.day {
                 date = d
                 comp.day = day + 1
