@@ -86,7 +86,7 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
         for day in range.location..<NSMaxRange(range) {
             count = max(count, numberOfEventsForDayAtIndex(day))
         }
-        return count > maxVisibleLines ? maxVisibleLines - 1 : count
+        return count > maxVisibleLines ? maxVisibleLines : count
     }
     
     func numberOfEventsForDayAtIndex(_ day: Int) -> Int {
