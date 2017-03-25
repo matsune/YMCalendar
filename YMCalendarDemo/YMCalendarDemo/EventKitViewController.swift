@@ -15,6 +15,8 @@ final class EventKitViewController: UIViewController {
 
     @IBOutlet weak var calendarView: YMCalendarView!
     
+    @IBOutlet weak var calendarWeekView: YMCalendarWeekView!
+    
     var cachedMonths: [Date : [Date : [EKEvent]]] = [:]
     
     var datesForMonthsToLoad: [Date] = []
@@ -53,6 +55,8 @@ final class EventKitViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        calendarWeekView.dataSource = self
+        
         calendarView.delegate   = self
         calendarView.dataSource = self
         calendarView.appearance = self
@@ -287,6 +291,19 @@ extension EventKitViewController: YMCalendarAppearance {
     
     func dayLabelTextColorAtDate(_ date: Date) -> UIColor {
         let weekday = calendar.component(.weekday, from: date)
+        switch weekday {
+        case 1:
+            return .red
+        case 7:
+            return .blue
+        default:
+            return .black
+        }
+    }
+}
+
+extension EventKitViewController: YMCalendarWeekDataSource {
+    func calendarWeekView(_ view: YMCalendarWeekView, textColorAtWeekday weekday: Int) -> UIColor {
         switch weekday {
         case 1:
             return .red
