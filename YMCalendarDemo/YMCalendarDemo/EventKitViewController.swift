@@ -118,28 +118,24 @@ final class EventKitViewController: UIViewController {
     
     func bg_loadMonthStartingAtDate(_ date: Date) {
         let end = calendar.nextStartOfMonthForDate(date)
-        let range = DateRange(start: date, end: end)
+        var range = DateRange(start: date, end: end)
         let dic = allEventsInDateRange(range)
-        DispatchQueue.main.async {
-            self.cachedMonths[date] = dic
-            
-            let rangeEnd = self.calendar.nextStartOfMonthForDate(date)
-            let range = DateRange(start: date, end: rangeEnd)
-            self.calendarView.reloadEventsInRange(range)
-        }
+        self.cachedMonths[date] = dic
+        
+        let rangeEnd = self.calendar.nextStartOfMonthForDate(date)
+        range = DateRange(start: date, end: rangeEnd)
+        self.calendarView.reloadEventsInRange(range)
     }
     
     func bg_loadOneMonth() {
         var date: Date? = nil
-        DispatchQueue.main.sync {
-            if let d = datesForMonthsToLoad.first {
-                date = d
-                datesForMonthsToLoad.removeFirst()
-            }
-            if let visibleDays = calendarView.visibleDays,
-                !visibleDays.intersectsDateRange(visibleMonths) {
-                date = nil
-            }
+        if let d = datesForMonthsToLoad.first {
+            date = d
+            datesForMonthsToLoad.removeFirst()
+        }
+        if let visibleDays = calendarView.visibleDays,
+            !visibleDays.intersectsDateRange(visibleMonths) {
+            date = nil
         }
         if let date = date {
             bg_loadMonthStartingAtDate(date)

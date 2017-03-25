@@ -123,7 +123,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
             let first = dateForDayAtIndexPath(firstIdx)
             let last  = dateForDayAtIndexPath(lastIdx)
             
-            range = DateRange(start: first, end: last)
+            range = DateRange(start: first, end: calendar.nextStartOfMonthForDate(last))
         }
         return range
     }
@@ -368,16 +368,20 @@ extension YMCalendarView {
             deselectEventWithDelegate(true)
         }
         if let visibleDateRange = visibleDays {
+            var reloadRowViews: [YMEventsRowView] = []
             eventRows.forEach({ date, rowView in
                 let rowRange = dateRangeForYMEventsRowView(rowView)
                 if rowRange.intersectsDateRange(range) {
                     if rowRange.intersectsDateRange(visibleDateRange) {
-                        rowView.reload()
+                        reloadRowViews.append(rowView)
                     } else {
                         removeRowAtDate(date)
                     }
                 }
             })
+            DispatchQueue.main.async {
+                reloadRowViews.forEach {$0.reload()}
+            }
         }
     }
     

@@ -59,6 +59,14 @@ extension Calendar {
         return self.date(byAdding: comp, to: firstDay)!
     }
     
+    /// 前の月の初日
+    public func prevStartOfMonthForDate(_ date: Date) -> Date {
+        let firstDay = startOfMonthForDate(date)
+        var comp = DateComponents()
+        comp.month = -1
+        return self.date(byAdding: comp, to: firstDay)!
+    }
+    
     /// その月は何日あるか
     public func numberOfDaysInMonthForDate(_ date: Date) -> Int {
         return range(of: .day, in: .month, for: date)?.count ?? 0
