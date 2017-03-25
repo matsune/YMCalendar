@@ -59,7 +59,7 @@ final class EventKitViewController: UIViewController {
         calendarView.backgroundColor = .white
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
-        calendarView.dayLabelHeight = 16.0
+        calendarView.dayLabelHeight  = 16.0
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in

@@ -19,7 +19,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     public var calendar = Calendar.current
     
-    var collectionView: UICollectionView!
+    public var collectionView: UICollectionView!
     
     var eventRows = ArrayDictionary<Date, YMEventsRowView>()
     
@@ -163,7 +163,6 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         collectionView.isPagingEnabled = isPagingEnabled
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.contentInset = .zero
         
         collectionView.register(ReusableIdentifier.Month.DayCell.classType, forCellWithReuseIdentifier: ReusableIdentifier.Month.DayCell.identifier)
         collectionView.register(ReusableIdentifier.Month.BackgroundView.classType, forSupplementaryViewOfKind: ReusableIdentifier.Month.BackgroundView.kind, withReuseIdentifier: ReusableIdentifier.Month.BackgroundView.identifier)
@@ -183,6 +182,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
             } else {
                 collectionView.contentSize = CGSize(width: bounds.width * 9, height: bounds.height)
             }
+            
             didLayout = true
             
             scrollToDate(Date(), alignment: .headerTop, animated: false)
