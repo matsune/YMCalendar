@@ -69,4 +69,8 @@ public struct ArrayDictionary<Key, Value> where Key: Hashable, Key: Comparable, 
             dictArray.remove(at: index)
         }
     }
+    
+    public mutating func removeAll() {
+        dictArray = []
+    }
 }

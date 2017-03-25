@@ -25,7 +25,6 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
     
     let cellSpacing: CGFloat = 2.0
     
-    
     var cells: [IndexPath : YMEventView] = [:]
     var labels: [UILabel] = []
     var eventsCount: [Int : Int]? = nil
@@ -113,7 +112,7 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
         var lines = [IndexSet]()
         
         eventRanges
-            .sorted(by: {$0.0.value.location < $0.1.value.location})
+            .sorted(by: {$0.0.key.section < $0.1.key.section || $0.0.key.row < $0.1.key.row})
             .forEach { indexPath, range in
             
                 var numLine = -1
@@ -179,6 +178,7 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
     }
     
     func indexPathForCellAtPoint(_ point: CGPoint) -> IndexPath? {
+        var path: IndexPath?
         for (indexPath, cell) in cells {
             if cell.frame.contains(point) {
                 return indexPath
