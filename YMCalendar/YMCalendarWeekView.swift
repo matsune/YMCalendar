@@ -16,25 +16,25 @@ public class YMCalendarWeekView: UIView, YMCalendarWeekDataSource {
     
     private var symbolLabels: [UILabel] = []
     
-    var verticalLineColor: UIColor = .black {
+    public var verticalLineColor: UIColor = .black {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    var verticalLineWidth: CGFloat = 1.0 {
+    public var verticalLineWidth: CGFloat = 1.0 {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    var horizontalLineColor: UIColor = .black {
+    public var horizontalLineColor: UIColor = .black {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    var horizontalLineWidth: CGFloat = 1.0 {
+    public var horizontalLineWidth: CGFloat = 1.0 {
         didSet {
             setNeedsDisplay()
         }
