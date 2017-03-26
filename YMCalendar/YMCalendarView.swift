@@ -676,8 +676,8 @@ extension YMCalendarView: UICollectionViewDataSource {
             fatalError()
         }
         let date = dateForDayAtIndexPath(indexPath)
-        let font = appearance.dayLabelFontAtDate(date)
-        cell.bind(day: calendar.day(date), font: font, textColor: appearance.dayLabelTextColorAtDate(date))
+        let font = appearance.calendarViewAppearance(self, dayLabelFontAtDate: date)
+        cell.bind(day: calendar.day(date), font: font, textColor: appearance.calendarViewAppearance(self, dayLabelTextColorAtDate: date))
         cell.dayLabelHeight = dayLabelHeight
         return cell
     }

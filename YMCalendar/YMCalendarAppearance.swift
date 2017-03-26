@@ -10,16 +10,16 @@ import Foundation
 import UIKit
 
 public protocol YMCalendarAppearance: YMMonthBackgroundAppearance {
-    func dayLabelFontAtDate(_ date: Date) -> UIFont
-    func dayLabelTextColorAtDate(_ date: Date) -> UIColor
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor
 }
 
 extension YMCalendarAppearance {
-    public func dayLabelFontAtDate(_ date: Date) -> UIFont {
+    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont {
         return .systemFont(ofSize: 10.0)
     }
     
-    public func dayLabelTextColorAtDate(_ date: Date) -> UIColor {
+    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
         return .black
     }
 }
