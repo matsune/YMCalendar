@@ -177,20 +177,12 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     // MARK: - UIView
     override public func layoutSubviews() {
         super.layoutSubviews()
-        if !didLayout {
-            collectionView.frame = bounds
-            if scrollDirection == .vertical {
-                collectionView.contentSize = CGSize(width: bounds.width, height: bounds.height * 9)
-            } else {
-                collectionView.contentSize = CGSize(width: bounds.width * 9, height: bounds.height)
-            }
-            
-            didLayout = true
-            
-            scrollToDate(Date(), alignment: .headerTop, animated: false)
-        }
+        collectionView.frame = bounds
+        layout.invalidateLayout()
+        collectionView.layoutIfNeeded()
+        didLayout = true
+        recenterIfNeeded()
     }
-    
 }
 
 extension YMCalendarView {
