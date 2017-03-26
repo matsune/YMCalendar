@@ -103,6 +103,8 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     var selectedEventIndex: Int = 0
     
+    var showingMonthDate: Date = Date()
+    
     fileprivate var numberOfLoadedMonths: Int {
         if !didLayout {
             return 9
@@ -800,6 +802,12 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         
         if let date = dayAtPoint(center) {
             delegate?.calendarView?(self, didShowDate: date)
+            
+            let startMonth = calendar.startOfMonthForDate(date)
+            if showingMonthDate != startMonth {
+                showingMonthDate = startMonth
+                delegate?.calendarView?(self, didMoveMonthOfStartDate: startMonth)
+            }
         }
         
         delegate?.calendarViewDidScroll?(self)
