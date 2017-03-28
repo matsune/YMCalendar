@@ -9,21 +9,33 @@
 import Foundation
 import UIKit
 
-final class YMMonthDayCollectionCell: UICollectionViewCell {
+final public class YMMonthDayCollectionCell: UICollectionViewCell {
 
-    private let dayLabel = UILabel()
+    public let dayLabel = UILabel()
     
-    var dayLabelColor: UIColor = .black {
+    public var dayLabelColor: UIColor = .black {
         didSet {
             dayLabel.textColor = dayLabelColor
         }
     }
     
-    var dayLabelHeight: CGFloat = 15 {
+    public var dayLabelBackgroundColor: UIColor = .clear {
         didSet {
-            setNeedsLayout()
+            dayLabel.backgroundColor = dayLabelBackgroundColor
         }
     }
+    
+    public var dayLabelSelectionColor: UIColor = .white
+    
+    public var dayLabelSelectionBackgroundColor: UIColor = .black
+    
+    public var day: Int = 0 {
+        didSet {
+            dayLabel.text = "\(day)"
+        }
+    }
+    
+    var dayLabelHeight: CGFloat = 15
     
     let dayLabelMargin: CGFloat = 2.0
     
@@ -32,7 +44,7 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
         setup()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -43,23 +55,15 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
         dayLabel.adjustsFontSizeToFitWidth = true
         dayLabel.font = UIFont.systemFont(ofSize: 12.0)
         dayLabel.textColor = dayLabelColor
+        dayLabel.layer.masksToBounds = true
+        dayLabel.textAlignment = .center
         contentView.addSubview(dayLabel)
-        
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.7, alpha: 0.2)
-        selectedBackgroundView = view
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         
-        let headerFrame = CGRect(x: 0, y: 0, width: contentView.bounds.width, height: dayLabelHeight)
-        dayLabel.frame = headerFrame.insetBy(dx: dayLabelMargin, dy: dayLabelMargin)
-    }
-    
-    func bind(day: Int, font: UIFont, textColor: UIColor) {
-        dayLabel.text = "\(day)"
-        dayLabel.font = font
-        dayLabel.textColor = textColor
+        dayLabel.frame = CGRect(x: dayLabelMargin, y: dayLabelMargin, width: dayLabelHeight, height: dayLabelHeight)
+        dayLabel.layer.cornerRadius = dayLabelHeight / 2
     }
 }

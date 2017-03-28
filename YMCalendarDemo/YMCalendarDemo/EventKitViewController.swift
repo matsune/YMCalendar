@@ -63,7 +63,8 @@ final class EventKitViewController: UIViewController {
         calendarView.backgroundColor = .white
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
-        calendarView.dayLabelHeight  = 16.0
+        calendarView.dayLabelHeight  = 20.0
+        calendarView.selectionAnimation = .none
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
@@ -281,11 +282,15 @@ extension EventKitViewController: YMCalendarAppearance {
         return 1.0
     }
     
-    func dayLabelFontAtDate(_ date: Date) -> UIFont {
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont {
         return .systemFont(ofSize: 10.0)
     }
     
-    func dayLabelTextColorAtDate(_ date: Date) -> UIColor {
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
+        if calendar.isDate(date, inSameDayAs: Date()) {
+            return .orange
+        }
+        
         let weekday = calendar.component(.weekday, from: date)
         switch weekday {
         case 1:
@@ -295,6 +300,13 @@ extension EventKitViewController: YMCalendarAppearance {
         default:
             return .black
         }
+    }
+    
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionBackgroundColorAtDate date: Date) -> UIColor {
+        if calendar.isDate(date, inSameDayAs: Date()) {
+            return .orange
+        }
+        return .black
     }
 }
 

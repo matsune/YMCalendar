@@ -20,7 +20,7 @@ public final class YMCalendarLayout: UICollectionViewLayout {
     var monthInsets: UIEdgeInsets = .zero
     weak var delegate: YMCalendarLayoutDelegate!
 
-    var dayHeaderHeight: CGFloat = 15.0
+    var dayHeaderHeight: CGFloat = 18.0
     var contentSize: CGSize = .zero
     
     init(scrollDirection: YMScrollDirection) {
@@ -85,7 +85,7 @@ public final class YMCalendarLayout: UICollectionViewLayout {
                     }
                     
                     let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
-                    attributes.frame = CGRect(x: px, y: y + dayHeaderHeight, width: width, height: rowHeight - dayHeaderHeight)
+                    attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 2, width: width, height: rowHeight - dayHeaderHeight - 2)
                     attributes.zIndex = 1
                     rowsAttrDict.updateValue(attributes, forKey: path)
                 }

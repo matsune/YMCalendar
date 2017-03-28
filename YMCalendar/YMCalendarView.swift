@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public final class YMCalendarView: UIView, YMCalendarAppearance {
+public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewAnimator {
     
     public weak var appearance: YMCalendarAppearance?
 
@@ -19,7 +19,27 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     public var calendar = Calendar.current
     
-    public var collectionView: UICollectionView!
+    fileprivate var collectionView: UICollectionView!
+    
+    public var selectionAnimation: YMCalendarSelectionAnimation = .bounce
+    
+    public var allowsMultipleSelection: Bool {
+        get {
+            return collectionView.allowsMultipleSelection
+        }
+        set {
+            collectionView.allowsMultipleSelection = allowsMultipleSelection
+        }
+    }
+    
+    public var allowsSelection: Bool {
+        get {
+            return collectionView.allowsSelection
+        }
+        set {
+            collectionView.allowsSelection = allowsSelection
+        }
+    }
     
     var eventRows = ArrayDictionary<Date, YMEventsRowView>()
     
@@ -29,13 +49,11 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
     
     var reuseQueue = ReusableObjectQueue()
     
-    public var allowsSelection: Bool = true
-    
     public var dateRange: DateRange?
     
     fileprivate var didLayout: Bool = false
     
-    public var dayLabelHeight: CGFloat = 15 {
+    public var dayLabelHeight: CGFloat = 18 {
         didSet {
             layout.dayHeaderHeight = dayLabelHeight
             collectionView.reloadData()
@@ -165,6 +183,8 @@ public final class YMCalendarView: UIView, YMCalendarAppearance {
         collectionView.isPagingEnabled = isPagingEnabled
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
+        allowsSelection = true
+        allowsMultipleSelection = false
         
         collectionView.register(ReusableIdentifier.Month.DayCell.classType, forCellWithReuseIdentifier: ReusableIdentifier.Month.DayCell.identifier)
         collectionView.register(ReusableIdentifier.Month.BackgroundView.classType, forSupplementaryViewOfKind: ReusableIdentifier.Month.BackgroundView.kind, withReuseIdentifier: ReusableIdentifier.Month.BackgroundView.identifier)
@@ -671,7 +691,12 @@ extension YMCalendarView: UICollectionViewDataSource {
         }
         let date = dateForDayAtIndexPath(indexPath)
         let font = appearance.calendarViewAppearance(self, dayLabelFontAtDate: date)
-        cell.bind(day: calendar.day(date), font: font, textColor: appearance.calendarViewAppearance(self, dayLabelTextColorAtDate: date))
+        cell.day = calendar.day(date)
+        cell.dayLabel.font = font
+        cell.dayLabelColor = appearance.calendarViewAppearance(self, dayLabelTextColorAtDate: date)
+        cell.dayLabelBackgroundColor = appearance.calendarViewAppearance(self, dayLabelBackgroundColorAtDate: date)
+        cell.dayLabelSelectionColor = appearance.calendarViewAppearance(self, dayLabelSelectionTextColorAtDate: date)
+        cell.dayLabelSelectionBackgroundColor = appearance.calendarViewAppearance(self, dayLabelSelectionBackgroundColorAtDate: date)
         cell.dayLabelHeight = dayLabelHeight
         return cell
     }
@@ -771,8 +796,14 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         let date = dateForDayAtIndexPath(indexPath)
         delegate?.calendarView?(self, didSelectDayCellAtDate: date)
         
-        if let selectedIndex = collectionView.indexPathsForSelectedItems?.first {
-            collectionView.deselectItem(at: selectedIndex, animated: true)
+        if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
+            animateSelectionDayCell(selectedCell)
+        }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let deselectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
+            animateDeselectionDayCell(deselectedCell)
         }
     }
     
