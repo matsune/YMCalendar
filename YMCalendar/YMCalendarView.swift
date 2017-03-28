@@ -23,6 +23,8 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     public var selectionAnimation: YMCalendarSelectionAnimation = .bounce
     
+    public var deselectionAnimation: YMCalendarSelectionAnimation = .fade
+    
     public var allowsMultipleSelection: Bool {
         get {
             return collectionView.allowsMultipleSelection

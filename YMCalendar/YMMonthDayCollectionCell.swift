@@ -66,4 +66,64 @@ final public class YMMonthDayCollectionCell: UICollectionViewCell {
         dayLabel.frame = CGRect(x: dayLabelMargin, y: dayLabelMargin, width: dayLabelHeight, height: dayLabelHeight)
         dayLabel.layer.cornerRadius = dayLabelHeight / 2
     }
+    
+    public func animateSelection(withAnimation animation: YMCalendarSelectionAnimation) {
+        switch animation {
+        case .none:
+            animationWithNone(true)
+        case .bounce:
+            animationWithBounce(true)
+        case .fade:
+            animationWithFade(true)
+        }
+    }
+    
+    public func animateDeselection(withAnimation animation: YMCalendarSelectionAnimation) {
+        switch animation {
+        case .none:
+            animationWithNone(false)
+        case .bounce:
+            animationWithBounce(false)
+        case .fade:
+            animationWithFade(false
+            )
+        }
+    }
+    
+    // MARK: None
+    private func animationWithNone(_ selected: Bool) {
+        if selected {
+            dayLabel.textColor = dayLabelSelectionColor
+            dayLabel.backgroundColor = dayLabelSelectionBackgroundColor
+        } else {
+            dayLabel.textColor = dayLabelColor
+            dayLabel.backgroundColor = dayLabelBackgroundColor
+        }
+    }
+    
+    // MARK: Bounce
+    private func animationWithBounce(_ selected: Bool) {
+        dayLabel.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 0.3,
+                       initialSpringVelocity: 0.1,
+                       options: .beginFromCurrentState,
+                       animations: {
+                        self.dayLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        
+                        self.animationWithNone(selected)
+        }, completion: nil)
+    }
+    
+    // MARK: Fade
+    private func animationWithFade(_ selected: Bool) {
+        UIView.transition(with: dayLabel,
+                          duration: 0.2,
+                          options: .transitionCrossDissolve,
+                          animations: { 
+                            self.animationWithNone(selected)
+                          }, completion: nil)
+    }
 }

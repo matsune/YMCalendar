@@ -85,7 +85,7 @@ public final class YMCalendarLayout: UICollectionViewLayout {
                     }
                     
                     let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
-                    attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 2, width: width, height: rowHeight - dayHeaderHeight - 2)
+                    attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
                     attributes.zIndex = 1
                     rowsAttrDict.updateValue(attributes, forKey: path)
                 }

@@ -64,7 +64,8 @@ final class EventKitViewController: UIViewController {
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
         calendarView.dayLabelHeight  = 20.0
-        calendarView.selectionAnimation = .none
+        calendarView.selectionAnimation = .fade
+        calendarView.deselectionAnimation = .fade
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
