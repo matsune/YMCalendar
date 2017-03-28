@@ -178,7 +178,6 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
     }
     
     func indexPathForCellAtPoint(_ point: CGPoint) -> IndexPath? {
-        var path: IndexPath?
         for (indexPath, cell) in cells {
             if cell.frame.contains(point) {
                 return indexPath
