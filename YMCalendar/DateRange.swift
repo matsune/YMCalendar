@@ -22,9 +22,12 @@ public struct DateRange {
         return calendar.dateComponents(unitFlags, from: start, to: end)
     }
     
-    public func contains(date : Date) -> Bool {
+    public func contains(date : Date?) -> Bool {
         checkIfValid()
         
+        guard let date = date else {
+            return false
+        }
         return date.compare(start) != .orderedAscending && date.compare(end) == .orderedAscending
     }
     
@@ -48,6 +51,13 @@ public struct DateRange {
         return !(range.end.compare(start) != .orderedDescending || end.compare(range.start) != .orderedDescending)
     }
     
+    public func includesDateRange(_ range: DateRange) -> Bool {
+        if range.start.compare(start) == .orderedAscending || end.compare(range.end) == .orderedAscending {
+            return false
+        }
+        return true
+    }
+
     func checkIfValid() {
         if start.compare(end) != .orderedAscending {
             assertionFailure("End date earlier than start date in DateRange object!")

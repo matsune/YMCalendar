@@ -51,9 +51,36 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     var reuseQueue = ReusableObjectQueue()
     
-    public var dateRange: DateRange?
+    fileprivate var dateRange: DateRange?
     
-    fileprivate var didLayout: Bool = false
+    public func setDateRange(_ dateRange: DateRange?) {
+        var first = visibleDays?.start
+        
+        self.dateRange = nil
+        if let dateRange = dateRange {
+            
+            
+            let start = calendar.startOfMonthForDate(dateRange.start)
+            let end = calendar.startOfMonthForDate(dateRange.end)
+            
+            let range = DateRange(start: start, end: end)
+            
+            self.dateRange = range
+            
+            if !range.includesDateRange(loadedDateRange) {
+                self.startDate = range.start
+            }
+            
+            if !range.contains(date: first) {
+                first = Date()
+                if !range.contains(date: first) {
+                    first = range.start
+                }
+            }
+        }
+        collectionView.reloadData()
+        scrollToDate(first!, animated: false)
+    }
     
     public var dayLabelHeight: CGFloat = 18 {
         didSet {
@@ -96,10 +123,24 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
-    public var startDate: Date {
+    var maxStartDate: Date? {
+        var date: Date? = nil
+        if let dateRange = dateRange {
+            var comps = DateComponents()
+            comps.month = -numberOfLoadedMonths
+            date = calendar.date(byAdding: comps, to: dateRange.end)
+            if date?.compare(dateRange.start) == .orderedAscending {
+                date = dateRange.start
+            }
+        }
+        return date
+    }
+    
+    var startDate: Date {
         didSet {
-            if startDate != oldValue {
-                startDate = calendar.startOfMonthForDate(startDate)
+            let s = calendar.startOfMonthForDate(startDate)
+            if startDate != s {
+                startDate = s
             }
         }
     }
@@ -125,14 +166,30 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     var showingMonthDate: Date = Date()
     
-    fileprivate var numberOfLoadedMonths: Int {
-        if !didLayout {
-            return 9
+    var monthMinimumHeight: CGFloat {
+        guard let numWeeks = calendar.minimumRange(of: .weekOfMonth)?.count else {
+            fatalError()
         }
+        return CGFloat(numWeeks) * itemHeight + monthInsets.top + monthInsets.bottom
+    }
+    
+    var monthMaximumHeight: CGFloat {
+        guard let numWeeks = calendar.maximumRange(of: .weekOfMonth)?.count else {
+            fatalError()
+        }
+        return CGFloat(numWeeks) * itemHeight + monthInsets.top + monthInsets.bottom
+    }
+    
+    fileprivate var numberOfLoadedMonths: Int {
         var numMonths = 9
-        let minContentHeight = collectionView.bounds.height + 2 * collectionView.bounds.height
-        let minLoadedMonths = Int(ceil(minContentHeight / collectionView.bounds.height))
+        let minContentHeight = collectionView.bounds.height + 2 * monthMaximumHeight
+        let minLoadedMonths = Int(ceil(minContentHeight / monthMinimumHeight))
         numMonths = max(numMonths, minLoadedMonths)
+        if let dateRange = dateRange,
+            let diff = dateRange.components([.month], forCalendar: calendar).month {
+            numMonths = min(numMonths, diff)
+        }
+        
         return numMonths
     }
     
@@ -200,10 +257,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     override public func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = bounds
-        layout.invalidateLayout()
-        collectionView.layoutIfNeeded()
-        didLayout = true
-        recenterIfNeeded()
+        collectionView.reloadData()
     }
 }
 
@@ -525,12 +579,23 @@ extension YMCalendarView {
             offset = Int(floor((contentWidth - boundsWidth) / collectionView.bounds.width) / 2)
         }
         
-        guard let start = calendar.date(byAdding: .month, value: -offset, to: date),
-            let diff = calendar.dateComponents([.month], from: startDate, to: start).month else {
+        guard let start = calendar.date(byAdding: .month, value: -offset, to: date) else {
+            fatalError()
+        }
+        var s = start
+        if let dateRange = dateRange, let maxStartDate = maxStartDate {
+            if start.compare(dateRange.start) == .orderedAscending {
+                s = dateRange.start
+            } else if start.compare(maxStartDate) == .orderedDescending {
+                s = maxStartDate
+            }
+        }
+        
+        guard let diff = calendar.dateComponents([.month], from: startDate, to: s).month else {
                 fatalError()
         }
         
-        self.startDate = start
+        self.startDate = s
         return diff
     }
     
@@ -809,20 +874,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         }
     }
     
-    public var visibleMonthRange: DateRange? {
-        let visibleDaysRange = visibleDays
-        if let visibleDaysRange = visibleDaysRange {
-            let start = calendar.startOfMonthForDate(visibleDaysRange.start)
-            let end = calendar.nextStartOfMonthForDate(visibleDaysRange.end)
-            return DateRange(start: start, end: end)
-        }
-        return nil
-    }
-    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !didLayout {
-            return
-        }
         recenterIfNeeded()
         
         if let date = dayAtPoint(center) {

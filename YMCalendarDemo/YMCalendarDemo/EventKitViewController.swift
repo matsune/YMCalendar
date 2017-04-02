@@ -38,7 +38,13 @@ final class EventKitViewController: UIViewController {
     }
     
     var visibleMonthsRange: DateRange? {
-        return calendarView.visibleMonthRange
+        var range: DateRange? = nil
+        if let visibleDaysRange = calendarView.visibleDays {
+            let start = calendar.startOfMonthForDate(visibleDaysRange.start)
+            let end = calendar.nextStartOfMonthForDate(visibleDaysRange.end)
+            range = DateRange(start: start, end: end)
+        }
+        return range
     }
     
     var visibleMonths: DateRange = DateRange()
@@ -66,6 +72,10 @@ final class EventKitViewController: UIViewController {
         calendarView.dayLabelHeight  = 20.0
         calendarView.selectionAnimation = .fade
         calendarView.deselectionAnimation = .fade
+        if let start = calendar.date(byAdding: .year, value: -1, to: Date()), let end =  calendar.date(byAdding: .month, value: -5, to: Date()) {
+            
+            calendarView.setDateRange(DateRange(start: start, end: end))
+        }
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
