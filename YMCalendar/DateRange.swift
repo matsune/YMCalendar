@@ -12,7 +12,7 @@ public struct DateRange {
     public var start: Date
     public var end: Date
     
-    public init(start: Date = Date(), end: Date = Date()){
+    public init(start: Date = Date(), end: Date = Date()) {
         self.start = start
         self.end = end
     }

@@ -15,6 +15,7 @@ import Foundation
     
     @objc optional func eventsRowView(_ view: YMEventsRowView, widthForDayRange range: NSRange) -> CGFloat
     @objc optional func eventsRowView(_ view: YMEventsRowView, shouldSelectCellAtIndexPath indexPath: IndexPath) -> Bool
+    @objc optional func eventsRowView(_ view: YMEventsRowView, shouldDeselectCellAtIndexPath indexPath: IndexPath) -> Bool
     @objc optional func eventsRowView(_ view: YMEventsRowView, didSelectCellAtIndexPath indexPath: IndexPath)
     @objc optional func eventsRowView(_ view: YMEventsRowView, didDeselectCellAtIndexPath  indexPath: IndexPath)
     @objc optional func eventsRowView(_ view: YMEventsRowView, willDisplayCell cell: YMEventView, forEventAtIndexPath indexPath: IndexPath)

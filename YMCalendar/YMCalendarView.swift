@@ -527,7 +527,7 @@ extension YMCalendarView {
             cell?.selected = false
             
             if tellDelegate {
-                delegate?.monthView?(self, didDeselectEventAtIndex: selectedEventIndex, date: selectedDate)
+                delegate?.calendarView?(self, didDeselectEventAtIndex: selectedEventIndex, date: selectedDate)
             }
             
             selectedEventDate = nil
@@ -843,6 +843,19 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         return dataSource?.calendarView(self, cellForEventAtIndex: indexPath.item, date: date)
     }
     
+    func eventsRowView(_ view: YMEventsRowView, shouldSelectCellAtIndexPath indexPath: IndexPath) -> Bool {
+        if !allowsSelection {
+            return false
+        }
+        var comps = DateComponents()
+        comps.day = indexPath.section
+        guard let date = calendar.date(byAdding: comps, to: view.referenceDate),
+            let shouldSelect = delegate.calendarView?(self, shouldSelectEventAtIndex: indexPath.item, date: date) else {
+            return true
+        }
+        return shouldSelect
+    }
+    
     func eventsRowView(_ view: YMEventsRowView, didSelectCellAtIndexPath indexPath: IndexPath) {
         deselectEventWithDelegate(true)
         
@@ -856,6 +869,33 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         selectedEventIndex = indexPath.item
         
         delegate?.calendarView?(self, didSelectEventAtIndex: indexPath.item, date: date)
+    }
+    
+    func eventsRowView(_ view: YMEventsRowView, shouldDeselectCellAtIndexPath indexPath: IndexPath) -> Bool {
+        if !allowsSelection {
+            return false
+        }
+        var comps = DateComponents()
+        comps.day = indexPath.section
+        guard let date = calendar.date(byAdding: comps, to: view.referenceDate),
+            let shouldDeselect = delegate.calendarView?(self, shouldDeselectEventAtIndex: indexPath.item, date: date) else {
+                return true
+        }
+        return shouldDeselect
+    }
+    
+    func eventsRowView(_ view: YMEventsRowView, didDeselectCellAtIndexPath indexPath: IndexPath) {
+        var comps = DateComponents()
+        comps.day = indexPath.section
+        guard let date = calendar.date(byAdding: comps, to: view.referenceDate) else {
+            return
+        }
+        if selectedEventDate == date && indexPath.item == selectedEventIndex {
+            selectedEventDate = nil
+            selectedEventIndex = 0
+        }
+        
+        delegate.calendarView?(self, didDeselectEventAtIndex: indexPath.item, date: date)
     }
 }
 

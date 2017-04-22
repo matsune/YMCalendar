@@ -15,12 +15,16 @@ public final class YMCalendarLayout: UICollectionViewLayout {
     
     private var scrollDirection: YMScrollDirection
     
-    var layoutAttrDict: [String : AttrDict] = [:]
+    private var layoutAttrDict: [String : AttrDict] = [:]
+    
     var isShowEvents = true
+    
     var monthInsets: UIEdgeInsets = .zero
+    
     weak var delegate: YMCalendarLayoutDelegate!
 
     var dayHeaderHeight: CGFloat = 18.0
+    
     var contentSize: CGSize = .zero
     
     init(scrollDirection: YMScrollDirection) {

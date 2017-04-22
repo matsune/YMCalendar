@@ -206,20 +206,6 @@ extension YMCalendarEKViewController: YMCalendarDataSource {
         }
         return cell ?? YMEventStandardView()
     }
-
-    public func calendarView(_ view: YMCalendarView, canMoveCellForEventAtIndex index: Int, date: Date) -> Bool {
-//        let events = eventsAtDate(date)
-        return false
-    }
-
-    public func calendarView(_ view: YMCalendarView, cellForNewEventAtDate date: Date) -> YMEventView? {
-        let defaultCalendar = eventStore.defaultCalendarForNewEvents
-
-        let cell = YMEventStandardView()
-        cell.title = "New Event"
-
-        return cell
-    }
 }
 
 // - MARK: YMCalendarAppearance
