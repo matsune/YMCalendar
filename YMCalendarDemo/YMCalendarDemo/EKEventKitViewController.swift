@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Yuma Matsune. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import YMCalendar
 
 final class EKEventKitViewController: YMCalendarEKViewController {
