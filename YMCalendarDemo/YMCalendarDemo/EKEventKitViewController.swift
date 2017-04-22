@@ -12,6 +12,6 @@ import YMCalendar
 final class EKEventKitViewController: YMCalendarEKViewController {
 
     override func viewDidLoad() {
-        
+        super.viewDidLoad()
     }
 }

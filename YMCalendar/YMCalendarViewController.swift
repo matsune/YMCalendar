@@ -11,7 +11,7 @@ import EventKit
 
 open class YMCalendarViewController: UIViewController {
     
-    var calendarView: YMCalendarView {
+    public var calendarView: YMCalendarView {
         get {
             return view as! YMCalendarView
         }

@@ -12,20 +12,19 @@ import EventKit
 
 open class YMCalendarEKViewController: YMCalendarViewController {
     
-    var cachedMonths: [Date : [Date : [EKEvent]]] = [:]
+    fileprivate var cachedMonths: [Date : [Date : [EKEvent]]] = [:]
     
-    var datesForMonthsToLoad: [Date] = []
+    fileprivate var datesForMonthsToLoad: [Date] = []
     
-    var bgQueue = DispatchQueue(label: "YMCalendarEKViewController.bgQueue")
-//    var movedEvent: EKEvent?
+    fileprivate var bgQueue = DispatchQueue(label: "YMCalendarEKViewController.bgQueue")
     
-    var calendar: Calendar = .current {
+    public var calendar: Calendar = .current {
         didSet {
             calendarView.calendar = calendar
         }
     }
 
-    var visibleMonthsRange: DateRange? {
+    public var visibleMonthsRange: DateRange? {
         var range: DateRange? = nil
         if let visibleDaysRange = calendarView.visibleDays {
             let start = calendar.startOfMonthForDate(visibleDaysRange.start)
@@ -35,11 +34,11 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         return range
     }
     
-    var visibleMonths: DateRange = DateRange()
+    public var visibleMonths: DateRange = DateRange()
     
-    let eventKitManager = EventKitManager()
+    fileprivate let eventKitManager = EventKitManager()
     
-    var eventStore: EKEventStore {
+    fileprivate var eventStore: EKEventStore {
         return eventKitManager.eventStore
     }
     
@@ -59,7 +58,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         }
     }
     
-    func reloadEvents() {
+    public func reloadEvents() {
         cachedMonths.removeAll()
         loadEventsIfNeeded()
     }
@@ -69,7 +68,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         calendarView.recenterIfNeeded()
     }
     
-    func fetchEvents(from startDate: Date, to endDate: Date, calendars: [EKCalendar]?) -> [EKEvent] {
+    fileprivate func fetchEvents(from startDate: Date, to endDate: Date, calendars: [EKCalendar]?) -> [EKEvent] {
         let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
         if eventKitManager.accessGranted {
             let events = eventStore.events(matching: predicate)
@@ -78,7 +77,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         return []
     }
     
-    func allEventsInDateRange(_ range: DateRange) -> [Date : [EKEvent]] {
+    fileprivate func allEventsInDateRange(_ range: DateRange) -> [Date : [EKEvent]] {
         let events = fetchEvents(from: range.start, to: range.end, calendars: nil)
         
         var eventsPerDay: [Date : [EKEvent]] = [:]
@@ -96,7 +95,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         return eventsPerDay
     }
     
-    func bg_loadMonthStartingAtDate(_ date: Date) {
+    fileprivate func bg_loadMonthStartingAtDate(_ date: Date) {
         let end = calendar.nextStartOfMonthForDate(date)
         var range = DateRange(start: date, end: end)
         let dic = allEventsInDateRange(range)
@@ -107,7 +106,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         self.calendarView.reloadEventsInRange(range)
     }
     
-    func bg_loadOneMonth() {
+    fileprivate func bg_loadOneMonth() {
         var date: Date? = nil
         if let d = datesForMonthsToLoad.first {
             date = d
@@ -122,7 +121,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         }
     }
     
-    func addMonthToLoadingQueue(monthStart: Date) {
+    fileprivate func addMonthToLoadingQueue(monthStart: Date) {
         datesForMonthsToLoad.append(monthStart)
         
         bgQueue.async {
@@ -130,7 +129,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         }
     }
     
-    func loadEventsIfNeeded() {
+    public func loadEventsIfNeeded() {
         datesForMonthsToLoad.removeAll()
         
         guard let visibleMonthsRange = visibleMonthsRange,
@@ -148,7 +147,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         }
     }
     
-    func eventsAtDate(_ date: Date) -> [EKEvent] {
+    public func eventsAtDate(_ date: Date) -> [EKEvent] {
         let firstOfMonth = calendar.startOfMonthForDate(date)
         if let days = cachedMonths[firstOfMonth] {
             if let events = days[date] {
@@ -158,7 +157,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         return []
     }
     
-    func eventAtIndex(_ index: Int, date: Date) -> EKEvent {
+    public func eventAtIndex(_ index: Int, date: Date) -> EKEvent {
         let events = eventsAtDate(date)
         return events[index]
     }
@@ -224,47 +223,4 @@ extension YMCalendarEKViewController: YMCalendarDataSource {
 }
 
 // - MARK: YMCalendarAppearance
-extension YMCalendarEKViewController: YMCalendarAppearance {
-    public func verticalGridlineColor() -> UIColor {
-        return .gray
-    }
-
-    public func verticalGridlineWidth() -> CGFloat {
-        return 1.0
-    }
-
-    public func horizontalGridlineColor() -> UIColor {
-        return .gray
-    }
-
-    public func horizontalGridlineWidth() -> CGFloat {
-        return 1.0
-    }
-
-    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont {
-        return .systemFont(ofSize: 10.0)
-    }
-
-    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
-        if calendar.isDate(date, inSameDayAs: Date()) {
-            return .orange
-        }
-
-        let weekday = calendar.component(.weekday, from: date)
-        switch weekday {
-        case 1:
-            return .red
-        case 7:
-            return .blue
-        default:
-            return .black
-        }
-    }
-
-    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionBackgroundColorAtDate date: Date) -> UIColor {
-        if calendar.isDate(date, inSameDayAs: Date()) {
-            return .orange
-        }
-        return .black
-    }
-}
+extension YMCalendarEKViewController: YMCalendarAppearance {}
