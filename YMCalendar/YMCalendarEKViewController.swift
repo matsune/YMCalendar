@@ -1,42 +1,30 @@
 //
-//  EventKitViewController.swift
-//  YMCalendarDemo
+//  YMCalendarEKViewController.swift
+//  YMCalendar
 //
-//  Created by Yuma Matsune on 2017/03/14.
+//  Created by Yuma Matsune on 2017/04/02.
 //  Copyright © 2017年 Yuma Matsune. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import YMCalendar
 import EventKit
 
-final class EventKitViewController: UIViewController {
-
-    @IBOutlet weak var calendarView: YMCalendarView!
-    
-    @IBOutlet weak var calendarWeekView: YMCalendarWeekView!
+open class YMCalendarEKViewController: YMCalendarViewController {
     
     var cachedMonths: [Date : [Date : [EKEvent]]] = [:]
     
     var datesForMonthsToLoad: [Date] = []
     
-    var movedEvent: EKEvent?
+    var bgQueue = DispatchQueue(label: "YMCalendarEKViewController.bgQueue")
+//    var movedEvent: EKEvent?
     
     var calendar: Calendar = .current {
         didSet {
             calendarView.calendar = calendar
         }
     }
-    
-    var bgQueue = DispatchQueue(label: "EventKitViewController.bgQueue")
-    
-    var visibleCalendars: [EKCalendar] = [] {
-        didSet {
-            calendarView.reloadEvents()
-        }
-    }
-    
+
     var visibleMonthsRange: DateRange? {
         var range: DateRange? = nil
         if let visibleDaysRange = calendarView.visibleDays {
@@ -55,40 +43,20 @@ final class EventKitViewController: UIViewController {
         return eventKitManager.eventStore
     }
     
-    let EventCellReuseIdentifier = "YMEventStandardView"
+    let YMEventStandardViewIdentifier = "YMEventStandardView"
     
-    var reloadButtonItem: UIBarButtonItem?
-    
-    override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
-        calendarWeekView.dataSource = self
-        
         calendarView.delegate   = self
         calendarView.dataSource = self
         calendarView.appearance = self
-        calendarView.backgroundColor = .white
-        calendarView.scrollDirection = .horizontal
-        calendarView.isPagingEnabled = true
-        calendarView.dayLabelHeight  = 20.0
-        calendarView.selectionAnimation = .fade
-        calendarView.deselectionAnimation = .fade
-        if let start = calendar.date(byAdding: .year, value: -1, to: Date()), let end =  calendar.date(byAdding: .month, value: -5, to: Date()) {
-            
-            calendarView.setDateRange(DateRange(start: start, end: end))
-        }
-        calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: EventCellReuseIdentifier)
+        calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: YMEventStandardViewIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
             if granted {
-                if let calendars = self?.eventStore.calendars(for: .event) {
-                    self?.visibleCalendars = calendars
-                }
                 self?.reloadEvents()
             }
         }
-        
-        reloadButtonItem = UIBarButtonItem(title: "reload", style: .plain, target: self, action: #selector(reloadEvents))
-        navigationItem.rightBarButtonItems = [reloadButtonItem!]
     }
     
     func reloadEvents() {
@@ -96,9 +64,9 @@ final class EventKitViewController: UIViewController {
         loadEventsIfNeeded()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadEventsIfNeeded()
+        calendarView.recenterIfNeeded()
     }
     
     func fetchEvents(from startDate: Date, to endDate: Date, calendars: [EKCalendar]?) -> [EKEvent] {
@@ -167,7 +135,7 @@ final class EventKitViewController: UIViewController {
         
         guard let visibleMonthsRange = visibleMonthsRange,
             let months = visibleMonthsRange.components([.month], forCalendar: calendar).month else {
-            return
+                return
         }
         for i in 0..<months {
             var dc = DateComponents()
@@ -189,53 +157,32 @@ final class EventKitViewController: UIViewController {
         }
         return []
     }
-
+    
     func eventAtIndex(_ index: Int, date: Date) -> EKEvent {
         let events = eventsAtDate(date)
         return events[index]
     }
+
 }
 
-extension EventKitViewController: YMCalendarDelegate {
-    func calendarView(_ view: YMCalendarView, didSelectDayCellAtDate date: Date) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY/MM/dd"
-        navigationItem.title = formatter.string(from: date)
-    }
-    
-    func calendarViewDidScroll(_ view: YMCalendarView) {
+
+// - MARK: YMCalendarDelegate
+extension YMCalendarEKViewController: YMCalendarDelegate {
+    public func calendarViewDidScroll(_ view: YMCalendarView) {
         if let visibleMonthsRange = visibleMonthsRange, visibleMonths != visibleMonthsRange {
             self.visibleMonths = visibleMonthsRange
             self.loadEventsIfNeeded()
         }
     }
-    
-    func calendarView(_ view: YMCalendarView, didSelectEventAtIndex index: Int, date: Date) {
-        print(eventAtIndex(index, date: date).title)
-//        if let cell = view.cellForEventAtIndex(index, date: date) {
-//            let rect = view.convert(cell.bounds, from: cell)
-//            
-//        }
-    }
-    
-    func monthView(_ view: YMCalendarView, didDeselectEventAtIndex index: Int, date: Date) {
-//        if let cell = view.cellForEventAtIndex(index, date: date) {
-//            let rect = view.convert(cell.bounds, from: cell)
-//            print("didDeselectEventAtIndex")
-//        }
-    }
-    
-    func calendarView(_ view: YMCalendarView, didShowDate date: Date) {
-        
-    }
 }
 
-extension EventKitViewController: YMCalendarDataSource {
-    func calendarView(_ view: YMCalendarView, numberOfEventsAtDate date: Date) -> Int {
+// - MARK: YMCalendarDataSource
+extension YMCalendarEKViewController: YMCalendarDataSource {
+    public func calendarView(_ view: YMCalendarView, numberOfEventsAtDate date: Date) -> Int {
         return eventsAtDate(date).count
     }
-    
-    func calendarView(_ view: YMCalendarView, dateRangeForEventAtIndex index: Int, date: Date) -> DateRange? {
+
+    public func calendarView(_ view: YMCalendarView, dateRangeForEventAtIndex index: Int, date: Date) -> DateRange? {
         let events = eventsAtDate(date)
         var range: DateRange? = nil
         if index <= events.count {
@@ -244,13 +191,13 @@ extension EventKitViewController: YMCalendarDataSource {
         }
         return range
     }
-    
-    func calendarView(_ view: YMCalendarView, cellForEventAtIndex index: Int, date: Date) -> YMEventView {
+
+    public func calendarView(_ view: YMCalendarView, cellForEventAtIndex index: Int, date: Date) -> YMEventView? {
         let events = eventsAtDate(date)
         var cell: YMEventStandardView? = nil
         if index <= events.count {
             let event = events[index]
-            cell = view.dequeueReusableCellWithIdentifier(EventCellReuseIdentifier, forEventAtIndex: index, date: date)
+            cell = view.dequeueReusableCellWithIdentifier(YMEventStandardViewIdentifier, forEventAtIndex: index, date: date)
             cell?.layer.cornerRadius = 1.5
             cell?.layer.masksToBounds = true
             cell?.backgroundColor = UIColor(cgColor: event.calendar.cgColor)
@@ -260,48 +207,49 @@ extension EventKitViewController: YMCalendarDataSource {
         }
         return cell ?? YMEventStandardView()
     }
-    
-    func calendarView(_ view: YMCalendarView, canMoveCellForEventAtIndex index: Int, date: Date) -> Bool {
+
+    public func calendarView(_ view: YMCalendarView, canMoveCellForEventAtIndex index: Int, date: Date) -> Bool {
 //        let events = eventsAtDate(date)
         return false
     }
-    
-    func calendarView(_ view: YMCalendarView, cellForNewEventAtDate date: Date) -> YMEventView {
+
+    public func calendarView(_ view: YMCalendarView, cellForNewEventAtDate date: Date) -> YMEventView? {
         let defaultCalendar = eventStore.defaultCalendarForNewEvents
-        
+
         let cell = YMEventStandardView()
         cell.title = "New Event"
-        
+
         return cell
     }
 }
 
-extension EventKitViewController: YMCalendarAppearance {
-    func verticalGridlineColor() -> UIColor {
+// - MARK: YMCalendarAppearance
+extension YMCalendarEKViewController: YMCalendarAppearance {
+    public func verticalGridlineColor() -> UIColor {
         return .gray
     }
-    
-    func verticalGridlineWidth() -> CGFloat {
+
+    public func verticalGridlineWidth() -> CGFloat {
         return 1.0
     }
-    
-    func horizontalGridlineColor() -> UIColor {
+
+    public func horizontalGridlineColor() -> UIColor {
         return .gray
     }
-    
-    func horizontalGridlineWidth() -> CGFloat {
+
+    public func horizontalGridlineWidth() -> CGFloat {
         return 1.0
     }
-    
-    func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont {
+
+    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont {
         return .systemFont(ofSize: 10.0)
     }
-    
-    func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
+
+    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
         if calendar.isDate(date, inSameDayAs: Date()) {
             return .orange
         }
-        
+
         let weekday = calendar.component(.weekday, from: date)
         switch weekday {
         case 1:
@@ -312,24 +260,11 @@ extension EventKitViewController: YMCalendarAppearance {
             return .black
         }
     }
-    
-    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionBackgroundColorAtDate date: Date) -> UIColor {
+
+    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionBackgroundColorAtDate date: Date) -> UIColor {
         if calendar.isDate(date, inSameDayAs: Date()) {
             return .orange
         }
         return .black
-    }
-}
-
-extension EventKitViewController: YMCalendarWeekDataSource {
-    func calendarWeekView(_ view: YMCalendarWeekView, textColorAtWeekday weekday: Int) -> UIColor {
-        switch weekday {
-        case 1:
-            return .red
-        case 7:
-            return .blue
-        default:
-            return .black
-        }
     }
 }

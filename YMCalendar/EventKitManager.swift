@@ -13,7 +13,15 @@ import EventKit
 final class EventKitManager {
     typealias EventSaveCompletionBlockType = (Bool) -> Void
     
-    let eventStore = EKEventStore()
+    var eventStore: EKEventStore
+    
+    init(eventStore: EKEventStore?=nil) {
+        if let eventStore = eventStore {
+            self.eventStore = eventStore
+        } else {
+            self.eventStore = EKEventStore()
+        }
+    }
     
     var savedEvent: EKEvent?
     

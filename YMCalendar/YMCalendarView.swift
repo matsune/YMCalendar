@@ -11,11 +11,11 @@ import UIKit
 
 public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewAnimator {
     
-    public weak var appearance: YMCalendarAppearance?
+    public weak var appearance: YMCalendarAppearance!
 
-    public weak var delegate: YMCalendarDelegate?
+    public weak var delegate: YMCalendarDelegate!
     
-    public weak var dataSource: YMCalendarDataSource?
+    public weak var dataSource: YMCalendarDataSource!
     
     public var calendar = Calendar.current
     
@@ -45,7 +45,9 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     var eventRows = ArrayDictionary<Date, YMEventsRowView>()
     
-    let itemHeight: CGFloat = 16
+    var itemHeight: CGFloat = 16
+    
+    var rowHeight: CGFloat = 140
     
     let rowCacheSize = 40
     
@@ -170,14 +172,14 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         guard let numWeeks = calendar.minimumRange(of: .weekOfMonth)?.count else {
             fatalError()
         }
-        return CGFloat(numWeeks) * itemHeight + monthInsets.top + monthInsets.bottom
+        return CGFloat(numWeeks) * rowHeight + monthInsets.top + monthInsets.bottom
     }
     
     var monthMaximumHeight: CGFloat {
         guard let numWeeks = calendar.maximumRange(of: .weekOfMonth)?.count else {
             fatalError()
         }
-        return CGFloat(numWeeks) * itemHeight + monthInsets.top + monthInsets.bottom
+        return CGFloat(numWeeks) * rowHeight + monthInsets.top + monthInsets.bottom
     }
     
     fileprivate var numberOfLoadedMonths: Int {
@@ -344,15 +346,23 @@ extension YMCalendarView {
         }
         return offset
     }
+    func heightForMonthAtDate(_ date: Date) -> CGFloat {
+        let monthStart = calendar.startOfMonthForDate(date)
+        guard let numWeeks = calendar.range(of: .weekOfMonth, in: .month, for: monthStart)?.count else {
+            fatalError()
+        }
+        return CGFloat(numWeeks) * rowHeight + monthInsets.top + monthInsets.bottom
+    }
     
     func monthFromOffset(_ offset: CGFloat) -> Date {
         var month = startDate
         if scrollDirection == .vertical {
-            var y = offset > 0 ? collectionView.bounds.height : 0
+            let height = heightForMonthAtDate(month)
+            var y = offset > 0 ? height : 0
             
             while y < fabs(offset) {
                 month = calendar.date(byAdding: .month, value: offset > 0 ? 1 : -1, to: month)!
-                y += collectionView.bounds.height
+                y += height
             }
         } else {
             var x = offset > 0 ? collectionView.bounds.width : 0
@@ -572,7 +582,7 @@ extension YMCalendarView {
         if scrollDirection == .vertical {
             let contentHeight = collectionView.contentSize.height
             let boundsHeight = collectionView.bounds.height
-            offset = Int(floor((contentHeight - boundsHeight) / collectionView.bounds.height) / 2)
+            offset = Int(floor((contentHeight - boundsHeight) / monthMaximumHeight) / 2)
         } else {
             let contentWidth = collectionView.contentSize.width
             let boundsWidth = collectionView.bounds.width
@@ -603,9 +613,8 @@ extension YMCalendarView {
         if scrollDirection == .vertical {
             let yOffset = collectionView.contentOffset.y
             let contentHeight = collectionView.contentSize.height
-            let monthMaxHeight = collectionView.bounds.height
             
-            if yOffset < monthMaxHeight || collectionView.bounds.maxY + monthMaxHeight > contentHeight {
+            if yOffset < monthMaximumHeight || collectionView.bounds.maxY + monthMaximumHeight > contentHeight {
                 let oldStart = startDate
                 
                 let centerMonth = monthFromOffset(yOffset)

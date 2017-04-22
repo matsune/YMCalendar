@@ -18,7 +18,6 @@ public protocol CalendarDelegate: class {
 
 @objc
 public protocol YMCalendarDelegate: CalendarDelegate {
-//    @objc optional func calendarView(_ view: YMCalendarView, attributedStringForDayHeaderAtDate date: Date) -> NSAttributedString
     @objc optional func calendarViewDidScroll(_ view: YMCalendarView)
     @objc optional func calendarView(_ view: YMCalendarView, didSelectDayCellAtDate date: Date)
     @objc optional func calendarView(_ view: YMCalendarView, didShowCell cell: UIView, forNewEventAtDate date: Date)
