@@ -146,6 +146,8 @@ public final class YMCalendarLayout: UICollectionViewLayout {
         }
         contentSize = CGSize(width: x, height: y)
         
+        collectionView.contentInset = .zero
+        
         layoutAttrDict.updateValue(dayCellsAttrDict, forKey: "DayCellAttrDict")
         layoutAttrDict.updateValue(monthsAttrDict, forKey: "MonthsAttrDict")
         layoutAttrDict.updateValue(rowsAttrDict, forKey: "RowsAttrDict")

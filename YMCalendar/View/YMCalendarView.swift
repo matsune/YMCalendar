@@ -162,6 +162,8 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
+    public var selectedDate: Date?
+    
     fileprivate var selectedEventDate: Date?
     
     fileprivate var selectedEventIndex: Int = 0
@@ -251,6 +253,8 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         collectionView.register(ReusableIdentifier.Month.RowView.classType, forSupplementaryViewOfKind: ReusableIdentifier.Month.RowView.kind, withReuseIdentifier: ReusableIdentifier.Month.RowView.identifier)
         
         addSubview(collectionView)
+        
+        backgroundColor = .white
     }
     
     
@@ -773,6 +777,9 @@ extension YMCalendarView: UICollectionViewDataSource {
         cell.dayLabelSelectionColor = appearance.calendarViewAppearance(self, dayLabelSelectionTextColorAtDate: date)
         cell.dayLabelSelectionBackgroundColor = appearance.calendarViewAppearance(self, dayLabelSelectionBackgroundColorAtDate: date)
         cell.dayLabelHeight = dayLabelHeight
+        if date == selectedDate {
+            cell.animateSelection(with: .none)
+        }
         return cell
     }
     
@@ -910,6 +917,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let date = dateForDayAtIndexPath(indexPath)
+        selectedDate = date
         delegate?.calendarView?(self, didSelectDayCellAtDate: date)
         
         if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
@@ -918,6 +926,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        selectedDate = nil
         if let deselectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
             animateDeselectionDayCell(deselectedCell)
         }

@@ -17,5 +17,14 @@ final class BasicViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        calendarView.delegate = self
+    }
+}
+
+extension BasicViewController: YMCalendarDelegate {
+    func calendarView(_ view: YMCalendarView, didSelectDayCellAtDate date: Date) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        navigationItem.title = formatter.string(from: date)
     }
 }

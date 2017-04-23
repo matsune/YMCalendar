@@ -67,7 +67,7 @@ final public class YMMonthDayCollectionCell: UICollectionViewCell {
         dayLabel.layer.cornerRadius = dayLabelHeight / 2
     }
     
-    public func animateSelection(withAnimation animation: YMCalendarSelectionAnimation) {
+    public func animateSelection(with animation: YMCalendarSelectionAnimation) {
         switch animation {
         case .none:
             animationWithNone(true)
@@ -78,7 +78,7 @@ final public class YMMonthDayCollectionCell: UICollectionViewCell {
         }
     }
     
-    public func animateDeselection(withAnimation animation: YMCalendarSelectionAnimation) {
+    public func animateDeselection(with animation: YMCalendarSelectionAnimation) {
         switch animation {
         case .none:
             animationWithNone(false)

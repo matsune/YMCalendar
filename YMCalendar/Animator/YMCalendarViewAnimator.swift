@@ -22,10 +22,10 @@ protocol YMCalendarViewAnimator {
 
 extension YMCalendarViewAnimator {
     func animateSelectionDayCell(_ cell: YMMonthDayCollectionCell) {
-        cell.animateSelection(withAnimation: selectionAnimation)
+        cell.animateSelection(with: selectionAnimation)
     }
     
     func animateDeselectionDayCell(_ cell: YMMonthDayCollectionCell) {
-        cell.animateDeselection(withAnimation: deselectionAnimation)
+        cell.animateDeselection(with: deselectionAnimation)
     }
 }

@@ -83,7 +83,7 @@
                             <tableViewSection headerTitle="Animation" id="CNb-ul-d4r">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="4Bl-4S-Pcn" style="IBUITableViewCellStyleDefault" id="aSI-tb-twM">
-                                        <rect key="frame" x="0.0" y="200" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="201" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aSI-tb-twM" id="Ygk-hS-mdT">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
@@ -100,7 +100,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="mqg-cx-zU8" style="IBUITableViewCellStyleDefault" id="M5s-wn-R4x">
-                                        <rect key="frame" x="0.0" y="244" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="245" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M5s-wn-R4x" id="ZxT-sS-Oxp">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
@@ -143,16 +143,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rQP-EP-u2b" customClass="YMCalendarView" customModule="YMCalendar">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="400"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="400" id="qAv-LH-GHF"/>
+                                </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YMCalendarView is UIView." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LoW-DC-6DH">
+                                <rect key="frame" x="94" y="484" width="187" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5WS-gd-5Fj" firstAttribute="top" secondItem="rQP-EP-u2b" secondAttribute="bottom" id="7Cl-KL-jlB"/>
                             <constraint firstAttribute="trailing" secondItem="rQP-EP-u2b" secondAttribute="trailing" id="Bft-xa-fY3"/>
+                            <constraint firstItem="LoW-DC-6DH" firstAttribute="top" secondItem="rQP-EP-u2b" secondAttribute="bottom" constant="20" id="Nzd-sM-83T"/>
                             <constraint firstItem="rQP-EP-u2b" firstAttribute="top" secondItem="yVl-b7-4c9" secondAttribute="bottom" id="Y8X-KJ-1Dd"/>
                             <constraint firstItem="rQP-EP-u2b" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" id="oiW-fT-QCP"/>
+                            <constraint firstItem="LoW-DC-6DH" firstAttribute="centerX" secondItem="bP8-Tg-cDb" secondAttribute="centerX" id="rfB-YA-rFr"/>
                         </constraints>
                     </view>
                     <connections>

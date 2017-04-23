@@ -107,7 +107,6 @@
 				13A5192A1E72EEF000F539ED /* Delegate */,
 				13A519261E72EE8A00F539ED /* Enum */,
 				13B518E41EAB9C6E002749AF /* EventKit */,
-				13A5192E1E72EF6900F539ED /* EventView */,
 				13A519281E72EECE00F539ED /* Layout */,
 				13A519271E72EEA100F539ED /* ReusableView */,
 				13A519251E72EE7A00F539ED /* Utils */,
@@ -192,7 +191,8 @@
 				13A518F41E72EA3100F539ED /* YMEventView.swift */,
 				13A518F21E72EA3100F539ED /* YMEventsRowView.swift */,
 			);
-			path = EventView;
+			name = EventView;
+			path = ../EventView;
 			sourceTree = "<group>";
 		};
 		13A5192F1E72EF9600F539ED /* CollectionCell */ = {
@@ -214,6 +214,7 @@
 		13B518E51EAB9C7B002749AF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				13A5192E1E72EF6900F539ED /* EventView */,
 				13A518FB1E72EA3100F539ED /* YMCalendarView.swift */,
 				13B222651E85F0FB00BFF183 /* YMCalendarWeekView.swift */,
 			);
