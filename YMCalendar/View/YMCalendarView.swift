@@ -215,7 +215,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         let endDate = calendar.date(byAdding: comps, to: startDate)
         return DateRange(start: startDate, end: endDate!)
     }
-    
+
     // MARK: - Initialize
     override init(frame: CGRect) {
         startDate = calendar.startOfMonthForDate(Date())
@@ -230,7 +230,6 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     }
     
     private func commonInit() {
-        
         reuseQueue.registerClass(ReusableIdentifier.Events.rowView.classType, forObjectWithReuseIdentifier: ReusableIdentifier.Events.rowView.identifier)
 
         let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
@@ -259,7 +258,9 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     override public func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = bounds
-        collectionView.reloadData()
+        layout.invalidateLayout()
+        collectionView.layoutIfNeeded()
+        recenterIfNeeded()
     }
 }
 
@@ -358,7 +359,7 @@ extension YMCalendarView {
     fileprivate func monthFromOffset(_ offset: CGFloat) -> Date {
         var month = startDate
         if scrollDirection == .vertical {
-            let height = heightForMonthAtDate(month)
+            let height = bounds.height
             var y = offset > 0 ? height : 0
             
             while y < fabs(offset) {
@@ -366,19 +367,19 @@ extension YMCalendarView {
                 y += height
             }
         } else {
-            var x = offset > 0 ? collectionView.bounds.width : 0
+            let width = collectionView.bounds.width
+            var x = offset > 0 ? width : 0
             
             while x < fabs(offset) {
                 month = calendar.date(byAdding: .month, value: offset > 0 ? 1 : -1, to: month)!
-                x += collectionView.bounds.width
+                x += width
             }
         }
         return month
     }
     
-    fileprivate func reload() {
+    public func reload() {
         deselectEventWithDelegate(true)
-        
         clearRowsCacheInDateRange(nil)
         collectionView.reloadData()
     }
@@ -609,7 +610,7 @@ extension YMCalendarView {
     
     func recenterIfNeeded() {
         if scrollDirection == .vertical {
-            let yOffset = collectionView.contentOffset.y
+            var yOffset = max(collectionView.contentOffset.y, 0)
             let contentHeight = collectionView.contentSize.height
             
             if yOffset < monthMaximumHeight || collectionView.bounds.maxY + monthMaximumHeight > contentHeight {
@@ -628,7 +629,7 @@ extension YMCalendarView {
                 }
             }
         } else {
-            let xOffset = collectionView.contentOffset.x
+            let xOffset = max(collectionView.contentOffset.x, 0)
             let contentWidth = collectionView.contentSize.width
             let monthMaxWidth = collectionView.bounds.width
             
@@ -653,6 +654,7 @@ extension YMCalendarView {
 
 extension YMCalendarView {
     // MARK: - Rows Handling
+    
     fileprivate var visibleEventRows: [YMEventsRowView] {
         var rows: [YMEventsRowView] = []
         if let visibleRange = visibleDays {
@@ -748,7 +750,6 @@ extension YMCalendarView {
 extension YMCalendarView: UICollectionViewDataSource {
     // MARK: - UICollectionViewDataSource
     
-    // 読み込む月の数
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return numberOfLoadedMonths
     }
@@ -807,6 +808,7 @@ extension YMCalendarView: UICollectionViewDataSource {
 
 extension YMCalendarView: YMEventsRowViewDelegate {
     // MARK: - YMEventsRowViewDelegate
+    
     func eventsRowView(_ view: YMEventsRowView, numberOfEventsForDayAtIndex day: Int) -> Int {
         var comps = DateComponents()
         comps.day = day

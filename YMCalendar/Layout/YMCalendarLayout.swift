@@ -52,8 +52,10 @@ public final class YMCalendarLayout: UICollectionViewLayout {
     }
     
     override public func prepare() {
-        
-        let numberOfMonths = collectionView?.numberOfSections ?? 0
+        guard let collectionView = collectionView else {
+            return
+        }
+        let numberOfMonths = collectionView.numberOfSections
         
         var monthsAttrDict: AttrDict = [:]
         var dayCellsAttrDict: AttrDict = [:]
@@ -64,10 +66,10 @@ public final class YMCalendarLayout: UICollectionViewLayout {
         
         for month in 0..<numberOfMonths {
             /// 初日が何列目か
-            var col: Int = delegate.collectionView(self.collectionView!, layout: self, columnForDayAtIndexPath: IndexPath(item: 0, section: month))
-            let numberOfdaysInMonth: Int = self.collectionView?.numberOfItems(inSection: month) ?? 0
+            var col: Int = delegate.collectionView(collectionView, layout: self, columnForDayAtIndexPath: IndexPath(item: 0, section: month))
+            let numberOfdaysInMonth: Int = collectionView.numberOfItems(inSection: month)
             let numberOfRows = Int(ceil(Double(col + numberOfdaysInMonth) / 7.0))
-            let rowHeight = ((collectionView?.bounds.height ?? 300) - (monthInsets.top + monthInsets.bottom)) / CGFloat(numberOfRows)
+            let rowHeight = (collectionView.bounds.height - (monthInsets.top + monthInsets.bottom)) / CGFloat(numberOfRows)
             var day: Int = 0
             
             var monthRect = CGRect()
@@ -120,13 +122,13 @@ public final class YMCalendarLayout: UICollectionViewLayout {
             if scrollDirection == .vertical {
                 y += monthInsets.bottom
                 
-                monthRect.size = CGSize(width: collectionView?.bounds.size.width ?? 300, height: y - monthRect.origin.y)
+                monthRect.size = CGSize(width: collectionView.bounds.size.width, height: y - monthRect.origin.y)
             } else {
                 
-                x += collectionView?.bounds.size.width ?? 300
+                x += collectionView.bounds.size.width
                 y = 0
                 
-                monthRect.size = CGSize(width: x - monthRect.origin.x, height: collectionView?.bounds.height ?? 300)
+                monthRect.size = CGSize(width: x - monthRect.origin.x, height: collectionView.bounds.height)
                 
             }
             
@@ -138,13 +140,11 @@ public final class YMCalendarLayout: UICollectionViewLayout {
         }
                 
         if scrollDirection == .vertical {
-            x = collectionView?.bounds.width ?? 300
+            x = collectionView.bounds.width
         } else {
-            y = collectionView?.bounds.height ?? 300
+            y = collectionView.bounds.height
         }
         contentSize = CGSize(width: x, height: y)
-        
-        collectionView?.contentInset = .zero
         
         layoutAttrDict.updateValue(dayCellsAttrDict, forKey: "DayCellAttrDict")
         layoutAttrDict.updateValue(monthsAttrDict, forKey: "MonthsAttrDict")
