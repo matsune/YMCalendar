@@ -63,11 +63,6 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         loadEventsIfNeeded()
     }
     
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        calendarView.recenterIfNeeded()
-    }
-    
     fileprivate func fetchEvents(from startDate: Date, to endDate: Date, calendars: [EKCalendar]?) -> [EKEvent] {
         let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
         if eventKitManager.accessGranted {

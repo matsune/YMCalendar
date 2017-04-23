@@ -34,14 +34,12 @@ extension Calendar {
         return self.date(from: comps)!
     }
     
-    /// その月の初日
     public func startOfMonthForDate(_ date: Date) -> Date {
         var comp = self.dateComponents([.year, .month, .day], from: date)
         comp.day = 1
         return self.date(from: comp)!
     }
     
-    /// その月の末日
     public func endOfMonthForDate(_ date: Date) -> Date {
         var comp = self.dateComponents([.year, .month, .day], from: date)
         if let month = comp.month {
@@ -51,7 +49,6 @@ extension Calendar {
         return self.date(from: comp)!
     }
     
-    /// 次の月の初日
     public func nextStartOfMonthForDate(_ date: Date) -> Date {
         let firstDay = startOfMonthForDate(date)
         var comp = DateComponents()
@@ -59,7 +56,6 @@ extension Calendar {
         return self.date(byAdding: comp, to: firstDay)!
     }
     
-    /// 前の月の初日
     public func prevStartOfMonthForDate(_ date: Date) -> Date {
         let firstDay = startOfMonthForDate(date)
         var comp = DateComponents()
@@ -67,12 +63,10 @@ extension Calendar {
         return self.date(byAdding: comp, to: firstDay)!
     }
     
-    /// その月は何日あるか
     public func numberOfDaysInMonthForDate(_ date: Date) -> Int {
         return range(of: .day, in: .month, for: date)?.count ?? 0
     }
     
-    /// その月は何週あるか
     public func numberOfWeeksInMonthForDate(_ date: Date) -> Int {
         return range(of: .weekOfMonth, in: .month, for: date)?.count ?? 0
     }
