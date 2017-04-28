@@ -11,7 +11,7 @@ import UIKit
 
 public class YMEventStandardView: YMEventView {
     
-    let kSpace: CGFloat = 2
+    private let kSpace: CGFloat = 2
     
     public var title: String = ""
     
@@ -33,7 +33,7 @@ public class YMEventStandardView: YMEventView {
         setNeedsDisplay()
     }
     
-    func redrawStringInRect(_ rect: CGRect) {
+    private func redrawStringInRect(_ rect: CGRect) {
         let style = NSMutableParagraphStyle()
         style.lineBreakMode = .byClipping
         

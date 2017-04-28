@@ -1,5 +1,5 @@
 //
-//  ReusableEnum.swift
+//  ReusableIdentifier.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/02/22.
@@ -8,18 +8,22 @@
 
 import Foundation
 
+protocol ReusableIdentifiable: RawRepresentable {}
+
+extension ReusableIdentifiable where Self.RawValue == String {
+    var kind: String {
+        return "\(type(of: self))" + rawValue + "Kind"
+    }
+    
+    var identifier: String {
+        return "\(type(of: self))" + rawValue + "Identifier"
+    }
+}
+
 struct ReusableIdentifier {
-    enum Events: String {
+    enum Events: String, ReusableIdentifiable {
         case rowView
         case standardView
-        
-        var kind: String {
-            return "\(type(of: self))" + rawValue + "Kind"
-        }
-        
-        var identifier: String {
-            return "\(type(of: self))" + rawValue + "Identifier"
-        }
         
         var classType: ReusableObject.Type {
             switch self {
@@ -31,18 +35,10 @@ struct ReusableIdentifier {
         }
     }
     
-    enum Month: String {
+    enum Month: String, ReusableIdentifiable {
         case DayCell
         case BackgroundView
         case RowView
-        
-        var kind: String {
-            return "\(type(of: self))" + rawValue + "Kind"
-        }
-        
-        var identifier: String {
-            return "\(type(of: self))" + rawValue + "Identifier"
-        }
         
         var classType: AnyClass {
             switch self {

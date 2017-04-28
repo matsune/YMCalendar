@@ -13,9 +13,9 @@ public class YMEventView: UIView, ReusableObject {
     
     public var reuseIdentifier: String = ""
     
-    var selected: Bool = false
+    public var selected: Bool = false
     
-    var visibleHeight: CGFloat = 0
+    public var visibleHeight: CGFloat = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)

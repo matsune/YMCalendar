@@ -11,6 +11,8 @@ import UIKit
 
 public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewAnimator {
     
+    fileprivate var collectionView: UICollectionView!
+    
     public weak var appearance: YMCalendarAppearance!
 
     public weak var delegate: YMCalendarDelegate!
@@ -18,8 +20,6 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     public weak var dataSource: YMCalendarDataSource!
     
     public var calendar = Calendar.current
-    
-    fileprivate var collectionView: UICollectionView!
     
     public var selectionAnimation: YMCalendarSelectionAnimation = .bounce
     
@@ -614,7 +614,7 @@ extension YMCalendarView {
     
     func recenterIfNeeded() {
         if scrollDirection == .vertical {
-            var yOffset = max(collectionView.contentOffset.y, 0)
+            let yOffset = max(collectionView.contentOffset.y, 0)
             let contentHeight = collectionView.contentSize.height
             
             if yOffset < monthMaximumHeight || collectionView.bounds.maxY + monthMaximumHeight > contentHeight {
@@ -717,9 +717,6 @@ extension YMCalendarView {
     }
     
     fileprivate func cacheRow(_ eventsView: YMEventsRowView, forDate date: Date) {
-        if let _ = eventRows.value(forKey: date) {
-            eventRows.removeValue(forKey: date)
-        }
         eventRows.updateValue(eventsView, forKey: date)
         
         if eventRows.count >= rowCacheSize {

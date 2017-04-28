@@ -9,10 +9,12 @@
 import Foundation
 import UIKit
 
-final class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAppearance {
+final internal class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAppearance {
     
     var numberOfColumns: Int = 7
+    
     var numberOfRows: Int = 0
+    
     var lastColumn: Int = 7
     
     weak var appearance: YMMonthBackgroundAppearance?
@@ -29,7 +31,7 @@ final class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAp
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setAppearance(_ appearance: YMMonthBackgroundAppearance, numberOfColumns: Int, numberOfRows: Int, lastColumn: Int) {
+    internal func setAppearance(_ appearance: YMMonthBackgroundAppearance, numberOfColumns: Int, numberOfRows: Int, lastColumn: Int) {
         self.appearance = appearance
         self.numberOfColumns = numberOfColumns
         self.numberOfRows = numberOfRows

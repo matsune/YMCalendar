@@ -29,7 +29,7 @@ final public class YMMonthDayCollectionCell: UICollectionViewCell {
     
     public var dayLabelSelectionBackgroundColor: UIColor = .black
     
-    public var day: Int = 0 {
+    public var day: Int = 1 {
         didSet {
             dayLabel.text = "\(day)"
         }
@@ -90,7 +90,7 @@ final public class YMMonthDayCollectionCell: UICollectionViewCell {
         }
     }
     
-    // MARK: None
+    // - MARK: Animation None
     private func animationWithNone(_ isSelected: Bool) {
         if isSelected {
             dayLabel.textColor = dayLabelSelectionColor
@@ -101,7 +101,7 @@ final public class YMMonthDayCollectionCell: UICollectionViewCell {
         }
     }
     
-    // MARK: Bounce
+    // - MARK: Animation Bounce
     private func animationWithBounce(_ isSelected: Bool) {
         dayLabel.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
 
@@ -117,7 +117,7 @@ final public class YMMonthDayCollectionCell: UICollectionViewCell {
         }, completion: nil)
     }
     
-    // MARK: Fade
+    // - MARK: Animation Fade
     private func animationWithFade(_ isSelected: Bool) {
         UIView.transition(with: dayLabel,
                           duration: 0.2,

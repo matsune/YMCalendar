@@ -78,11 +78,13 @@ public struct IndexableDictionary<Key: Hashable, Value>: RandomAccessCollection,
         return _elements.first(where: {$0.key == key})?.value
     }
     
+    @discardableResult
     public mutating func removeValue(forKey key: Key) -> Value? {
         guard let index = index(forKey: key) else { return nil }
         return remove(at: index).value
     }
     
+    @discardableResult
     public mutating func updateValue(_ newValue: Value, forKey key: Key) -> Value? {
         guard let oldValue = value(forKey: key), let index = index(forKey: key)else {
             append((key, newValue))

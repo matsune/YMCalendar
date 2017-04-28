@@ -26,9 +26,10 @@ final class YMEventsRowView: UIScrollView, ReusableObject {
     let cellSpacing: CGFloat = 2.0
     
     var cells: [IndexPath : YMEventView] = [:]
-    var labels: [UILabel] = []
-    var eventsCount: [Int : Int]? = nil
     
+    var labels: [UILabel] = []
+    
+    var eventsCount: [Int : Int]? = nil
     
     var maxVisibleLines: Int {
         return Int((bounds.height + cellSpacing + 1) / (itemHeight + cellSpacing))
