@@ -1,5 +1,5 @@
 //
-//  YMCalendarWeekView.swift
+//  YMCalendarWeekBarView.swift
 //  YMCalendar
 //
 //  Created by Yuma Matsune on 2017/03/25.
@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 
-public class YMCalendarWeekView: UIView, YMCalendarWeekDataSource {
+public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
     
-    public var dataSource: YMCalendarWeekDataSource?
+    public var dataSource: YMCalendarWeekBarDataSource?
     
     private var symbolLabels: [UILabel] = []
     
@@ -72,10 +72,10 @@ public class YMCalendarWeekView: UIView, YMCalendarWeekDataSource {
             symbolLabels[i].frame.size = CGSize(width: colWidth, height: bounds.height)
             symbolLabels[i].center = center
             let dataSource = self.dataSource ?? self
-            symbolLabels[i].text = dataSource.calendarWeekView(self, textAtWeekday: i + 1)
-            symbolLabels[i].textColor = dataSource.calendarWeekView(self, textColorAtWeekday: i + 1)
-            symbolLabels[i].backgroundColor = dataSource.calendarWeekView(self, backgroundColorAtWeekday: i + 1)
-            symbolLabels[i].font = dataSource.calendarWeekView(self, fontAtWeekday: i + 1)
+            symbolLabels[i].text = dataSource.calendarWeekBarView(self, textAtWeekday: i + 1)
+            symbolLabels[i].textColor = dataSource.calendarWeekBarView(self, textColorAtWeekday: i + 1)
+            symbolLabels[i].backgroundColor = dataSource.calendarWeekBarView(self, backgroundColorAtWeekday: i + 1)
+            symbolLabels[i].font = dataSource.calendarWeekBarView(self, fontAtWeekday: i + 1)
         }
     }
     
