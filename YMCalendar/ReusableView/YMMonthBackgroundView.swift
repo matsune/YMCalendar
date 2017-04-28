@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final internal class YMMonthBackgroundView: UICollectionReusableView, YMMonthBackgroundAppearance {
+final internal class YMMonthBackgroundView: UICollectionReusableView, YMCollectionReusable, YMMonthBackgroundAppearance {
     
     var numberOfColumns: Int = 7
     

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final public class YMMonthDayCollectionCell: UICollectionViewCell {
+final public class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectionReusable {
 
     public let dayLabel = UILabel()
     

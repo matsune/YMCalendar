@@ -232,7 +232,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     }
     
     private func commonInit() {
-        reuseQueue.registerClass(ReusableIdentifier.Events.rowView.classType, forObjectWithReuseIdentifier: ReusableIdentifier.Events.rowView.identifier)
+        reuseQueue.registerClass(YMEventsRowView.self, forObjectWithReuseIdentifier: "YMEventsRowViewIdentifier")
 
         let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
         monthLayout.delegate = self
@@ -248,9 +248,12 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         allowsSelection = true
         allowsMultipleSelection = false
         
-        collectionView.register(ReusableIdentifier.Month.DayCell.classType, forCellWithReuseIdentifier: ReusableIdentifier.Month.DayCell.identifier)
-        collectionView.register(ReusableIdentifier.Month.BackgroundView.classType, forSupplementaryViewOfKind: ReusableIdentifier.Month.BackgroundView.kind, withReuseIdentifier: ReusableIdentifier.Month.BackgroundView.identifier)
-        collectionView.register(ReusableIdentifier.Month.RowView.classType, forSupplementaryViewOfKind: ReusableIdentifier.Month.RowView.kind, withReuseIdentifier: ReusableIdentifier.Month.RowView.identifier)
+        // Register ReusableCell
+        collectionView.register(YMMonthDayCollectionCell.self, forCellWithReuseIdentifier: YMMonthDayCollectionCell.identifier)
+        
+        // Register ReusableSupplementaryView
+        collectionView.register(YMMonthBackgroundView.self, forSupplementaryViewOfKind: YMMonthBackgroundView.kind, withReuseIdentifier: YMMonthBackgroundView.identifier)
+        collectionView.register(YMMonthWeekView.self, forSupplementaryViewOfKind: YMMonthWeekView.kind, withReuseIdentifier: YMMonthWeekView.identifier)
         
         addSubview(collectionView)
         
@@ -694,7 +697,7 @@ extension YMCalendarView {
     fileprivate func eventsRowViewAtDate(_ rowStart: Date) -> YMEventsRowView {
         var eventsRowView = eventRows.value(forKey: rowStart)
         if eventsRowView == nil {
-            eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier(ReusableIdentifier.Events.rowView.identifier)
+            eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier("YMEventsRowViewIdentifier")
             let referenceDate = calendar.startOfMonthForDate(rowStart)
             let first = calendar.dateComponents([.day], from: referenceDate, to: rowStart).day
             if let range = calendar.range(of: .day, in: .weekOfMonth, for: rowStart) {
@@ -731,7 +734,7 @@ extension YMCalendarView {
         var rowView: YMMonthWeekView?
         var dequeued: Bool = false
         while !dequeued {
-            guard let weekView = collectionView.dequeueReusableSupplementaryView(ofKind: ReusableIdentifier.Month.RowView.kind, withReuseIdentifier: ReusableIdentifier.Month.RowView.identifier, for: indexPath) as? YMMonthWeekView else {
+            guard let weekView = collectionView.dequeueReusableSupplementaryView(ofKind: YMMonthWeekView.kind, withReuseIdentifier: YMMonthWeekView.identifier, for: indexPath) as? YMMonthWeekView else {
                 fatalError()
             }
             rowView = weekView
@@ -761,7 +764,7 @@ extension YMCalendarView: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let appearance = self.appearance ?? self
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReusableIdentifier.Month.DayCell.identifier, for: indexPath) as? YMMonthDayCollectionCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: YMMonthDayCollectionCell.identifier, for: indexPath) as? YMMonthDayCollectionCell else {
             fatalError()
         }
         let date = dateForDayAtIndexPath(indexPath)
@@ -786,8 +789,8 @@ extension YMCalendarView: UICollectionViewDataSource {
         let numRows: Int = calendar.numberOfWeeksInMonthForDate(date)
         
         guard let view = collectionView
-            .dequeueReusableSupplementaryView(ofKind: ReusableIdentifier.Month.BackgroundView.kind,
-                                              withReuseIdentifier: ReusableIdentifier.Month.BackgroundView.identifier,
+            .dequeueReusableSupplementaryView(ofKind: YMMonthBackgroundView.kind,
+                                              withReuseIdentifier: YMMonthBackgroundView.identifier,
                                               for: indexPath) as? YMMonthBackgroundView else {
                                                 fatalError()
         }
@@ -799,9 +802,9 @@ extension YMCalendarView: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
-        case ReusableIdentifier.Month.BackgroundView.kind:
+        case YMMonthBackgroundView.kind:
             return backgroundViewForAtIndexPath(indexPath)
-        case ReusableIdentifier.Month.RowView.kind:
+        case YMMonthWeekView.kind:
             return monthRowViewAtIndexPath(indexPath)
         default:
             fatalError()

@@ -9,8 +9,10 @@
 import Foundation
 
 public protocol ReusableObject: class {
+    
     init()
     
     var reuseIdentifier: String { get set }
+    
     func prepareForReuse()
 }

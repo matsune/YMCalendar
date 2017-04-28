@@ -42,7 +42,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         return eventKitManager.eventStore
     }
     
-    let YMEventStandardViewIdentifier = "YMEventStandardView"
+    fileprivate let YMEventStandardViewIdentifier = "YMEventStandardView"
     
     override open func viewDidLoad() {
         super.viewDidLoad()

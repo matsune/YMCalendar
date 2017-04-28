@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class YMMonthWeekView: UICollectionReusableView {
+final class YMMonthWeekView: UICollectionReusableView, YMCollectionReusable {
 
     var eventsView = YMEventsRowView(frame: .zero) {
         didSet {

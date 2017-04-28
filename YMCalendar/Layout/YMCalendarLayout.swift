@@ -81,7 +81,7 @@ public final class YMCalendarLayout: UICollectionViewLayout {
                 let colRange = NSMakeRange(col, min(7 - col, numberOfdaysInMonth - day))
                 if isShowEvents {
                     let path = IndexPath(item: day, section: month)
-                    let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: ReusableIdentifier.Month.RowView.kind, with: path)
+                    let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.kind, with: path)
                     
                     let px: CGFloat
                     if scrollDirection == .vertical {
@@ -133,7 +133,7 @@ public final class YMCalendarLayout: UICollectionViewLayout {
             }
             
             let path = IndexPath(item: 0, section: month)
-            let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: ReusableIdentifier.Month.BackgroundView.kind, with: path)
+            let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthBackgroundView.kind, with: path)
             attributes.frame = UIEdgeInsetsInsetRect(monthRect, monthInsets)
             attributes.zIndex = 2
             monthsAttrDict.updateValue(attributes, forKey: path)
@@ -150,7 +150,7 @@ public final class YMCalendarLayout: UICollectionViewLayout {
         
         layoutAttrDict.updateValue(dayCellsAttrDict, forKey: "DayCellAttrDict")
         layoutAttrDict.updateValue(monthsAttrDict, forKey: "MonthsAttrDict")
-        layoutAttrDict.updateValue(rowsAttrDict, forKey: "RowsAttrDict")
+        layoutAttrDict.updateValue(rowsAttrDict, forKey: "WeekAttrDict")
     }
     
     override public var collectionViewContentSize: CGSize {
@@ -179,12 +179,12 @@ public final class YMCalendarLayout: UICollectionViewLayout {
     
     override public func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         var attributes: UICollectionViewLayoutAttributes? = nil
-        if elementKind == ReusableIdentifier.Month.BackgroundView.kind {
+        if elementKind == YMMonthBackgroundView.kind {
             if let layout = layoutAttrDict["MonthAttrDict"] {
                 attributes = layout[indexPath]
             }
-        } else if elementKind == ReusableIdentifier.Month.RowView.kind {
-            if let layout = layoutAttrDict["RowsAttrDict"] {
+        } else if elementKind == YMMonthWeekView.kind {
+            if let layout = layoutAttrDict["WeekAttrDict"] {
                 attributes = layout[indexPath]
             }
         }
