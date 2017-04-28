@@ -43,7 +43,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
-    fileprivate var eventRows = ArrayDictionary<Date, YMEventsRowView>()
+    fileprivate var eventRows = IndexableDictionary<Date, YMEventsRowView>()
     
     fileprivate var itemHeight: CGFloat = 16
     
@@ -686,14 +686,13 @@ extension YMCalendarView {
     }
     
     fileprivate func removeRowAtDate(_ date: Date) {
-        if let remove = eventRows.value(forKey: date) {
+        if let remove = eventRows.removeValue(forKey: date) {
             reuseQueue.enqueueReusableObject(remove)
-            eventRows.removeValue(forKey: date)
         }
     }
     
     fileprivate func eventsRowViewAtDate(_ rowStart: Date) -> YMEventsRowView {
-        var eventsRowView: YMEventsRowView? = eventRows.value(forKey: rowStart)
+        var eventsRowView = eventRows.value(forKey: rowStart)
         if eventsRowView == nil {
             eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier(ReusableIdentifier.Events.rowView.identifier)
             let referenceDate = calendar.startOfMonthForDate(rowStart)
@@ -721,7 +720,7 @@ extension YMCalendarView {
         if let _ = eventRows.value(forKey: date) {
             eventRows.removeValue(forKey: date)
         }
-        eventRows.setValue(eventsView, forKey: date)
+        eventRows.updateValue(eventsView, forKey: date)
         
         if eventRows.count >= rowCacheSize {
             if let first = eventRows.first?.0 {
