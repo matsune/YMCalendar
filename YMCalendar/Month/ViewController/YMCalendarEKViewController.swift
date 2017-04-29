@@ -36,7 +36,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
     
     public var visibleMonths: DateRange = DateRange()
     
-    fileprivate let eventKitManager = EventKitManager()
+    public let eventKitManager = EventKitManager()
     
     fileprivate var eventStore: EKEventStore {
         return eventKitManager.eventStore
@@ -65,7 +65,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
     
     fileprivate func fetchEvents(from startDate: Date, to endDate: Date, calendars: [EKCalendar]?) -> [EKEvent] {
         let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
-        if eventKitManager.accessGranted {
+        if eventKitManager.isGranted {
             let events = eventStore.events(matching: predicate)
             return events
         }

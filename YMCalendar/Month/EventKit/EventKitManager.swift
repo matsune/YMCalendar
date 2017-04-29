@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 import EventKit
 
-final class EventKitManager {
-    typealias EventSaveCompletionBlockType = (Bool) -> Void
+final public class EventKitManager {
+    public typealias EventSaveCompletionBlockType = (_ accessGranted: Bool) -> Void
     
-    var eventStore: EKEventStore
+    public var eventStore: EKEventStore
     
-    init(eventStore: EKEventStore?=nil) {
+    public init(eventStore: EKEventStore?=nil) {
         if let eventStore = eventStore {
             self.eventStore = eventStore
         } else {
@@ -23,56 +23,27 @@ final class EventKitManager {
         }
     }
     
-    var savedEvent: EKEvent?
+    public var isGranted: Bool = false
     
-    var saveCompletion: EventSaveCompletionBlockType?
-    
-    var accessGranted: Bool = false
-    
-    func checkEventStoreAccessForCalendar(completion: EventSaveCompletionBlockType?) {
+    public func checkEventStoreAccessForCalendar(completion: EventSaveCompletionBlockType?) {
         let status = EKEventStore.authorizationStatus(for: .event)
         switch status {
         case .authorized:
-            accessGrantedForCalendar()
-            completion?(true)
+            isGranted = true
+            completion?(isGranted)
         case .notDetermined:
             requestCalendarAccess(completion: completion)
         case .denied, .restricted:
-            accessDeniedForCalendar()
-            completion?(false)
+            print("Permition to access the calendar is denied.")
+            isGranted = false
+            completion?(isGranted)
         }
     }
     
-    func requestCalendarAccess(completion: EventSaveCompletionBlockType?) {
+    private func requestCalendarAccess(completion: EventSaveCompletionBlockType?) {
         eventStore.requestAccess(to: .event) { [weak self] granted, error in
-            if granted {
-                self?.accessGrantedForCalendar()
-                completion?(true)
-            }
-        }
-    }
-    
-    func accessGrantedForCalendar() {
-        accessGranted = true
-    }
-    
-    func accessDeniedForCalendar() {
-        print("Access to the calendar was not authorized.")
-    }
-    
-    func saveEvent(_ event: EKEvent, completion: EventSaveCompletionBlockType?) {
-        if event.hasRecurrenceRules {
-            savedEvent = event
-            saveCompletion = completion
-        } else {
-            do {
-                try eventStore.save(event, span: .thisEvent)
-            } catch {
-                print(error)
-                return
-            }
-            completion?(true)
-            saveCompletion = nil
+            self?.isGranted = granted
+            completion?(granted)
         }
     }
 }

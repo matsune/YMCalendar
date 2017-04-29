@@ -138,7 +138,7 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         return date
     }
     
-    fileprivate var startDate: Date {
+    fileprivate var startDate = Date() {
         didSet {
             let s = calendar.startOfMonthForDate(startDate)
             if startDate != s {
@@ -166,9 +166,13 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     fileprivate var selectedEventDate: Date?
     
-    fileprivate var selectedEventIndex: Int = 0
+    fileprivate lazy var selectedEventIndex: Int = {
+        return 0
+    }()
     
-    fileprivate var showingMonthDate: Date = Date()
+    fileprivate lazy var showingMonthDate: Date = {
+        return Date()
+    }()
     
     fileprivate var monthMinimumHeight: CGFloat {
         guard let numWeeks = calendar.minimumRange(of: .weekOfMonth)?.count else {
@@ -220,18 +224,18 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
 
     // MARK: - Initialize
     override init(frame: CGRect) {
-        startDate = calendar.startOfMonthForDate(Date())
         super.init(frame: frame)
         commonInit()
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        startDate = calendar.startOfMonthForDate(Date())
         super.init(coder: aDecoder)
         commonInit()
     }
     
     private func commonInit() {
+        startDate = calendar.startOfMonthForDate(Date())
+        
         reuseQueue.registerClass(YMEventsRowView.self, forObjectWithReuseIdentifier: "YMEventsRowViewIdentifier")
 
         let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
@@ -250,7 +254,6 @@ public final class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         
         // Register ReusableCell
         collectionView.register(YMMonthDayCollectionCell.self, forCellWithReuseIdentifier: YMMonthDayCollectionCell.identifier)
-        
         // Register ReusableSupplementaryView
         collectionView.register(YMMonthBackgroundView.self, forSupplementaryViewOfKind: YMMonthBackgroundView.kind, withReuseIdentifier: YMMonthBackgroundView.identifier)
         collectionView.register(YMMonthWeekView.self, forSupplementaryViewOfKind: YMMonthWeekView.kind, withReuseIdentifier: YMMonthWeekView.identifier)
