@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol YMCollectionReusable {}
+internal protocol YMCollectionReusable {}
 
 extension YMCollectionReusable where Self: UICollectionReusableView {
     static var kind: String {

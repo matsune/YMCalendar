@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc protocol YMEventsRowViewDelegate: UIScrollViewDelegate {
+@objc internal protocol YMEventsRowViewDelegate: UIScrollViewDelegate {
     func eventsRowView(_ view: YMEventsRowView, numberOfEventsForDayAtIndex day: Int) -> Int
     func eventsRowView(_ view: YMEventsRowView, rangeForEventAtIndexPath indexPath: IndexPath) -> NSRange
     func eventsRowView(_ view: YMEventsRowView, cellForEventAtIndexPath indexPath: IndexPath) -> YMEventView

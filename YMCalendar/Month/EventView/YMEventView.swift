@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class YMEventView: UIView, ReusableObject {
+open class YMEventView: UIView, ReusableObject {
     
     public var reuseIdentifier: String = ""
     
@@ -17,7 +17,7 @@ public class YMEventView: UIView, ReusableObject {
     
     public var visibleHeight: CGFloat = 0
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }

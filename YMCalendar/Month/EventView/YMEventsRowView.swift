@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final class YMEventsRowView: UIScrollView, ReusableObject {
+final internal class YMEventsRowView: UIScrollView, ReusableObject {
 
     weak var eventsRowDelegate: YMEventsRowViewDelegate?
     

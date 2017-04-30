@@ -31,7 +31,7 @@ final internal class YMMonthBackgroundView: UICollectionReusableView, YMCollecti
         fatalError("init(coder:) has not been implemented")
     }
     
-    internal func setAppearance(_ appearance: YMMonthBackgroundAppearance, numberOfColumns: Int, numberOfRows: Int, lastColumn: Int) {
+    func setAppearance(_ appearance: YMMonthBackgroundAppearance, numberOfColumns: Int, numberOfRows: Int, lastColumn: Int) {
         self.appearance = appearance
         self.numberOfColumns = numberOfColumns
         self.numberOfRows = numberOfRows

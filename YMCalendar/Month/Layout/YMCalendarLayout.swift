@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public final class YMCalendarLayout: UICollectionViewLayout {
+internal final class YMCalendarLayout: UICollectionViewLayout {
 
     typealias AttrDict = [IndexPath : UICollectionViewLayoutAttributes]
     
