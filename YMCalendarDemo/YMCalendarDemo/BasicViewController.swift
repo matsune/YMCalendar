@@ -25,6 +25,7 @@ final class BasicViewController: UIViewController {
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
         calendarView.calendar = calendar
+        calendarView.setDateRange(DateRange(start: calendar.date(byAdding: .month, value: -2, to: Date())!, end: calendar.date(byAdding: .month, value: 4, to: Date())!))
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: "YMEventStandardView")
     }
 }

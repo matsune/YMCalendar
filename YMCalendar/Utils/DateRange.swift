@@ -60,7 +60,7 @@ public struct DateRange {
 
     func checkIfValid() {
         if start.compare(end) != .orderedAscending {
-            assertionFailure("End date earlier than start date in DateRange object!")
+            assertionFailure("end date should be later than start date in DateRange object!")
         }
     }
     

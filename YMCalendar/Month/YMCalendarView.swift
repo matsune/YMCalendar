@@ -43,16 +43,23 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
-    fileprivate var eventRows = IndexableDictionary<Date, YMEventsRowView>()
+    /// Height of event items in EventsRow. Default value is 16.
+    public var eventViewHeight: CGFloat = 16
     
-    public var itemHeight: CGFloat = 16
+    /// Cache of EventsRowViews. EventsRowView belongs to MonthWeekView and
+    /// has events(YMEventViews) for a week. This dictionary has start of week
+    /// as key and events as value.
+    fileprivate var eventRowsCache = IndexableDictionary<Date, YMEventsRowView>()
     
+    /// Capacity of eventRowsCache.
     fileprivate let rowCacheSize = 40
     
+    /// Manager of registered class and identifiers.
     fileprivate var reuseQueue = ReusableObjectQueue()
     
     fileprivate var dateRange: DateRange?
     
+    /// Set date range of CalendarView. If you set nil, calendar will be infinite.
     public func setDateRange(_ dateRange: DateRange?) {
         var first = visibleDays?.start
         
@@ -117,7 +124,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         didSet {
             let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
             monthLayout.delegate = self
-            monthLayout.monthInsets = monthInsets
             monthLayout.dayHeaderHeight = dayLabelHeight
             layout = monthLayout
         }
@@ -153,13 +159,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
-    public var monthInsets: UIEdgeInsets = .zero {
-        didSet {
-            layout.monthInsets = monthInsets
-            setNeedsLayout()
-        }
-    }
-    
     public var selectedDate: Date?
     
     fileprivate var selectedEventDate: Date?
@@ -173,6 +172,10 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     }()
     
     fileprivate var numberOfLoadedMonths: Int {
+        if let dateRange = dateRange,
+            let diff = calendar.dateComponents([.month], from: dateRange.start, to: dateRange.end).month {
+            return min(diff, 9)
+        }
         return 9
     }
     
@@ -215,7 +218,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
 
         let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
         monthLayout.delegate = self
-        monthLayout.monthInsets = monthInsets
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: monthLayout)
         collectionView.delegate   = self
@@ -398,7 +400,7 @@ extension YMCalendarView {
         guard let visibleDateRange = visibleDays else {
             return
         }
-        eventRows.forEach { date, rowView in
+        eventRowsCache.forEach { date, rowView in
             let rowRange = dateRangeForYMEventsRowView(rowView)
             if rowRange.intersectsDateRange(visibleDateRange) {
                 rowView.reload()
@@ -413,7 +415,7 @@ extension YMCalendarView {
             deselectEventWithDelegate(true)
         }
         if let visibleDateRange = visibleDays {
-            eventRows.forEach { date, rowView in
+            eventRowsCache.forEach { date, rowView in
                 let rowRange = dateRangeForYMEventsRowView(rowView)
                 if rowRange.contains(date: date) {
                     if visibleDateRange.contains(date: date) {
@@ -432,7 +434,7 @@ extension YMCalendarView {
         }
         if let visibleDateRange = visibleDays {
             var reloadRowViews: [YMEventsRowView] = []
-            eventRows.forEach({ date, rowView in
+            eventRowsCache.forEach({ date, rowView in
                 let rowRange = dateRangeForYMEventsRowView(rowView)
                 if rowRange.intersectsDateRange(range) {
                     if rowRange.intersectsDateRange(visibleDateRange) {
@@ -544,12 +546,8 @@ extension YMCalendarView {
         
         var offset = offsetForMonth(date: date)
         if scrollDirection == .vertical {
-            offset += monthInsets.top
-            
             collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: animated)
         } else {
-            offset += monthInsets.left
-            
             collectionView.setContentOffset(CGPoint(x: offset, y: 0), animated: animated)
         }
         
@@ -594,7 +592,7 @@ extension YMCalendarView {
             let contentHeight = collectionView.contentSize.height
             let boundsHeight = collectionView.bounds.height
             
-            if yOffset < contentHeight || collectionView.bounds.maxY + contentHeight > contentHeight {
+            if yOffset < boundsHeight || collectionView.bounds.maxY + boundsHeight > contentHeight {
                 let oldStart = startDate
                 
                 let centerMonth = monthFromOffset(yOffset)
@@ -639,7 +637,7 @@ extension YMCalendarView {
     fileprivate var visibleEventRows: [YMEventsRowView] {
         var rows: [YMEventsRowView] = []
         if let visibleRange = visibleDays {
-            eventRows.forEach({ date, rowView in
+            eventRowsCache.forEach({ date, rowView in
                 if visibleRange.contains(date: date) {
                     rows.append(rowView)
                 }
@@ -650,26 +648,26 @@ extension YMCalendarView {
     
     fileprivate func clearRowsCacheInDateRange(_ range: DateRange?) {
         if let range = range {
-            eventRows.forEach({ date, rowView in
+            eventRowsCache.forEach({ date, rowView in
                 if range.contains(date: date) {
                     removeRowAtDate(date)
                 }
             })
         } else {
-            eventRows.forEach({ date, rowView in
+            eventRowsCache.forEach({ date, rowView in
                 removeRowAtDate(date)
             })
         }
     }
     
     fileprivate func removeRowAtDate(_ date: Date) {
-        if let remove = eventRows.removeValue(forKey: date) {
+        if let remove = eventRowsCache.removeValue(forKey: date) {
             reuseQueue.enqueueReusableObject(remove)
         }
     }
     
     fileprivate func eventsRowViewAtDate(_ rowStart: Date) -> YMEventsRowView {
-        var eventsRowView = eventRows.value(forKey: rowStart)
+        var eventsRowView = eventRowsCache.value(forKey: rowStart)
         if eventsRowView == nil {
             eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier("YMEventsRowViewIdentifier") as! YMEventsRowView?
             let referenceDate = calendar.startOfMonthForDate(rowStart)
@@ -679,7 +677,7 @@ extension YMCalendarView {
                 
                 eventsRowView?.referenceDate = referenceDate
                 eventsRowView?.isScrollEnabled = false
-                eventsRowView?.itemHeight = itemHeight
+                eventsRowView?.itemHeight = eventViewHeight
                 eventsRowView?.eventsRowDelegate = self
                 eventsRowView?.daysRange = NSMakeRange(first!, numDays)
                 eventsRowView?.dayWidth = bounds.width / 7
@@ -694,10 +692,10 @@ extension YMCalendarView {
     }
     
     fileprivate func cacheRow(_ eventsView: YMEventsRowView, forDate date: Date) {
-        eventRows.updateValue(eventsView, forKey: date)
+        eventRowsCache.updateValue(eventsView, forKey: date)
         
-        if eventRows.count >= rowCacheSize {
-            if let first = eventRows.first?.0 {
+        if eventRowsCache.count >= rowCacheSize {
+            if let first = eventRowsCache.first?.0 {
                 removeRowAtDate(first)
             }
         }

@@ -86,7 +86,7 @@ public struct IndexableDictionary<Key: Hashable, Value>: RandomAccessCollection,
     
     @discardableResult
     public mutating func updateValue(_ newValue: Value, forKey key: Key) -> Value? {
-        guard let oldValue = value(forKey: key), let index = index(forKey: key)else {
+        guard let oldValue = value(forKey: key), let index = index(forKey: key) else {
             append((key, newValue))
             return nil
         }
