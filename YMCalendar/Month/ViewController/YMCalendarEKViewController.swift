@@ -186,7 +186,7 @@ extension YMCalendarEKViewController: YMCalendarDataSource {
         return range
     }
 
-    public func calendarView(_ view: YMCalendarView, cellForEventAtIndex index: Int, date: Date) -> YMEventView? {
+    public func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
         let events = eventsAtDate(date)
         var cell: YMEventStandardView? = nil
         if index <= events.count {

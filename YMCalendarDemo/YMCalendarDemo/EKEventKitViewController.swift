@@ -14,7 +14,6 @@ final class EKEventKitViewController: YMCalendarEKViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        calendarView.scrollDirection = .horizontal
-        calendarView.isPagingEnabled = true
+        calendarView.scrollDirection = .vertical
     }
 }

@@ -11,7 +11,7 @@ import Foundation
 @objc protocol YMEventsRowViewDelegate: UIScrollViewDelegate {
     func eventsRowView(_ view: YMEventsRowView, numberOfEventsForDayAtIndex day: Int) -> Int
     func eventsRowView(_ view: YMEventsRowView, rangeForEventAtIndexPath indexPath: IndexPath) -> NSRange
-    func eventsRowView(_ view: YMEventsRowView, cellForEventAtIndexPath indexPath: IndexPath) -> YMEventView?
+    func eventsRowView(_ view: YMEventsRowView, cellForEventAtIndexPath indexPath: IndexPath) -> YMEventView
     
     @objc optional func eventsRowView(_ view: YMEventsRowView, widthForDayRange range: NSRange) -> CGFloat
     @objc optional func eventsRowView(_ view: YMEventsRowView, shouldSelectCellAtIndexPath indexPath: IndexPath) -> Bool

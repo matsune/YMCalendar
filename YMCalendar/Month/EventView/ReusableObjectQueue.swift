@@ -34,8 +34,8 @@ final class ReusableObjectQueue {
         reusableObjects[object.reuseIdentifier] = object
     }
     
-    func dequeueReusableObjectWithIdentifier<T: ReusableObject>(_ identifier: String) -> T? {
-        if let object = reusableObjects[identifier] as? T {
+    func dequeueReusableObjectWithIdentifier(_ identifier: String) -> T? {
+        if let object = reusableObjects[identifier] {
             reusableObjects.removeValue(forKey: identifier)
             object.prepareForReuse()
             return object
@@ -43,13 +43,10 @@ final class ReusableObjectQueue {
             guard let anyClass = objectClasses[identifier] else {
                 fatalError("\(identifier) is not registered.")
             }
-            if anyClass is T.Type {
-                totalCreated += 1
-                let object = T()
-                object.reuseIdentifier = identifier
-                return object
-            }
-            fatalError("identifier \"\(identifier)\" is registered as \(anyClass)")
+            let object = anyClass.init()
+            totalCreated += 1
+            object.reuseIdentifier = identifier
+            return object
         }
     }
     

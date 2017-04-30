@@ -22,7 +22,7 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
         }
     }
     
-    public var verticalLineWidth: CGFloat = 1.0 {
+    public var verticalLineWidth: CGFloat = 0.3 {
         didSet {
             setNeedsDisplay()
         }
@@ -34,7 +34,7 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
         }
     }
     
-    public var horizontalLineWidth: CGFloat = 1.0 {
+    public var horizontalLineWidth: CGFloat = 0.3 {
         didSet {
             setNeedsDisplay()
         }
