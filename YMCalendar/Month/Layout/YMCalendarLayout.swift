@@ -76,16 +76,19 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
                 if isShowEvents {
                     let path = IndexPath(item: day, section: month)
                     let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.kind, with: path)
-                    
-                    let px: CGFloat
-                    if scrollDirection == .vertical {
-                        px = widthForColumnRange(NSRange(location: 0, length: col))
-                    } else {
-                        px = widthForColumnRange(NSRange(location: 0, length: col))
-                    }
-                    
                     let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
-                    attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
+                    
+                    // difference of scrollDirection is x-postition of frame.
+                    if scrollDirection == .vertical {
+                        // In vertical, x-postion of rowViews must be between 0 ~ bouds.width.
+                        let px: CGFloat = widthForColumnRange(NSRange(location: 0, length: col))
+                        attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
+                    } else {
+                        let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
+                        // In horizontal, x-position will be between 0 ~ contentSize.width.
+                        // `var x` represents left edge of its month.
+                        attributes.frame = CGRect(x: x, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
+                    }
                     attributes.zIndex = 1
                     rowsAttrDict.updateValue(attributes, forKey: path)
                 }
@@ -116,12 +119,10 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
             if scrollDirection == .vertical {
                 monthRect.size = CGSize(width: collectionView.bounds.size.width, height: y - monthRect.origin.y)
             } else {
-                
                 x += collectionView.bounds.size.width
                 y = 0
                 
                 monthRect.size = CGSize(width: x - monthRect.origin.x, height: collectionView.bounds.height)
-                
             }
             
             let path = IndexPath(item: 0, section: month)

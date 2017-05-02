@@ -223,7 +223,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         collectionView.delegate   = self
         collectionView.dataSource = self
         collectionView.bounces = false
-        collectionView.isPagingEnabled = isPagingEnabled
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         allowsSelection = true
@@ -818,10 +817,10 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         var comps = DateComponents()
         comps.day = indexPath.section
         guard let date = calendar.date(byAdding: comps, to: view.referenceDate),
-            let view = dataSource?.calendarView(self, eventViewForEventAtIndex: indexPath.item, date: date) else {
+            let eventView = dataSource?.calendarView(self, eventViewForEventAtIndex: indexPath.item, date: date) else {
             fatalError()
         }
-        return view
+        return eventView
     }
     
     func eventsRowView(_ view: YMEventsRowView, shouldSelectCellAtIndexPath indexPath: IndexPath) -> Bool {

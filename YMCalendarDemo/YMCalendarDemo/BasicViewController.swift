@@ -20,12 +20,12 @@ final class BasicViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
         calendarView.delegate = self
         calendarView.dataSource = self
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
         calendarView.calendar = calendar
-        calendarView.setDateRange(DateRange(start: calendar.date(byAdding: .month, value: -2, to: Date())!, end: calendar.date(byAdding: .month, value: 4, to: Date())!))
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: "YMEventStandardView")
     }
 }
