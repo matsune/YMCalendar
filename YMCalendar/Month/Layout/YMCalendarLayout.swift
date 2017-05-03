@@ -84,7 +84,7 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
                     let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
                     // In horizontal, x-position will be between 0 ~ contentSize.width.
                     // `var x` represents left edge of its month.
-                    attributes.frame = CGRect(x: x, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
+                    attributes.frame = CGRect(x: x + widthForColumnRange(NSRange(location: 0, length: col)), y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
                 }
                 attributes.zIndex = 1
                 rowsAttrDict.updateValue(attributes, forKey: path)
