@@ -17,8 +17,6 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
     
     private var layoutAttrDict: [String : AttrDict] = [:]
     
-    var isShowEvents = true
-    
     weak var delegate: YMCalendarLayoutDelegate!
 
     var dayHeaderHeight: CGFloat = 18.0
@@ -73,26 +71,24 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
             
             for _ in 0..<numberOfRows {
                 let colRange = NSMakeRange(col, min(7 - col, numberOfdaysInMonth - day))
-                if isShowEvents {
-                    let path = IndexPath(item: day, section: month)
-                    let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.kind, with: path)
-                    let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
-                    
-                    // difference of scrollDirection is x-postition of frame.
-                    if scrollDirection == .vertical {
-                        // In vertical, x-postion of rowViews must be between 0 ~ bouds.width.
-                        let px: CGFloat = widthForColumnRange(NSRange(location: 0, length: col))
-                        attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
-                    } else {
-                        let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
-                        // In horizontal, x-position will be between 0 ~ contentSize.width.
-                        // `var x` represents left edge of its month.
-                        attributes.frame = CGRect(x: x, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
-                    }
-                    attributes.zIndex = 1
-                    rowsAttrDict.updateValue(attributes, forKey: path)
-                }
+                let path = IndexPath(item: day, section: month)
+                let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.kind, with: path)
+                let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
                 
+                // difference of scrollDirection is x-postition of frame.
+                if scrollDirection == .vertical {
+                    // In vertical, x-postion of rowViews must be between 0 ~ bouds.width.
+                    let px: CGFloat = widthForColumnRange(NSRange(location: 0, length: col))
+                    attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
+                } else {
+                    let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
+                    // In horizontal, x-position will be between 0 ~ contentSize.width.
+                    // `var x` represents left edge of its month.
+                    attributes.frame = CGRect(x: x, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
+                }
+                attributes.zIndex = 1
+                rowsAttrDict.updateValue(attributes, forKey: path)
+
                 while col < NSMaxRange(colRange) {
                     let path = IndexPath(item: day, section: month)
                     let attributes = UICollectionViewLayoutAttributes(forCellWith: path)
