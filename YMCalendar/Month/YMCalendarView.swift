@@ -46,6 +46,10 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     /// Height of event items in EventsRow. Default value is 16.
     public var eventViewHeight: CGFloat = 16
     
+    /// Number of visble events in a week row.
+    /// If value is nil, events can be displayed by scroll.
+    public var maxVisibleEvents: Int?
+    
     /// Cache of EventsRowViews. EventsRowView belongs to MonthWeekView and
     /// has events(YMEventViews) for a week. This dictionary has start of week
     /// as key and events as value.
@@ -543,7 +547,7 @@ extension YMCalendarView {
             fatalError()
         }
         
-        var offset = offsetForMonth(date: date)
+        let offset = offsetForMonth(date: date)
         if scrollDirection == .vertical {
             collectionView.setContentOffset(CGPoint(x: 0, y: offset), animated: animated)
         } else {
@@ -675,7 +679,8 @@ extension YMCalendarView {
                 let numDays = range.upperBound - range.lowerBound
                 
                 eventsRowView?.referenceDate = referenceDate
-                eventsRowView?.isScrollEnabled = false
+//                eventsRowView?.isScrollEnabled = false
+                eventsRowView?.maxVisibleLines = maxVisibleEvents
                 eventsRowView?.itemHeight = eventViewHeight
                 eventsRowView?.eventsRowDelegate = self
                 eventsRowView?.daysRange = NSMakeRange(first!, numDays)

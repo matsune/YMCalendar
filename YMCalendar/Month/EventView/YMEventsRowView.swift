@@ -29,11 +29,9 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
     
     var labels: [UILabel] = []
     
-    var eventsCount: [Int : Int]? = nil
+    var eventsCount: [Int : Int]?
     
-    var maxVisibleLines: Int {
-        return Int((bounds.height + cellSpacing + 1) / (itemHeight + cellSpacing))
-    }
+    var maxVisibleLines: Int?
     
     var eventRanges: [IndexPath : NSRange] {
         var eventRanges: [IndexPath : NSRange] = [:]
@@ -80,15 +78,7 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
         super.layoutSubviews()
         reload()
     }
-    
-    func maxVisibleLinesForDaysInRange(_ range: NSRange) -> Int {
-        var count = 0
-        for day in range.location..<NSMaxRange(range) {
-            count = max(count, numberOfEventsForDayAtIndex(day))
-        }
-        return count > maxVisibleLines ? maxVisibleLines : count
-    }
-    
+
     func numberOfEventsForDayAtIndex(_ day: Int) -> Int {
         var count = eventsCount?[day]
         if let count = count {
@@ -104,12 +94,10 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
         }
     }
     
-    
     func reload() {
         recycleEventsCells()
         eventsCount = nil
         
-        var daysWithMoreEvents: [Int : Int] = [:]
         var lines = [IndexSet]()
         
         eventRanges
@@ -132,8 +120,18 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
                     lines[numLine].insert(integersIn: range.toRange()!)
                 }
                 
-                let maxVisibleEvents = maxVisibleLinesForDaysInRange(range)
-                if numLine < maxVisibleEvents {
+                if let maxVisibleEvents = maxVisibleLines {
+                    if numLine < maxVisibleEvents {
+                        if let cell = eventsRowDelegate?.eventsRowView(self, cellForEventAtIndexPath: indexPath) {
+                            cell.frame = rectForCellWithRange(range, line: numLine)
+                            eventsRowDelegate?.eventsRowView?(self, willDisplayCell: cell, forEventAtIndexPath: indexPath)
+                            addSubview(cell)
+                            cell.setNeedsDisplay()
+                            
+                            cells[indexPath] = cell
+                        }
+                    }
+                } else {
                     if let cell = eventsRowDelegate?.eventsRowView(self, cellForEventAtIndexPath: indexPath) {
                         cell.frame = rectForCellWithRange(range, line: numLine)
                         eventsRowDelegate?.eventsRowView?(self, willDisplayCell: cell, forEventAtIndexPath: indexPath)
@@ -142,30 +140,10 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
                         
                         cells[indexPath] = cell
                     }
-                } else {
-                    for day in range.location..<NSMaxRange(range) {
-                        if let daysCount = daysWithMoreEvents[day] {
-                            var count = daysCount
-                            count += 1
-                            daysWithMoreEvents[day] = count
-                        }
-                    }
-                }
-                
-                for day in range.location..<NSMaxRange(range) {
-                    if let hiddenCount = daysWithMoreEvents[day], hiddenCount > 0 {
-                        let label = UILabel(frame: .zero)
-                        label.text = "\(hiddenCount) more.."
-                        label.textColor = .gray
-                        label.textAlignment = .right
-                        label.font = .systemFont(ofSize: 11)
-                        label.frame = rectForCellWithRange(NSRange(location: day, length: 1), line: maxVisibleLines - 1)
-                        
-                        addSubview(label)
-                        labels.append(label)
-                    }
                 }
             }
+        var lineCount = min(maxVisibleLines ?? lines.count, lines.count)
+        contentSize = CGSize(width: bounds.width, height: (cellSpacing + itemHeight) * CGFloat(lineCount))
     }
     
     func cellsInRect(_ rect: CGRect) -> [YMEventView] {

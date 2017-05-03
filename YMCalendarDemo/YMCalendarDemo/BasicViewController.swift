@@ -26,6 +26,8 @@ final class BasicViewController: UIViewController {
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
         calendarView.calendar = calendar
+        calendarView.eventViewHeight = 14
+        calendarView.maxVisibleEvents = 3
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: "YMEventStandardView")
     }
 }
@@ -42,7 +44,7 @@ extension BasicViewController: YMCalendarDataSource {
 
     func calendarView(_ view: YMCalendarView, numberOfEventsAtDate date: Date) -> Int {
         if calendarView.calendar.isDateInToday(date) {
-            return 1
+            return 5
         }
         return 0
     }
