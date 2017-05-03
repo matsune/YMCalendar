@@ -65,10 +65,12 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
     }
     
     private func commonInit() {
-        backgroundColor = .clear
-        contentSize = CGSize(width: frame.width, height: 400)
-        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        contentSize   = CGSize(width: frame.width, height: 400)
         clipsToBounds = true
+        backgroundColor  = .clear
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        showsVerticalScrollIndicator   = false
+        showsHorizontalScrollIndicator = false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         addGestureRecognizer(tapGesture)

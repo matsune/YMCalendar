@@ -679,7 +679,6 @@ extension YMCalendarView {
                 let numDays = range.upperBound - range.lowerBound
                 
                 eventsRowView?.referenceDate = referenceDate
-//                eventsRowView?.isScrollEnabled = false
                 eventsRowView?.maxVisibleLines = maxVisibleEvents
                 eventsRowView?.itemHeight = eventViewHeight
                 eventsRowView?.eventsRowDelegate = self
