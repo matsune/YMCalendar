@@ -144,7 +144,7 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
                     }
                 }
             }
-        var lineCount = min(maxVisibleLines ?? lines.count, lines.count)
+        let lineCount = min(maxVisibleLines ?? lines.count, lines.count)
         contentSize = CGSize(width: bounds.width, height: (cellSpacing + itemHeight) * CGFloat(lineCount))
     }
     

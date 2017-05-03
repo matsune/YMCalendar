@@ -38,6 +38,11 @@ extension BasicViewController: YMCalendarDelegate {
         formatter.dateFormat = "YYYY-MM-dd"
         navigationItem.title = formatter.string(from: date)
     }
+    
+    func calendarView(_ view: YMCalendarView, didMoveMonthOfStartDate date: Date) {
+        view.deselectItem()
+        view.selectItem(at: date)
+    }
 }
 
 extension BasicViewController: YMCalendarDataSource {

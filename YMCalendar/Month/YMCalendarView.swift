@@ -884,28 +884,61 @@ extension YMCalendarView: YMEventsRowViewDelegate {
 }
 
 extension YMCalendarView: YMCalendarLayoutDelegate {
-    // MARK: - MonthLayoutDelegate
+    // MARK: - public
+    
+    /// Select cell item from date manually.
+    public func selectItem(at date: Date) {
+        // select cells
+        guard let indexPath = indexPathForDate(date) else { return }
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition(rawValue: 0))
+        collectionView(collectionView, didSelectItemAt: indexPath)
+    }
+    
+    /// Deselect cell item of selecting indexPath manually.
+    public func deselectItem() {
+        // deselect cells
+        collectionView.indexPathsForSelectedItems?.forEach {
+            collectionView.deselectItem(at: $0, animated: false)
+            collectionView(collectionView, didDeselectItemAt: $0)
+        }
+    }
+    
+    // MARK: - YMCalendarLayoutDelegate
     
     func collectionView(_ collectionView: UICollectionView, layout: YMCalendarLayout, columnForDayAtIndexPath indexPath: IndexPath) -> Int {
         return columnForDayAtIndexPath(indexPath)
     }
     
+    // MARK: - UICollectionViewDelegate
+    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let date = dateForDayAtIndexPath(indexPath)
-        selectedDate = date
-        delegate?.calendarView?(self, didSelectDayCellAtDate: date)
+        selectedDate = dateForDayAtIndexPath(indexPath)
+        delegate?.calendarView?(self, didSelectDayCellAtDate: selectedDate!)
         
         if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
             animateSelectionDayCell(selectedCell)
+        } else {
+            // if selectedIndexPath hasn't loaded, should reloadData().
+            // reloadData() clears selectedIndexPaths, so recall selectItem(at:_)
+            collectionView.reloadData()
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition(rawValue: 0))
         }
     }
     
     public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         selectedDate = nil
+        
         if let deselectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
             animateDeselectionDayCell(deselectedCell)
+        } else {
+            // if selectedIndexPath hasn't loaded, should reloadData().
+            // reloadData() clears selectedIndexPaths, so recall selectItem(at:_)
+            collectionView.reloadData()
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition(rawValue: 0))
         }
     }
+    
+    // MARK: - UIScrollViewDelegate
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         recenterIfNeeded()
