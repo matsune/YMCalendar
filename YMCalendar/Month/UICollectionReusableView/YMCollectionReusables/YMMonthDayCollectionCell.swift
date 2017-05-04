@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectionReusable {
-
+    typealias YMMonthDayAnimationCompletion = (Bool) -> ()
+    
     public let dayLabel = UILabel()
     
     public var dayLabelColor: UIColor = .black {
@@ -67,30 +68,30 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
         dayLabel.layer.cornerRadius = dayLabelHeight / 2
     }
     
-    public func select(withAnimation animation: YMCalendarSelectionAnimation) {
+    public func select(withAnimation animation: YMCalendarSelectionAnimation, completion: YMMonthDayAnimationCompletion? = nil) {
         switch animation {
         case .none:
-            animationWithNone(true)
+            animationWithNone(true, completion: completion)
         case .bounce:
-            animationWithBounce(true)
+            animationWithBounce(true, completion: completion)
         case .fade:
-            animationWithFade(true)
+            animationWithFade(true, completion: completion)
         }
     }
     
-    public func deselect(withAnimation animation: YMCalendarSelectionAnimation) {
+    public func deselect(withAnimation animation: YMCalendarSelectionAnimation, completion: YMMonthDayAnimationCompletion? = nil) {
         switch animation {
         case .none:
-            animationWithNone(false)
+            animationWithNone(false, completion: completion)
         case .bounce:
-            animationWithBounce(false)
+            animationWithBounce(false, completion: completion)
         case .fade:
-            animationWithFade(false)
+            animationWithFade(false, completion: completion)
         }
     }
     
     // - MARK: Animation None
-    private func animationWithNone(_ isSelected: Bool) {
+    private func animationWithNone(_ isSelected: Bool, completion: YMMonthDayAnimationCompletion?=nil) {
         if isSelected {
             dayLabel.textColor = dayLabelSelectionColor
             dayLabel.backgroundColor = dayLabelSelectionBackgroundColor
@@ -98,10 +99,11 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
             dayLabel.textColor = dayLabelColor
             dayLabel.backgroundColor = dayLabelBackgroundColor
         }
+        completion
     }
     
     // - MARK: Animation Bounce
-    private func animationWithBounce(_ isSelected: Bool) {
+    private func animationWithBounce(_ isSelected: Bool, completion: YMMonthDayAnimationCompletion?) {
         dayLabel.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
 
         UIView.animate(withDuration: 0.5,
@@ -113,16 +115,16 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
                         self.dayLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
                         
                         self.animationWithNone(isSelected)
-        }, completion: nil)
+                       }, completion: completion)
     }
     
     // - MARK: Animation Fade
-    private func animationWithFade(_ isSelected: Bool) {
+    private func animationWithFade(_ isSelected: Bool, completion: YMMonthDayAnimationCompletion?) {
         UIView.transition(with: dayLabel,
                           duration: 0.2,
                           options: .transitionCrossDissolve,
                           animations: { 
                             self.animationWithNone(isSelected)
-                          }, completion: nil)
+                          }, completion: completion)
     }
 }

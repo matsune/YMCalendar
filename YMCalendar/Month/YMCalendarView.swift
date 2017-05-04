@@ -942,18 +942,28 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
                 }
             }
         } else {
+            var needsReload = false
+            
             // deselect all selected dates
             selectedDates.forEach {
                 if let index = indexPathForDate($0),
                     let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
                     deselectCell.deselect(withAnimation: deselectAnimation)
+                } else {
+                    // if collectionView couldn't find cell by cellForItem(at:_),
+                    // should reload() in completion after animation.
+                    needsReload = true
                 }
             }
             selectedDates = [date]
             
             // animate select cell
             if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-                selectedCell.select(withAnimation: selectAnimation)
+                selectedCell.select(withAnimation: selectAnimation) { _ in
+                    if needsReload {
+                        self.reload()
+                    }
+                }
             }
         }
     }
