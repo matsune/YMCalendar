@@ -39,14 +39,14 @@
                             <tableViewSection headerTitle="Calendar" id="iHx-65-Ulc">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="DEd-pR-A5s" style="IBUITableViewCellStyleDefault" id="VHU-yR-4oH">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VHU-yR-4oH" id="g26-ER-pjd">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Basic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DEd-pR-A5s">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -59,14 +59,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Z9q-Mj-cq5" style="IBUITableViewCellStyleDefault" id="Yt6-Fq-qIO">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Yt6-Fq-qIO" id="QPR-jL-Dvo">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="EKEvents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z9q-Mj-cq5">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -83,14 +83,14 @@
                             <tableViewSection headerTitle="Animation" id="CNb-ul-d4r">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="4Bl-4S-Pcn" style="IBUITableViewCellStyleDefault" id="aSI-tb-twM">
-                                        <rect key="frame" x="0.0" y="199.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="200" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aSI-tb-twM" id="Ygk-hS-mdT">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Bounce" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Bl-4S-Pcn">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -100,14 +100,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="mqg-cx-zU8" style="IBUITableViewCellStyleDefault" id="M5s-wn-R4x">
-                                        <rect key="frame" x="0.0" y="243.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="244" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M5s-wn-R4x" id="ZxT-sS-Oxp">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Fade" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mqg-cx-zU8">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -156,22 +156,14 @@
                                     <constraint firstAttribute="height" constant="400" id="qAv-LH-GHF"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YMCalendarView is UIView." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LoW-DC-6DH">
-                                <rect key="frame" x="94" y="504" width="187" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.081109775641025617" green="0.081109775641025617" blue="0.081109775641025617" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="fVd-Ax-NyE" firstAttribute="top" secondItem="yVl-b7-4c9" secondAttribute="bottom" id="1Vv-mp-dMU"/>
                             <constraint firstAttribute="trailing" secondItem="rQP-EP-u2b" secondAttribute="trailing" id="Bft-xa-fY3"/>
-                            <constraint firstItem="LoW-DC-6DH" firstAttribute="top" secondItem="rQP-EP-u2b" secondAttribute="bottom" constant="20" id="Nzd-sM-83T"/>
                             <constraint firstItem="fVd-Ax-NyE" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" id="ZSo-SV-wsk"/>
                             <constraint firstItem="rQP-EP-u2b" firstAttribute="top" secondItem="fVd-Ax-NyE" secondAttribute="bottom" id="ogi-NK-a44"/>
                             <constraint firstItem="rQP-EP-u2b" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" id="oiW-fT-QCP"/>
-                            <constraint firstItem="LoW-DC-6DH" firstAttribute="centerX" secondItem="bP8-Tg-cDb" secondAttribute="centerX" id="rfB-YA-rFr"/>
                             <constraint firstAttribute="trailing" secondItem="fVd-Ax-NyE" secondAttribute="trailing" id="xyZ-1k-3Xl"/>
                         </constraints>
                     </view>
@@ -197,24 +189,34 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pFZ-dK-qm3">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="84" width="375" height="583"/>
                                 <connections>
                                     <segue destination="Tup-Vt-Grq" kind="embed" id="kP3-Al-xF4"/>
                                 </connections>
                             </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="slB-bG-t8n" customClass="YMCalendarWeekBarView" customModule="YMCalendar">
+                                <rect key="frame" x="0.0" y="64" width="375" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="yWn-bF-qFj"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pFZ-dK-qm3" firstAttribute="top" secondItem="udM-J8-Rcj" secondAttribute="bottom" id="4p7-FW-Jeo"/>
                             <constraint firstItem="pFZ-dK-qm3" firstAttribute="leading" secondItem="66l-2s-cuq" secondAttribute="leading" id="H20-gk-TbR"/>
+                            <constraint firstItem="pFZ-dK-qm3" firstAttribute="top" secondItem="slB-bG-t8n" secondAttribute="bottom" id="Jnk-dY-SWI"/>
                             <constraint firstItem="BkO-r1-gk3" firstAttribute="top" secondItem="pFZ-dK-qm3" secondAttribute="bottom" id="StU-oP-ZhD"/>
                             <constraint firstAttribute="trailing" secondItem="pFZ-dK-qm3" secondAttribute="trailing" id="XUY-es-FkK"/>
+                            <constraint firstItem="slB-bG-t8n" firstAttribute="leading" secondItem="66l-2s-cuq" secondAttribute="leading" id="dPF-P0-PWX"/>
+                            <constraint firstItem="slB-bG-t8n" firstAttribute="top" secondItem="udM-J8-Rcj" secondAttribute="bottom" id="pIh-Ex-d2M"/>
+                            <constraint firstAttribute="trailing" secondItem="slB-bG-t8n" secondAttribute="trailing" id="tE5-dR-dmo"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Brn-RY-yKI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2676" y="-525"/>
+            <point key="canvasLocation" x="2676" y="-525.78710644677665"/>
         </scene>
         <!--Event Kit View Controller-->
         <scene sceneID="2Kc-O1-Tcj">
@@ -225,7 +227,7 @@
                         <viewControllerLayoutGuide type="bottom" id="rwR-36-38k"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rKw-q5-PJ9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="583"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

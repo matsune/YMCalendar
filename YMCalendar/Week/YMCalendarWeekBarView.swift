@@ -14,27 +14,29 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
     
     public var dataSource: YMCalendarWeekBarDataSource?
     
+    public var calendar = Calendar.current
+    
     private var symbolLabels: [UILabel] = []
     
-    public var verticalLineColor: UIColor = .black {
+    public var horizontalGridColor: UIColor = .black {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    public var verticalLineWidth: CGFloat = 0.3 {
+    public var horizontalGridWidth: CGFloat = 0.3 {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    public var horizontalLineColor: UIColor = .black {
+    public var verticalGridColor: UIColor = .black {
         didSet {
             setNeedsDisplay()
         }
     }
     
-    public var horizontalLineWidth: CGFloat = 0.3 {
+    public var verticalGridWidth: CGFloat = 0.3 {
         didSet {
             setNeedsDisplay()
         }
@@ -64,18 +66,25 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
+        
         let colWidth = bounds.width / 7
+        let firstWeekday = calendar.firstWeekday
         for i in 0..<symbolLabels.count {
+            var weekday = firstWeekday + i
+            if weekday > 7 {
+                weekday %= 7
+            }
+            
             let x = CGFloat(i) * colWidth + colWidth / 2
             let y = bounds.height / 2
             let center = CGPoint(x: x, y: y)
             symbolLabels[i].frame.size = CGSize(width: colWidth, height: bounds.height)
             symbolLabels[i].center = center
             let dataSource = self.dataSource ?? self
-            symbolLabels[i].text = dataSource.calendarWeekBarView(self, textAtWeekday: i + 1)
-            symbolLabels[i].textColor = dataSource.calendarWeekBarView(self, textColorAtWeekday: i + 1)
-            symbolLabels[i].backgroundColor = dataSource.calendarWeekBarView(self, backgroundColorAtWeekday: i + 1)
-            symbolLabels[i].font = dataSource.calendarWeekBarView(self, fontAtWeekday: i + 1)
+            symbolLabels[i].text = dataSource.calendarWeekBarView(self, textAtWeekday: weekday)
+            symbolLabels[i].textColor = dataSource.calendarWeekBarView(self, textColorAtWeekday: weekday)
+            symbolLabels[i].backgroundColor = dataSource.calendarWeekBarView(self, backgroundColorAtWeekday: weekday)
+            symbolLabels[i].font = dataSource.calendarWeekBarView(self, fontAtWeekday: weekday)
         }
     }
     
@@ -90,9 +99,9 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
         var y1: CGFloat
         var y2: CGFloat
         
-        if horizontalLineWidth > 0 {
-            c?.setStrokeColor(horizontalLineColor.cgColor)
-            c?.setLineWidth(horizontalLineWidth)
+        if horizontalGridWidth > 0 {
+            c?.setStrokeColor(horizontalGridColor.cgColor)
+            c?.setLineWidth(horizontalGridWidth)
             c?.beginPath()
             
             for y in 0...2 {
@@ -107,9 +116,9 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
             c?.strokePath()
         }
         
-        if verticalLineWidth > 0 {
-            c?.setStrokeColor(verticalLineColor.cgColor)
-            c?.setLineWidth(verticalLineWidth)
+        if verticalGridWidth > 0 {
+            c?.setStrokeColor(verticalGridColor.cgColor)
+            c?.setLineWidth(verticalGridWidth)
             c?.beginPath()
             
             for x in 0...7 {

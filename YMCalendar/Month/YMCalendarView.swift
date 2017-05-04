@@ -13,6 +13,15 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     fileprivate var collectionView: UICollectionView!
     
+    fileprivate var layout: YMCalendarLayout {
+        set {
+            collectionView.collectionViewLayout = newValue
+        }
+        get {
+            return collectionView.collectionViewLayout as! YMCalendarLayout
+        }
+    }
+    
     public weak var appearance: YMCalendarAppearance!
 
     public weak var delegate: YMCalendarDelegate!
@@ -21,9 +30,13 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     public var calendar = Calendar.current
     
-    public var selectionAnimation: YMCalendarSelectionAnimation = .bounce
-    
-    public var deselectionAnimation: YMCalendarSelectionAnimation = .fade
+    override public var backgroundColor: UIColor? {
+        didSet {
+            if collectionView != nil {
+                collectionView.backgroundColor = backgroundColor
+            }
+        }
+    }
     
     public var allowsMultipleSelection: Bool {
         get {
@@ -43,6 +56,38 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
+    public var isPagingEnabled: Bool {
+        set {
+            collectionView.isPagingEnabled = newValue
+        }
+        get {
+            return collectionView.isPagingEnabled
+        }
+    }
+    
+    public var scrollDirection: YMScrollDirection = .vertical {
+        didSet {
+            let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
+            monthLayout.delegate = self
+            monthLayout.dayHeaderHeight = dayLabelHeight
+            layout = monthLayout
+        }
+    }
+    
+    public var decelerationRate: YMDecelerationRate = .normal {
+        didSet {
+            collectionView.decelerationRate = decelerationRate.value
+        }
+    }
+    
+    public var dayLabelHeight: CGFloat = 18 {
+        didSet {
+            layout.dayHeaderHeight = dayLabelHeight
+            collectionView.reloadData()
+        }
+    }
+    
+    
     /// Height of event items in EventsRow. Default value is 16.
     public var eventViewHeight: CGFloat = 16
     
@@ -60,6 +105,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     /// Manager of registered class and identifiers.
     fileprivate var reuseQueue = ReusableObjectQueue()
+    
     
     fileprivate var dateRange: DateRange?
     
@@ -93,46 +139,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         scrollToDate(first!, animated: false)
     }
     
-    public var dayLabelHeight: CGFloat = 18 {
-        didSet {
-            layout.dayHeaderHeight = dayLabelHeight
-            collectionView.reloadData()
-        }
-    }
-
-    fileprivate var layout: YMCalendarLayout {
-        set {
-            collectionView.collectionViewLayout = newValue
-        }
-        get {
-            return collectionView.collectionViewLayout as! YMCalendarLayout
-        }
-    }
-    
-    public var isPagingEnabled: Bool {
-        set {
-            collectionView.isPagingEnabled = newValue
-        }
-        get {
-            return collectionView.isPagingEnabled
-        }
-    }
-    
-    public var decelerationRate: YMDecelerationRate = .normal {
-        didSet {
-            collectionView.decelerationRate = decelerationRate.value
-        }
-    }
-    
-    public var scrollDirection: YMScrollDirection = .vertical {
-        didSet {
-            let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
-            monthLayout.delegate = self
-            monthLayout.dayHeaderHeight = dayLabelHeight
-            layout = monthLayout
-        }
-    }
-    
     fileprivate var maxStartDate: Date? {
         var date: Date? = nil
         if let dateRange = dateRange {
@@ -155,34 +161,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
-    override public var backgroundColor: UIColor? {
-        didSet {
-            if collectionView != nil {
-                collectionView.backgroundColor = backgroundColor
-            }
-        }
-    }
-    
-    public var selectedDate: Date?
-    
-    fileprivate var selectedEventDate: Date?
-    
-    fileprivate lazy var selectedEventIndex: Int = {
-        return 0
-    }()
-    
-    fileprivate lazy var showingMonthDate: Date = {
-        return Date()
-    }()
-    
-    fileprivate var numberOfLoadedMonths: Int {
-        if let dateRange = dateRange,
-            let diff = calendar.dateComponents([.month], from: dateRange.start, to: dateRange.end).month {
-            return min(diff, 9)
-        }
-        return 9
-    }
-    
     public var visibleDays: DateRange? {
         collectionView.layoutIfNeeded()
         var range: DateRange? = nil
@@ -195,6 +173,36 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
             range = DateRange(start: first, end: calendar.nextStartOfMonthForDate(last))
         }
         return range
+    }
+    
+    // grid appearance
+    public var horizontalGridWidth: CGFloat = 0.3
+    
+    public var horizontalGridColor: UIColor = .black
+    
+    public var verticalGridWidth: CGFloat = 0.3
+    
+    public var verticalGridColor: UIColor = .black
+    
+    // selection
+    public var selectionAnimation: YMCalendarSelectionAnimation   = .bounce
+    
+    public var deselectionAnimation: YMCalendarSelectionAnimation = .fade
+    
+    public var selectedDate: Date?
+    
+    fileprivate var selectedEventDate: Date?
+    
+    fileprivate lazy var selectedEventIndex: Int = 0
+    
+    fileprivate lazy var showingMonthDate: Date = Date()
+    
+    fileprivate var numberOfLoadedMonths: Int {
+        if let dateRange = dateRange,
+            let diff = calendar.dateComponents([.month], from: dateRange.start, to: dateRange.end).month {
+            return min(diff, 9)
+        }
+        return 9
     }
     
     fileprivate var loadedDateRange: DateRange {
@@ -769,7 +777,12 @@ extension YMCalendarView: UICollectionViewDataSource {
                                               for: indexPath) as? YMMonthBackgroundView else {
                                                 fatalError()
         }
-        view.setAppearance(appearance ?? self, numberOfColumns: 7, numberOfRows: numRows, lastColumn: lastColumn)
+        view.lastColumn = lastColumn
+        view.numberOfRows = numRows
+        view.horizontalGridWidth = horizontalGridWidth
+        view.horizontalGridColor = horizontalGridColor
+        view.verticalGridWidth = verticalGridWidth
+        view.verticalGridColor = verticalGridColor
         view.setNeedsDisplay()
         
         return view
@@ -914,27 +927,19 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedDate = dateForDayAtIndexPath(indexPath)
         delegate?.calendarView?(self, didSelectDayCellAtDate: selectedDate!)
-        
+
+        collectionView.layoutIfNeeded()
         if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
             animateSelectionDayCell(selectedCell)
-        } else {
-            // if selectedIndexPath hasn't loaded, should reloadData().
-            // reloadData() clears selectedIndexPaths, so recall selectItem(at:_)
-            collectionView.reloadData()
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition(rawValue: 0))
         }
     }
     
     public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         selectedDate = nil
-        
+
+        collectionView.layoutIfNeeded()
         if let deselectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
             animateDeselectionDayCell(deselectedCell)
-        } else {
-            // if selectedIndexPath hasn't loaded, should reloadData().
-            // reloadData() clears selectedIndexPaths, so recall selectItem(at:_)
-            collectionView.reloadData()
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition(rawValue: 0))
         }
     }
     

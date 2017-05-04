@@ -49,7 +49,7 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
     }
     
     private func setup() {
-        backgroundColor = .white
+        backgroundColor = .clear
         
         dayLabel.numberOfLines = 1
         dayLabel.adjustsFontSizeToFitWidth = true
@@ -85,8 +85,7 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
         case .bounce:
             animationWithBounce(false)
         case .fade:
-            animationWithFade(false
-            )
+            animationWithFade(false)
         }
     }
     

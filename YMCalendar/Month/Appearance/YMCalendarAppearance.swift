@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public protocol YMCalendarAppearance: YMMonthBackgroundAppearance {
+public protocol YMCalendarAppearance: class {
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelBackgroundColorAtDate date: Date) -> UIColor
