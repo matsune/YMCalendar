@@ -13,19 +13,6 @@ public enum YMCalendarSelectionAnimation {
 }
 
 protocol YMCalendarViewAnimator {
-    var selectionAnimation: YMCalendarSelectionAnimation { get set }
-    var deselectionAnimation: YMCalendarSelectionAnimation { get set }
-    
-    func animateSelectionDayCell(_ cell: YMMonthDayCollectionCell)
-    func animateDeselectionDayCell(_ cell: YMMonthDayCollectionCell)
-}
-
-extension YMCalendarViewAnimator {
-    func animateSelectionDayCell(_ cell: YMMonthDayCollectionCell) {
-        cell.animateSelection(with: selectionAnimation)
-    }
-    
-    func animateDeselectionDayCell(_ cell: YMMonthDayCollectionCell) {
-        cell.animateDeselection(with: deselectionAnimation)
-    }
+    var selectAnimation: YMCalendarSelectionAnimation { get set }
+    var deselectAnimation: YMCalendarSelectionAnimation { get set }
 }

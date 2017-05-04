@@ -62,7 +62,7 @@ final class BasicViewController: UIViewController {
         calendarView.isPagingEnabled = true
         calendarView.horizontalGridColor  = .white
         calendarView.verticalGridColor    = .white
-//        calendarView.selectionAnimation   = .fade
+//        calendarView.selectAnimation   = .fade
         
         // Events settings
         calendarView.eventViewHeight  = 14

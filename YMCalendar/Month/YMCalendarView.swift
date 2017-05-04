@@ -176,9 +176,9 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     public var verticalGridColor: UIColor = .black
     
     // selection
-    public var selectionAnimation: YMCalendarSelectionAnimation   = .bounce
+    public var selectAnimation: YMCalendarSelectionAnimation   = .bounce
     
-    public var deselectionAnimation: YMCalendarSelectionAnimation = .fade
+    public var deselectAnimation: YMCalendarSelectionAnimation = .fade
     
     fileprivate var selectedEventDate: Date?
     
@@ -751,7 +751,7 @@ extension YMCalendarView: UICollectionViewDataSource {
         // select cells which already selected dates
         selectedDates.forEach {
             if date == $0 {
-                cell.animateSelection(with: .none)
+                cell.select(withAnimation: .none)
             }
         }
         return cell
@@ -927,14 +927,14 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
                 // if indexPath has been selected, deselect it.
                 if let index = indexPathForDate(selectedDates[hasSelectedIndex]),
                     let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
-                    animateDeselectionDayCell(deselectCell)
+                    deselectCell.deselect(withAnimation: deselectAnimation)
                 }
                 selectedDates.remove(at: hasSelectedIndex)
             } else {
                 // animate select cell
                 selectedDates.append(date)
                 if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-                    animateSelectionDayCell(selectedCell)
+                    selectedCell.select(withAnimation: selectAnimation)
                 }
             }
         } else {
@@ -942,14 +942,14 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
             selectedDates.forEach {
                 if let index = indexPathForDate($0),
                     let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
-                    animateDeselectionDayCell(deselectCell)
+                    deselectCell.deselect(withAnimation: deselectAnimation)
                 }
             }
             selectedDates = [date]
             
             // animate select cell
             if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-                animateSelectionDayCell(selectedCell)
+                selectedCell.select(withAnimation: selectAnimation)
             }
         }
     }
