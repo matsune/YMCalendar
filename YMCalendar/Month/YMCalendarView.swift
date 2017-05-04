@@ -949,8 +949,6 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         recenterIfNeeded()
         
         if let date = dayAtPoint(center) {
-            delegate?.calendarView?(self, didShowDate: date)
-            
             let startMonth = calendar.startOfMonthForDate(date)
             if showingMonthDate != startMonth {
                 showingMonthDate = startMonth
