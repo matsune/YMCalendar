@@ -14,7 +14,11 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
     
     public var dataSource: YMCalendarWeekBarDataSource?
     
-    public var calendar = Calendar.current
+    public var calendar = Calendar.current {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     private var symbolLabels: [UILabel] = []
     

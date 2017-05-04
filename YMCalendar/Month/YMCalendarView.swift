@@ -28,7 +28,11 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     public weak var dataSource: YMCalendarDataSource!
     
-    public var calendar = Calendar.current
+    public var calendar = Calendar.current {
+        didSet {
+            reload()
+        }
+    }
     
     override public var backgroundColor: UIColor? {
         didSet {
