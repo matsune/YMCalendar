@@ -16,4 +16,9 @@ final class EKEventKitViewController: YMCalendarEKViewController {
         
         calendarView.scrollDirection = .vertical
     }
+    
+    func calendarView(_ view: YMCalendarView, didSelectEventAtIndex index: Int, date: Date) {
+        let event = eventAtIndex(index, date: date)
+        print(event.title)
+    }
 }
