@@ -896,7 +896,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     // MARK: - public
     
     /// Select cell item from date manually.
-    public func selectItem(at date: Date) {
+    public func selectDayCell(at date: Date) {
         // select cells
         guard let indexPath = indexPathForDate(date) else { return }
         collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition(rawValue: 0))
@@ -904,11 +904,10 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     }
     
     /// Deselect cell item of selecting indexPath manually.
-    public func deselectItem() {
+    public func deselectDayCells() {
         // deselect cells
         collectionView.indexPathsForSelectedItems?.forEach {
             collectionView.deselectItem(at: $0, animated: false)
-//            collectionView(collectionView, didDeselectItemAt: $0)
         }
     }
     

@@ -129,8 +129,7 @@ extension BasicViewController: YMCalendarDelegate {
     
     func calendarView(_ view: YMCalendarView, didMoveMonthOfStartDate date: Date) {
 //        // If you want to auto select when displaying month has changed
-//        view.deselectItem()
-//        view.selectItem(at: date)
+//        view.selectDayCell(at: date)
     }
 }
 
