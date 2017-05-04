@@ -69,6 +69,10 @@ final class BasicViewController: UIViewController {
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: "YMEventStandardView")
     }
     
+    
+    @IBAction func allowsMultipleSelectSwitchChanged(_ sender: UISwitch) {
+        calendarView.allowsMultipleSelection = sender.isOn
+    }
 }
 
 // MARK: - YMCalendarWeekBarDataSource

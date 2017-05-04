@@ -38,30 +38,20 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
-    public var allowsMultipleSelection: Bool {
-        get {
-            return collectionView.allowsMultipleSelection
-        }
-        set {
-            collectionView.allowsMultipleSelection = allowsMultipleSelection
-        }
-    }
+    public var allowsMultipleSelection: Bool = false
     
-    public var allowsSelection: Bool {
-        get {
-            return collectionView.allowsSelection
-        }
-        set {
+    public var allowsSelection: Bool = true {
+        didSet {
             collectionView.allowsSelection = allowsSelection
         }
     }
     
     public var isPagingEnabled: Bool {
-        set {
-            collectionView.isPagingEnabled = newValue
-        }
         get {
             return collectionView.isPagingEnabled
+        }
+        set {
+            collectionView.isPagingEnabled = newValue
         }
     }
     
@@ -87,6 +77,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         }
     }
     
+    public var selectedDates: [Date] = []
     
     /// Height of event items in EventsRow. Default value is 16.
     public var eventViewHeight: CGFloat = 16
@@ -189,8 +180,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     
     public var deselectionAnimation: YMCalendarSelectionAnimation = .fade
     
-    public var selectedDate: Date?
-    
     fileprivate var selectedEventDate: Date?
     
     fileprivate lazy var selectedEventIndex: Int = 0
@@ -237,8 +226,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
         collectionView.bounces = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        allowsSelection = true
-        allowsMultipleSelection = false
+        collectionView.allowsMultipleSelection = false
         
         // Register ReusableCell
         collectionView.register(YMMonthDayCollectionCell.self, forCellWithReuseIdentifier: YMMonthDayCollectionCell.identifier)
@@ -759,8 +747,12 @@ extension YMCalendarView: UICollectionViewDataSource {
         cell.dayLabelSelectionColor = appearance.calendarViewAppearance(self, dayLabelSelectionTextColorAtDate: date)
         cell.dayLabelSelectionBackgroundColor = appearance.calendarViewAppearance(self, dayLabelSelectionBackgroundColorAtDate: date)
         cell.dayLabelHeight = dayLabelHeight
-        if date == selectedDate {
-            cell.animateSelection(with: .none)
+
+        // select cells which already selected dates
+        selectedDates.forEach {
+            if date == $0 {
+                cell.animateSelection(with: .none)
+            }
         }
         return cell
     }
@@ -912,7 +904,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         // deselect cells
         collectionView.indexPathsForSelectedItems?.forEach {
             collectionView.deselectItem(at: $0, animated: false)
-            collectionView(collectionView, didDeselectItemAt: $0)
+//            collectionView(collectionView, didDeselectItemAt: $0)
         }
     }
     
@@ -925,21 +917,40 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     // MARK: - UICollectionViewDelegate
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedDate = dateForDayAtIndexPath(indexPath)
-        delegate?.calendarView?(self, didSelectDayCellAtDate: selectedDate!)
+        let date = dateForDayAtIndexPath(indexPath)
+        delegate?.calendarView?(self, didSelectDayCellAtDate: date)
 
         collectionView.layoutIfNeeded()
-        if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-            animateSelectionDayCell(selectedCell)
-        }
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        selectedDate = nil
-
-        collectionView.layoutIfNeeded()
-        if let deselectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-            animateDeselectionDayCell(deselectedCell)
+        
+        if allowsMultipleSelection {
+            if let hasSelectedIndex = selectedDates.index(of: date) {
+                // if indexPath has been selected, deselect it.
+                if let index = indexPathForDate(selectedDates[hasSelectedIndex]),
+                    let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
+                    animateDeselectionDayCell(deselectCell)
+                }
+                selectedDates.remove(at: hasSelectedIndex)
+            } else {
+                // animate select cell
+                selectedDates.append(date)
+                if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
+                    animateSelectionDayCell(selectedCell)
+                }
+            }
+        } else {
+            // deselect all selected dates
+            selectedDates.forEach {
+                if let index = indexPathForDate($0),
+                    let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
+                    animateDeselectionDayCell(deselectCell)
+                }
+            }
+            selectedDates = [date]
+            
+            // animate select cell
+            if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
+                animateSelectionDayCell(selectedCell)
+            }
         }
     }
     
