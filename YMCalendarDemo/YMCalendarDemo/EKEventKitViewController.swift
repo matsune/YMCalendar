@@ -9,6 +9,12 @@
 import UIKit
 import YMCalendar
 
+/**
+    YMCalendarEKViewController is userful UIViewController superclass.
+    It has YMCalendarView as `calendarView` as default. If you want to access
+    and get events from calendar app instantly, only to implement this superclass.
+ */
+
 final class EKEventKitViewController: YMCalendarEKViewController {
 
     override func viewDidLoad() {

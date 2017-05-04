@@ -39,14 +39,14 @@
                             <tableViewSection headerTitle="Calendar" id="iHx-65-Ulc">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="DEd-pR-A5s" style="IBUITableViewCellStyleDefault" id="VHU-yR-4oH">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VHU-yR-4oH" id="g26-ER-pjd">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Basic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DEd-pR-A5s">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -59,14 +59,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Z9q-Mj-cq5" style="IBUITableViewCellStyleDefault" id="Yt6-Fq-qIO">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Yt6-Fq-qIO" id="QPR-jL-Dvo">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="EKEvents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z9q-Mj-cq5">
-                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -119,21 +119,21 @@
                                 </constraints>
                             </view>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2hB-pT-co7">
-                                <rect key="frame" x="10" y="494" width="51" height="31"/>
+                                <rect key="frame" x="25.5" y="494" width="51" height="31"/>
                                 <connections>
                                     <action selector="allowsMultipleSelectSwitchChanged:" destination="efD-7Q-kDz" eventType="valueChanged" id="xVI-IC-sKl"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="allowsMultipleSelection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJq-vR-LTB">
-                                <rect key="frame" x="69" y="494" width="161" height="31"/>
+                                <rect key="frame" x="97.5" y="494" width="161" height="31"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ka5-JT-a7Z">
-                                <rect key="frame" x="10" y="525" width="80" height="70"/>
+                                <rect key="frame" x="15" y="525" width="70" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="5Oj-nO-bFz"/>
+                                    <constraint firstAttribute="width" constant="70" id="5Oj-nO-bFz"/>
                                     <constraint firstAttribute="height" constant="70" id="dph-0y-T7C"/>
                                 </constraints>
                                 <connections>
@@ -141,8 +141,8 @@
                                     <outlet property="delegate" destination="efD-7Q-kDz" id="cR6-DB-rpb"/>
                                 </connections>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="firstday of Week" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNr-Ue-x4Q">
-                                <rect key="frame" x="105" y="551" width="111.5" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="firstWeekday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fNr-Ue-x4Q">
+                                <rect key="frame" x="100" y="551" width="89" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -151,19 +151,19 @@
                         <color key="backgroundColor" red="0.081109775641025617" green="0.081109775641025617" blue="0.081109775641025617" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="fVd-Ax-NyE" firstAttribute="top" secondItem="yVl-b7-4c9" secondAttribute="bottom" id="1Vv-mp-dMU"/>
+                            <constraint firstItem="2hB-pT-co7" firstAttribute="centerX" secondItem="ka5-JT-a7Z" secondAttribute="centerX" id="5JS-Q9-JdH"/>
                             <constraint firstItem="2hB-pT-co7" firstAttribute="top" secondItem="rQP-EP-u2b" secondAttribute="bottom" constant="10" id="86Z-Qu-B3k"/>
                             <constraint firstAttribute="trailing" secondItem="rQP-EP-u2b" secondAttribute="trailing" id="Bft-xa-fY3"/>
                             <constraint firstItem="ka5-JT-a7Z" firstAttribute="top" secondItem="xJq-vR-LTB" secondAttribute="bottom" id="KCI-Sh-3BZ"/>
-                            <constraint firstItem="2hB-pT-co7" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" constant="10" id="YCY-lf-iJ5"/>
                             <constraint firstItem="fVd-Ax-NyE" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" id="ZSo-SV-wsk"/>
                             <constraint firstItem="fNr-Ue-x4Q" firstAttribute="centerY" secondItem="ka5-JT-a7Z" secondAttribute="centerY" id="eC0-Nu-TrR"/>
-                            <constraint firstItem="xJq-vR-LTB" firstAttribute="leading" secondItem="2hB-pT-co7" secondAttribute="trailing" constant="10" id="iUA-57-Enf"/>
                             <constraint firstItem="xJq-vR-LTB" firstAttribute="top" secondItem="rQP-EP-u2b" secondAttribute="bottom" constant="10" id="o4i-0m-W1p"/>
                             <constraint firstItem="rQP-EP-u2b" firstAttribute="top" secondItem="fVd-Ax-NyE" secondAttribute="bottom" id="ogi-NK-a44"/>
                             <constraint firstItem="rQP-EP-u2b" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" id="oiW-fT-QCP"/>
-                            <constraint firstItem="ka5-JT-a7Z" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" constant="10" id="s91-vA-1pf"/>
+                            <constraint firstItem="ka5-JT-a7Z" firstAttribute="leading" secondItem="bP8-Tg-cDb" secondAttribute="leading" constant="15" id="s91-vA-1pf"/>
                             <constraint firstItem="fNr-Ue-x4Q" firstAttribute="leading" secondItem="ka5-JT-a7Z" secondAttribute="trailing" constant="15" id="ti0-mX-qs1"/>
                             <constraint firstItem="xJq-vR-LTB" firstAttribute="centerY" secondItem="2hB-pT-co7" secondAttribute="centerY" id="wYs-Db-afw"/>
+                            <constraint firstItem="xJq-vR-LTB" firstAttribute="leading" secondItem="2hB-pT-co7" secondAttribute="trailing" constant="23.5" id="wcL-AF-Hbq"/>
                             <constraint firstAttribute="trailing" secondItem="fVd-Ax-NyE" secondAttribute="trailing" id="xyZ-1k-3Xl"/>
                         </constraints>
                     </view>
