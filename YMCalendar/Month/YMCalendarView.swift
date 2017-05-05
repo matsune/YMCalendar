@@ -22,11 +22,11 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         }
     }
     
-    public weak var appearance: YMCalendarAppearance!
+    public weak var appearance: YMCalendarAppearance?
 
-    public weak var delegate: YMCalendarDelegate!
+    public weak var delegate: YMCalendarDelegate?
     
-    public weak var dataSource: YMCalendarDataSource!
+    public weak var dataSource: YMCalendarDataSource?
     
     public var calendar = Calendar.current {
         didSet {
@@ -766,10 +766,13 @@ extension YMCalendarView: UICollectionViewDataSource {
         }
         view.lastColumn = lastColumn
         view.numberOfRows = numRows
-        view.horizontalGridColor = appearance.horizontalGridColor(in: self)
-        view.horizontalGridWidth = appearance.horizontalGridWidth(in: self)
-        view.verticalGridColor = appearance.verticalGridColor(in: self)
-        view.verticalGridWidth = appearance.verticalGridWidth(in: self)
+        
+        let viewAppearance = appearance ?? self
+        view.horizontalGridColor = viewAppearance.horizontalGridColor(in: self)
+        view.horizontalGridWidth = viewAppearance.horizontalGridWidth(in: self)
+        view.verticalGridColor = viewAppearance.verticalGridColor(in: self)
+        view.verticalGridWidth = viewAppearance.verticalGridWidth(in: self)
+        
         view.setNeedsDisplay()
         
         return view
@@ -834,7 +837,7 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         var comps = DateComponents()
         comps.day = indexPath.section
         guard let date = calendar.date(byAdding: comps, to: view.referenceDate),
-            let shouldSelect = delegate.calendarView?(self, shouldSelectEventAtIndex: indexPath.item, date: date) else {
+            let shouldSelect = delegate?.calendarView?(self, shouldSelectEventAtIndex: indexPath.item, date: date) else {
             return true
         }
         return shouldSelect
@@ -862,7 +865,7 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         var comps = DateComponents()
         comps.day = indexPath.section
         guard let date = calendar.date(byAdding: comps, to: view.referenceDate),
-            let shouldDeselect = delegate.calendarView?(self, shouldDeselectEventAtIndex: indexPath.item, date: date) else {
+            let shouldDeselect = delegate?.calendarView?(self, shouldDeselectEventAtIndex: indexPath.item, date: date) else {
                 return true
         }
         return shouldDeselect
@@ -879,7 +882,7 @@ extension YMCalendarView: YMEventsRowViewDelegate {
             selectedEventIndex = 0
         }
         
-        delegate.calendarView?(self, didDeselectEventAtIndex: indexPath.item, date: date)
+        delegate?.calendarView?(self, didDeselectEventAtIndex: indexPath.item, date: date)
     }
 }
 
