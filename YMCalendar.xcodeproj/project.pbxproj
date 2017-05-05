@@ -89,7 +89,6 @@
 				13A5192E1E72EF6900F539ED /* EventView */,
 				13A5192F1E72EF9600F539ED /* UICollectionReusableView */,
 			);
-			name = "Cell + View";
 			path = "Cell + View";
 			sourceTree = "<group>";
 		};
@@ -105,6 +104,7 @@
 		1334000D1EB369B4007FE17E /* Month */ = {
 			isa = PBXGroup;
 			children = (
+				13A518FB1E72EA3100F539ED /* YMCalendarView.swift */,
 				13A5192C1E72EF0C00F539ED /* Appearance */,
 				132629CC1EB9639300261332 /* Cell + View */,
 				13A5192B1E72EF0100F539ED /* DataSource */,
@@ -113,7 +113,6 @@
 				13B518E41EAB9C6E002749AF /* EventKit */,
 				13A519281E72EECE00F539ED /* Layout */,
 				13FCCEE91E9135A60070B038 /* ViewController */,
-				13A518FB1E72EA3100F539ED /* YMCalendarView.swift */,
 			);
 			path = Month;
 			sourceTree = "<group>";
@@ -124,7 +123,6 @@
 				13B222691E860E8C00BFF183 /* YMCalendarWeekBarDataSource.swift */,
 				13B222651E85F0FB00BFF183 /* YMCalendarWeekBarView.swift */,
 			);
-			name = WeekBar;
 			path = WeekBar;
 			sourceTree = "<group>";
 		};
