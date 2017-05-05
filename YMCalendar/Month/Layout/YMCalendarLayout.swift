@@ -124,7 +124,7 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
             let path = IndexPath(item: 0, section: month)
             let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthBackgroundView.kind, with: path)
             attributes.frame = monthRect
-            attributes.zIndex = 2
+            attributes.zIndex = 0
             monthsAttrDict.updateValue(attributes, forKey: path)
         }
                 
