@@ -14,19 +14,8 @@
 		13A518CF1E72E6BA00F539ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A518CD1E72E6BA00F539ED /* Main.storyboard */; };
 		13A518D11E72E6BA00F539ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A518D01E72E6BA00F539ED /* Assets.xcassets */; };
 		13A518D41E72E6BA00F539ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13A518D21E72E6BA00F539ED /* LaunchScreen.storyboard */; };
-		13A518DF1E72E6BA00F539ED /* YMCalendarDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518DE1E72E6BA00F539ED /* YMCalendarDemoUITests.swift */; };
 		13FCCEE81E90E4350070B038 /* EKEventKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FCCEE71E90E4350070B038 /* EKEventKitViewController.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		13A518DB1E72E6BA00F539ED /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 13A518BE1E72E6BA00F539ED /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 13A518C51E72E6BA00F539ED;
-			remoteInfo = YMCalendarDemo;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		13B518F01EABA035002749AF /* Embed Frameworks */ = {
@@ -51,9 +40,6 @@
 		13A518D01E72E6BA00F539ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		13A518D31E72E6BA00F539ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		13A518D51E72E6BA00F539ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		13A518DA1E72E6BA00F539ED /* YMCalendarDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YMCalendarDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		13A518DE1E72E6BA00F539ED /* YMCalendarDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YMCalendarDemoUITests.swift; sourceTree = "<group>"; };
-		13A518E01E72E6BA00F539ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13FCCEE71E90E4350070B038 /* EKEventKitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKEventKitViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,13 +52,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		13A518D71E72E6BA00F539ED /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -80,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				13A518C81E72E6BA00F539ED /* YMCalendarDemo */,
-				13A518DD1E72E6BA00F539ED /* YMCalendarDemoUITests */,
 				13A518C71E72E6BA00F539ED /* Products */,
 				13A518E91E72E8A900F539ED /* Frameworks */,
 			);
@@ -90,7 +68,6 @@
 			isa = PBXGroup;
 			children = (
 				13A518C61E72E6BA00F539ED /* YMCalendarDemo.app */,
-				13A518DA1E72E6BA00F539ED /* YMCalendarDemoUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,15 +84,6 @@
 				13A518CD1E72E6BA00F539ED /* Main.storyboard */,
 			);
 			path = YMCalendarDemo;
-			sourceTree = "<group>";
-		};
-		13A518DD1E72E6BA00F539ED /* YMCalendarDemoUITests */ = {
-			isa = PBXGroup;
-			children = (
-				13A518DE1E72E6BA00F539ED /* YMCalendarDemoUITests.swift */,
-				13A518E01E72E6BA00F539ED /* Info.plist */,
-			);
-			path = YMCalendarDemoUITests;
 			sourceTree = "<group>";
 		};
 		13A518E91E72E8A900F539ED /* Frameworks */ = {
@@ -147,24 +115,6 @@
 			productReference = 13A518C61E72E6BA00F539ED /* YMCalendarDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		13A518D91E72E6BA00F539ED /* YMCalendarDemoUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 13A518E61E72E6BA00F539ED /* Build configuration list for PBXNativeTarget "YMCalendarDemoUITests" */;
-			buildPhases = (
-				13A518D61E72E6BA00F539ED /* Sources */,
-				13A518D71E72E6BA00F539ED /* Frameworks */,
-				13A518D81E72E6BA00F539ED /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				13A518DC1E72E6BA00F539ED /* PBXTargetDependency */,
-			);
-			name = YMCalendarDemoUITests;
-			productName = YMCalendarDemoUITests;
-			productReference = 13A518DA1E72E6BA00F539ED /* YMCalendarDemoUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -178,11 +128,6 @@
 					13A518C51E72E6BA00F539ED = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
-					};
-					13A518D91E72E6BA00F539ED = {
-						CreatedOnToolsVersion = 8.2.1;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 13A518C51E72E6BA00F539ED;
 					};
 				};
 			};
@@ -200,7 +145,6 @@
 			projectRoot = "";
 			targets = (
 				13A518C51E72E6BA00F539ED /* YMCalendarDemo */,
-				13A518D91E72E6BA00F539ED /* YMCalendarDemoUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -213,13 +157,6 @@
 				13A518D41E72E6BA00F539ED /* LaunchScreen.storyboard in Resources */,
 				13A518D11E72E6BA00F539ED /* Assets.xcassets in Resources */,
 				13A518CF1E72E6BA00F539ED /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		13A518D81E72E6BA00F539ED /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,23 +173,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		13A518D61E72E6BA00F539ED /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				13A518DF1E72E6BA00F539ED /* YMCalendarDemoUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		13A518DC1E72E6BA00F539ED /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 13A518C51E72E6BA00F539ED /* YMCalendarDemo */;
-			targetProxy = 13A518DB1E72E6BA00F539ED /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		13A518CD1E72E6BA00F539ED /* Main.storyboard */ = {
@@ -397,32 +318,6 @@
 			};
 			name = Release;
 		};
-		13A518E71E72E6BA00F539ED /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = YMCalendarDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.matsune.YMCalendarDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = YMCalendarDemo;
-			};
-			name = Debug;
-		};
-		13A518E81E72E6BA00F539ED /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = YMCalendarDemoUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.matsune.YMCalendarDemoUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = YMCalendarDemo;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -440,15 +335,6 @@
 			buildConfigurations = (
 				13A518E41E72E6BA00F539ED /* Debug */,
 				13A518E51E72E6BA00F539ED /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		13A518E61E72E6BA00F539ED /* Build configuration list for PBXNativeTarget "YMCalendarDemoUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				13A518E71E72E6BA00F539ED /* Debug */,
-				13A518E81E72E6BA00F539ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -99,7 +99,7 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
             dayLabel.textColor = dayLabelColor
             dayLabel.backgroundColor = dayLabelBackgroundColor
         }
-        completion
+        completion?(true)
     }
     
     // - MARK: Animation Bounce
