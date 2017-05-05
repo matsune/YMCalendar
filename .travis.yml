@@ -3,6 +3,8 @@ osx_image: xcode8.3
 xcode_workspace: YMCalendar.xcworkspace
 xcode_scheme: YMCalendar
 xcode_sdk: iphonesimulator
+notifications:
+  email: false
 script:
 - set -o pipefail && xcodebuild build -workspace YMCalendar.xcworkspace -scheme YMCalendar|xcpretty
 
