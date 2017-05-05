@@ -6,10 +6,16 @@
 //  Copyright © 2017年 matsune. All rights reserved.
 //
 
-///
-/// https://github.com/matsune/IndexableDictionary
-///
-
+/**
+ 
+ IndexableDictionary is a structure which combines both features of `Array` and `Dictionary`.
+ It can hold `key` and `value` pairs and access to them like dictionary.
+ And it has indices of key-value pairs like array, so you can get values by
+ array methods and subscripts.
+ 
+ https://github.com/matsune/IndexableDictionary
+ 
+ */
 public struct IndexableDictionary<Key: Hashable, Value>: RandomAccessCollection, ExpressibleByArrayLiteral, RangeReplaceableCollection, BidirectionalCollection {
     
     // MARK: - Type Aliases

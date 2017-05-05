@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewAnimator {
+final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     fileprivate var collectionView: UICollectionView!
     
@@ -180,9 +180,9 @@ final public class YMCalendarView: UIView, YMCalendarAppearance, YMCalendarViewA
     public var verticalGridColor: UIColor = .black
     
     // selection
-    public var selectAnimation: YMCalendarSelectionAnimation   = .bounce
+    public var selectAnimation: YMSelectAnimation   = .bounce
     
-    public var deselectAnimation: YMCalendarSelectionAnimation = .fade
+    public var deselectAnimation: YMSelectAnimation = .fade
     
     fileprivate var selectedEventDate: Date?
     

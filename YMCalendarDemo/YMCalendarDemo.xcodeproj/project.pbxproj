@@ -100,11 +100,11 @@
 			children = (
 				13A518D51E72E6BA00F539ED /* Info.plist */,
 				13A518C91E72E6BA00F539ED /* AppDelegate.swift */,
+				138392C81EAC5792007A36D2 /* BasicViewController.swift */,
+				13FCCEE71E90E4350070B038 /* EKEventKitViewController.swift */,
 				13A518D01E72E6BA00F539ED /* Assets.xcassets */,
 				13A518D21E72E6BA00F539ED /* LaunchScreen.storyboard */,
 				13A518CD1E72E6BA00F539ED /* Main.storyboard */,
-				13FCCEE71E90E4350070B038 /* EKEventKitViewController.swift */,
-				138392C81EAC5792007A36D2 /* BasicViewController.swift */,
 			);
 			path = YMCalendarDemo;
 			sourceTree = "<group>";
