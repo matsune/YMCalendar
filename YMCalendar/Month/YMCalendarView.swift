@@ -170,15 +170,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         return range
     }
     
-    // grid appearance
-    public var horizontalGridWidth: CGFloat = 0.3
-    
-    public var horizontalGridColor: UIColor = .black
-    
-    public var verticalGridWidth: CGFloat = 0.3
-    
-    public var verticalGridColor: UIColor = .black
-    
     // selection
     public var selectAnimation: YMSelectAnimation   = .bounce
     
@@ -748,8 +739,8 @@ extension YMCalendarView: UICollectionViewDataSource {
         cell.dayLabel.font = font
         cell.dayLabelColor = appearance.calendarViewAppearance(self, dayLabelTextColorAtDate: date)
         cell.dayLabelBackgroundColor = appearance.calendarViewAppearance(self, dayLabelBackgroundColorAtDate: date)
-        cell.dayLabelSelectionColor = appearance.calendarViewAppearance(self, dayLabelSelectionTextColorAtDate: date)
-        cell.dayLabelSelectionBackgroundColor = appearance.calendarViewAppearance(self, dayLabelSelectionBackgroundColorAtDate: date)
+        cell.dayLabelSelectedColor = appearance.calendarViewAppearance(self, dayLabelSelectedTextColorAtDate: date)
+        cell.dayLabelSelectedBackgroundColor = appearance.calendarViewAppearance(self, dayLabelSelectedBackgroundColorAtDate: date)
         cell.dayLabelHeight = dayLabelHeight
 
         // select cells which already selected dates
@@ -775,10 +766,10 @@ extension YMCalendarView: UICollectionViewDataSource {
         }
         view.lastColumn = lastColumn
         view.numberOfRows = numRows
-        view.horizontalGridWidth = horizontalGridWidth
-        view.horizontalGridColor = horizontalGridColor
-        view.verticalGridWidth = verticalGridWidth
-        view.verticalGridColor = verticalGridColor
+        view.horizontalGridColor = appearance.horizontalGridColor(in: self)
+        view.horizontalGridWidth = appearance.horizontalGridWidth(in: self)
+        view.verticalGridColor = appearance.verticalGridColor(in: self)
+        view.verticalGridWidth = appearance.verticalGridWidth(in: self)
         view.setNeedsDisplay()
         
         return view

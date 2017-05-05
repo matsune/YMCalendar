@@ -61,8 +61,6 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
         calendarView.backgroundColor = Color.dark.uiColor
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
-        calendarView.horizontalGridColor  = .white
-        calendarView.verticalGridColor    = .white
 //        calendarView.selectAnimation   = .fade
         
         // Events settings
@@ -175,6 +173,15 @@ extension BasicViewController: YMCalendarDataSource {
 
 // MARK: - YMCalendarAppearance
 extension BasicViewController: YMCalendarAppearance {
+    // grid lines
+    
+    func horizontalGridColor(in view: YMCalendarView) -> UIColor {
+        return .white
+    }
+    
+    func verticalGridColor(in view: YMCalendarView) -> UIColor {
+        return .white
+    }
     
     // dayLabel
     
@@ -192,11 +199,11 @@ extension BasicViewController: YMCalendarAppearance {
     
     // Selected dayLabel Color
     
-    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionTextColorAtDate date: Date) -> UIColor {
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedTextColorAtDate date: Date) -> UIColor {
         return .white
     }
     
-    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionBackgroundColorAtDate date: Date) -> UIColor {
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedBackgroundColorAtDate date: Date) -> UIColor {
         return Color.deeppink.uiColor
     }
 }

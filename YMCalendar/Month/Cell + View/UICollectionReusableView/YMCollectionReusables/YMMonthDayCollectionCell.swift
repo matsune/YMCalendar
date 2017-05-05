@@ -26,9 +26,9 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
         }
     }
     
-    public var dayLabelSelectionColor: UIColor = .white
+    public var dayLabelSelectedColor: UIColor = .white
     
-    public var dayLabelSelectionBackgroundColor: UIColor = .black
+    public var dayLabelSelectedBackgroundColor: UIColor = .black
     
     public var day: Int = 1 {
         didSet {
@@ -93,8 +93,8 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
     // - MARK: Animation None
     private func animationWithNone(_ isSelected: Bool, completion: YMMonthDayAnimationCompletion?=nil) {
         if isSelected {
-            dayLabel.textColor = dayLabelSelectionColor
-            dayLabel.backgroundColor = dayLabelSelectionBackgroundColor
+            dayLabel.textColor = dayLabelSelectedColor
+            dayLabel.backgroundColor = dayLabelSelectedBackgroundColor
         } else {
             dayLabel.textColor = dayLabelColor
             dayLabel.backgroundColor = dayLabelBackgroundColor

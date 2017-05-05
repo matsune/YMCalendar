@@ -10,14 +10,35 @@ import Foundation
 import UIKit
 
 public protocol YMCalendarAppearance: class {
+    func horizontalGridColor(in view: YMCalendarView) -> UIColor
+    func horizontalGridWidth(in view: YMCalendarView) -> CGFloat
+    func verticalGridColor(in view: YMCalendarView) -> UIColor
+    func verticalGridWidth(in view: YMCalendarView) -> CGFloat
+    
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelBackgroundColorAtDate date: Date) -> UIColor
-    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionTextColorAtDate date: Date) -> UIColor
-    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionBackgroundColorAtDate date: Date) -> UIColor
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedTextColorAtDate date: Date) -> UIColor
+    func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedBackgroundColorAtDate date: Date) -> UIColor
 }
 
 extension YMCalendarAppearance {
+    public func horizontalGridColor(in view: YMCalendarView) -> UIColor {
+        return .black
+    }
+    
+    public func horizontalGridWidth(in view: YMCalendarView) -> CGFloat {
+        return 0.3
+    }
+    
+    public func verticalGridColor(in view: YMCalendarView) -> UIColor {
+        return .black
+    }
+    
+    public func verticalGridWidth(in view: YMCalendarView) -> CGFloat {
+        return 0.3
+    }
+    
     public func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont {
         return .systemFont(ofSize: 10.0)
     }
@@ -30,11 +51,11 @@ extension YMCalendarAppearance {
         return .clear
     }
     
-    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionTextColorAtDate date: Date) -> UIColor {
+    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedTextColorAtDate date: Date) -> UIColor {
         return .white
     }
     
-    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectionBackgroundColorAtDate date: Date) -> UIColor {
+    public func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedBackgroundColorAtDate date: Date) -> UIColor {
         return .black
     }
 }
