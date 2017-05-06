@@ -17,6 +17,8 @@ final class GradientViewController: UIViewController {
     
     let calendar = Calendar.current
     
+    let MyCustomEventViewIdentifier = "MyCustomEventViewIdentifier"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,13 +30,16 @@ final class GradientViewController: UIViewController {
         
         calendarView.appearance = self
         calendarView.delegate   = self
+        calendarView.dataSource = self
         calendarView.calendar   = calendar
         calendarView.isPagingEnabled = true
         calendarView.scrollDirection = .horizontal
         calendarView.selectAnimation = .fade
+        calendarView.eventViewHeight = 22
         calendarView.gradientColors  = [.sienna, .violetred]
         calendarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
+        calendarView.registerClass(MyCustomEventView.self, forEventCellReuseIdentifier: MyCustomEventViewIdentifier)
     }
 }
 
@@ -61,16 +66,12 @@ extension GradientViewController: YMCalendarAppearance {
         return .clear
     }
     
-    func dayLabelAlignment(in view: YMCalendarView) -> YMDayLabelAlignment {
-        return .center
-    }
-    
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
         return .white
     }
     
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedTextColorAtDate date: Date) -> UIColor {
-        return .black
+        return .sienna
     }
     
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedBackgroundColorAtDate date: Date) -> UIColor {
@@ -83,5 +84,31 @@ extension GradientViewController: YMCalendarDelegate {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY-MM-dd"
         navigationItem.title = formatter.string(from: date)
+    }
+}
+
+extension GradientViewController: YMCalendarDataSource {
+    func calendarView(_ view: YMCalendarView, numberOfEventsAtDate date: Date) -> Int {
+        if calendar.isDateInToday(date) {
+            return 6
+        }
+        return 0
+    }
+    
+    func calendarView(_ view: YMCalendarView, dateRangeForEventAtIndex index: Int, date: Date) -> DateRange? {
+        if calendar.isDateInToday(date) {
+            return DateRange(start: date, end: calendar.endOfDayForDate(date))
+        }
+        return nil
+    }
+    
+    func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
+        guard let view = view.dequeueReusableCellWithIdentifier(MyCustomEventViewIdentifier, forEventAtIndex: index, date: date) as? MyCustomEventView else {
+            fatalError()
+        }
+        view.label.text = "today"
+        view.label.textColor = .white
+        view.backgroundColor = UIColor(white: 1.0, alpha: 0.25)
+        return view
     }
 }

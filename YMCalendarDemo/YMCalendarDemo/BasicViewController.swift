@@ -173,6 +173,10 @@ extension BasicViewController: YMCalendarAppearance {
     
     // dayLabel
     
+    func dayLabelAlignment(in view: YMCalendarView) -> YMDayLabelAlignment {
+        return .center
+    }
+    
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
         let weekday = calendar.component(.weekday, from: date)
         switch weekday {
