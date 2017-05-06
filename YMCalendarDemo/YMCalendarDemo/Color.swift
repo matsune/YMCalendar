@@ -27,11 +27,11 @@ extension UIColor {
     }
     
     static var violetred: UIColor {
-        return UIColor(red: 145/255, green: 49/255, blue: 81/255, alpha: 1.0)
+        return UIColor(red: 185/255, green: 29/255, blue: 81/255, alpha: 1.0)
     }
     
     static var sienna: UIColor {
-        return UIColor(red: 204/255, green: 87/255, blue: 54/255, alpha: 1.0)
+        return UIColor(red: 204/255, green: 117/255, blue: 54/255, alpha: 1.0)
     }
     
     static var lightblue: UIColor {
