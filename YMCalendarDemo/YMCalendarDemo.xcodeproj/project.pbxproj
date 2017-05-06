@@ -85,12 +85,12 @@
 				13A518C91E72E6BA00F539ED /* AppDelegate.swift */,
 				138392C81EAC5792007A36D2 /* BasicViewController.swift */,
 				1345C7131EBD727A0076FF31 /* GradientViewController.swift */,
+				1345C7171EBD8EC40076FF31 /* MyCustomEventView.swift */,
 				13FCCEE71E90E4350070B038 /* EKEventKitViewController.swift */,
 				1345C7111EBD51680076FF31 /* Color.swift */,
 				13A518D01E72E6BA00F539ED /* Assets.xcassets */,
 				13A518D21E72E6BA00F539ED /* LaunchScreen.storyboard */,
 				13A518CD1E72E6BA00F539ED /* Main.storyboard */,
-				1345C7171EBD8EC40076FF31 /* MyCustomEventView.swift */,
 			);
 			path = YMCalendarDemo;
 			sourceTree = "<group>";

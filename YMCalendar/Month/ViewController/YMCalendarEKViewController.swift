@@ -48,7 +48,6 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         super.viewDidLoad()
         calendarView.delegate   = self
         calendarView.dataSource = self
-        calendarView.appearance = self
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: YMEventStandardViewIdentifier)
         
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
@@ -199,6 +198,3 @@ extension YMCalendarEKViewController: YMCalendarDataSource {
         return cell
     }
 }
-
-// - MARK: YMCalendarAppearance
-extension YMCalendarEKViewController: YMCalendarAppearance {}
