@@ -9,10 +9,9 @@
 import Foundation
 import UIKit
 
-
-public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
+public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarAppearance {
     
-    public var dataSource: YMCalendarWeekBarDataSource?
+    public var appearance: YMCalendarWeekBarAppearance?
     
     public var calendar = Calendar.current {
         didSet {
@@ -22,29 +21,13 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
     
     private var symbolLabels: [UILabel] = []
     
-    public var horizontalGridColor: UIColor = .black {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
+    public var gradientColors: [UIColor]?
     
-    public var horizontalGridWidth: CGFloat = 0.3 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
+    public var gradientLocations: [CGFloat] = [0.0, 1.0]
     
-    public var verticalGridColor: UIColor = .black {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
+    public var gradientStartPoint = CGPoint(x: 0.5, y: 0.0)
     
-    public var verticalGridWidth: CGFloat = 0.3 {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
+    public var gradientEndPoint = CGPoint(x: 0.5, y: 1.0)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,17 +67,35 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
             let center = CGPoint(x: x, y: y)
             symbolLabels[i].frame.size = CGSize(width: colWidth, height: bounds.height)
             symbolLabels[i].center = center
-            let dataSource = self.dataSource ?? self
-            symbolLabels[i].text = dataSource.calendarWeekBarView(self, textAtWeekday: weekday)
-            symbolLabels[i].textColor = dataSource.calendarWeekBarView(self, textColorAtWeekday: weekday)
-            symbolLabels[i].backgroundColor = dataSource.calendarWeekBarView(self, backgroundColorAtWeekday: weekday)
-            symbolLabels[i].font = dataSource.calendarWeekBarView(self, fontAtWeekday: weekday)
+            let appearance = self.appearance ?? self
+            symbolLabels[i].text = appearance.calendarWeekBarView(self, textAtWeekday: weekday)
+            symbolLabels[i].textColor = appearance.calendarWeekBarView(self, textColorAtWeekday: weekday)
+            symbolLabels[i].backgroundColor = appearance.calendarWeekBarView(self, backgroundColorAtWeekday: weekday)
+            symbolLabels[i].font = appearance.calendarWeekBarView(self, fontAtWeekday: weekday)
         }
     }
     
     override public func draw(_ rect: CGRect) {
         super.draw(rect)
+        
         let c = UIGraphicsGetCurrentContext()
+        
+        if let gradientColors = gradientColors {
+            let startColor = gradientColors[0].cgColor
+            let endColor = gradientColors[1].cgColor
+            let colors = [startColor, endColor] as CFArray
+            
+            let locations = gradientLocations
+            
+            let space = CGColorSpaceCreateDeviceRGB()
+            
+            let gradient = CGGradient(colorsSpace: space, colors: colors, locations: locations)!
+            let startPoint = CGPoint(x: rect.width * gradientStartPoint.x, y: rect.height * gradientStartPoint.y)
+            let endPoint = CGPoint(x: rect.width * gradientEndPoint.x, y: rect.height * gradientEndPoint.y)
+            c?.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+        }
+        
+        
         let colWidth = rect.width / 7
         let rowHeight = rect.height
         
@@ -103,8 +104,11 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
         var y1: CGFloat
         var y2: CGFloat
         
+        let appearance = self.appearance ?? self
+        
+        let horizontalGridWidth = appearance.weekBarHorizontalGridWidth(in: self)
         if horizontalGridWidth > 0 {
-            c?.setStrokeColor(horizontalGridColor.cgColor)
+            c?.setStrokeColor(appearance.weekBarHorizontalGridColor(in: self).cgColor)
             c?.setLineWidth(horizontalGridWidth)
             c?.beginPath()
             
@@ -120,8 +124,9 @@ public class YMCalendarWeekBarView: UIView, YMCalendarWeekBarDataSource {
             c?.strokePath()
         }
         
+        let verticalGridWidth = appearance.weekBarVerticalGridWidth(in: self)
         if verticalGridWidth > 0 {
-            c?.setStrokeColor(verticalGridColor.cgColor)
+            c?.setStrokeColor(appearance.weekBarVerticalGridColor(in: self).cgColor)
             c?.setLineWidth(verticalGridWidth)
             c?.beginPath()
             

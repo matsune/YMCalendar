@@ -33,12 +33,51 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
             reload()
         }
     }
-    
+
     override public var backgroundColor: UIColor? {
         didSet {
             if collectionView != nil {
                 collectionView.backgroundColor = backgroundColor
             }
+        }
+    }
+    
+    fileprivate var gradientLayer = CAGradientLayer()
+    
+    public var gradientColors: [UIColor]? {
+        didSet {
+            if let colors = gradientColors {
+                gradientLayer.colors = colors.map {$0.cgColor}
+            } else {
+                gradientLayer.colors = nil
+            }
+        }
+    }
+    
+    public var gradientLocations: [NSNumber]? {
+        set {
+            gradientLayer.locations = newValue
+        }
+        get {
+            return gradientLayer.locations
+        }
+    }
+    
+    public var gradientStartPoint: CGPoint {
+        set {
+            gradientLayer.startPoint = newValue
+        }
+        get {
+            return gradientLayer.startPoint
+        }
+    }
+    
+    public var gradientEndPoint: CGPoint {
+        set {
+            gradientLayer.endPoint = newValue
+        }
+        get {
+            return gradientLayer.endPoint
         }
     }
     
@@ -223,6 +262,9 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
         
+        collectionView.backgroundView = UIView()
+        collectionView.backgroundView?.layer.insertSublayer(gradientLayer, at: 0)
+        
         // Register ReusableCell
         collectionView.register(YMMonthDayCollectionCell.self, forCellWithReuseIdentifier: YMMonthDayCollectionCell.identifier)
         // Register ReusableSupplementaryView
@@ -239,6 +281,9 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     override public func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = bounds
+        gradientLayer.frame = bounds
+        
+        
         layout.invalidateLayout()
         collectionView.layoutIfNeeded()
         recenterIfNeeded()

@@ -25,4 +25,12 @@ extension UIColor {
     static var seagreen: UIColor {
         return UIColor(red: 67/255, green: 205/255, blue: 128/255, alpha: 1.0)
     }
+    
+    static var violetred: UIColor {
+        return UIColor(red: 145/255, green: 49/255, blue: 81/255, alpha: 1.0)
+    }
+    
+    static var sienna: UIColor {
+        return UIColor(red: 204/255, green: 87/255, blue: 54/255, alpha: 1.0)
+    }
 }

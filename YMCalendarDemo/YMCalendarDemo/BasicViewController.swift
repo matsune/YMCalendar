@@ -25,10 +25,8 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
         super.viewDidLoad()
         
         /// WeekBarView
-        calendarWeekBarView.dataSource = self
+        calendarWeekBarView.appearance = self
         calendarWeekBarView.calendar = calendar
-        calendarWeekBarView.horizontalGridColor = .white
-        calendarWeekBarView.verticalGridColor = .white
         calendarWeekBarView.backgroundColor = .dark
 
         
@@ -89,7 +87,14 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
 }
 
 // MARK: - YMCalendarWeekBarDataSource
-extension BasicViewController: YMCalendarWeekBarDataSource {
+extension BasicViewController: YMCalendarWeekBarAppearance {
+    func horizontalGridColor(in view: YMCalendarWeekBarView) -> UIColor {
+        return .white
+    }
+    
+    func verticalGridColor(in view: YMCalendarWeekBarView) -> UIColor {
+        return .white
+    }
     
     // weekday: Int 
     // e.g.) 1: Sunday, 2: Monday,.., 6: Friday, 7: Saturday
@@ -166,11 +171,11 @@ extension BasicViewController: YMCalendarDataSource {
 extension BasicViewController: YMCalendarAppearance {
     // grid lines
     
-    func horizontalGridColor(in view: YMCalendarView) -> UIColor {
+    func weekBarHorizontalGridColor(in view: YMCalendarView) -> UIColor {
         return .white
     }
     
-    func verticalGridColor(in view: YMCalendarView) -> UIColor {
+    func weekBarVerticalGridColor(in view: YMCalendarView) -> UIColor {
         return .white
     }
     
