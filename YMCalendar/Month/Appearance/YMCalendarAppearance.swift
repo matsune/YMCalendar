@@ -15,6 +15,7 @@ public protocol YMCalendarAppearance: class {
     func verticalGridColor(in view: YMCalendarView) -> UIColor
     func verticalGridWidth(in view: YMCalendarView) -> CGFloat
     
+    func dayLabelAlignment(in view: YMCalendarView) -> YMDayLabelAlignment
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelBackgroundColorAtDate date: Date) -> UIColor
@@ -37,6 +38,10 @@ extension YMCalendarAppearance {
     
     public func verticalGridWidth(in view: YMCalendarView) -> CGFloat {
         return 0.3
+    }
+    
+    public func dayLabelAlignment(in view: YMCalendarView) -> YMDayLabelAlignment {
+        return .left
     }
     
     public func calendarViewAppearance(_ view: YMCalendarView, dayLabelFontAtDate date: Date) -> UIFont {

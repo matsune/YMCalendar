@@ -782,6 +782,7 @@ extension YMCalendarView: UICollectionViewDataSource {
         let font = appearance.calendarViewAppearance(self, dayLabelFontAtDate: date)
         cell.day = calendar.day(date)
         cell.dayLabel.font = font
+        cell.dayLabelAlignment = appearance.dayLabelAlignment(in: self)
         cell.dayLabelColor = appearance.calendarViewAppearance(self, dayLabelTextColorAtDate: date)
         cell.dayLabelBackgroundColor = appearance.calendarViewAppearance(self, dayLabelBackgroundColorAtDate: date)
         cell.dayLabelSelectedColor = appearance.calendarViewAppearance(self, dayLabelSelectedTextColorAtDate: date)

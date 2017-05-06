@@ -27,11 +27,12 @@ final class GradientViewController: UIViewController {
         calendarWeekBarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
         
         calendarView.appearance = self
+        calendarView.delegate   = self
+        calendarView.calendar   = calendar
         calendarView.isPagingEnabled = true
         calendarView.scrollDirection = .horizontal
         calendarView.selectAnimation = .fade
-        calendarView.calendar = calendar
-        calendarView.gradientColors = [.sienna, .violetred]
+        calendarView.gradientColors  = [.sienna, .violetred]
         calendarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
     }
@@ -60,6 +61,10 @@ extension GradientViewController: YMCalendarAppearance {
         return .clear
     }
     
+    func dayLabelAlignment(in view: YMCalendarView) -> YMDayLabelAlignment {
+        return .center
+    }
+    
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
         return .white
     }
@@ -70,5 +75,13 @@ extension GradientViewController: YMCalendarAppearance {
     
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedBackgroundColorAtDate date: Date) -> UIColor {
         return .white
+    }
+}
+
+extension GradientViewController: YMCalendarDelegate {
+    func calendarView(_ view: YMCalendarView, didSelectDayCellAtDate date: Date) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        navigationItem.title = formatter.string(from: date)
     }
 }

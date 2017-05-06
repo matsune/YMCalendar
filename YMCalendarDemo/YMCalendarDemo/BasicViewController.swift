@@ -18,9 +18,6 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
     let symbols = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     var calendar = Calendar.current
     
-//    
-//    var events: [Date : [String]] = [:]
-//    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,18 +37,13 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
         // Month calendar settings
         calendarView.calendar = calendar
         calendarView.backgroundColor = .dark
-        calendarView.scrollDirection = .horizontal
+        calendarView.scrollDirection = .vertical
         calendarView.isPagingEnabled = true
-//        calendarView.selectAnimation   = .fade
         
         // Events settings
         calendarView.eventViewHeight  = 14
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: "YMEventStandardView")
         
-//        // make 5 events on today and 1 event on 5 days from today
-//        let today = calendar.startOfDay(for: Date())
-//        events[today] = ["You can", "scroll", "down", "↓", "😃"]
-//        events[calendar.date(byAdding: .day, value: 5, to: today)!] = ["3 days event"]
     }
     
     

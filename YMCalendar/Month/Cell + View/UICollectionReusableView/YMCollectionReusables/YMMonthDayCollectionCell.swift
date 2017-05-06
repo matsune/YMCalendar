@@ -12,29 +12,31 @@ import UIKit
 final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectionReusable {
     typealias YMMonthDayAnimationCompletion = (Bool) -> ()
     
-    public let dayLabel = UILabel()
+    let dayLabel = UILabel()
     
-    public var dayLabelColor: UIColor = .black {
+    var dayLabelColor: UIColor = .black {
         didSet {
             dayLabel.textColor = dayLabelColor
         }
     }
     
-    public var dayLabelBackgroundColor: UIColor = .clear {
+    var dayLabelBackgroundColor: UIColor = .clear {
         didSet {
             dayLabel.backgroundColor = dayLabelBackgroundColor
         }
     }
     
-    public var dayLabelSelectedColor: UIColor = .white
+    var dayLabelSelectedColor: UIColor = .white
     
-    public var dayLabelSelectedBackgroundColor: UIColor = .black
+    var dayLabelSelectedBackgroundColor: UIColor = .black
     
-    public var day: Int = 1 {
+    var day: Int = 1 {
         didSet {
             dayLabel.text = "\(day)"
         }
     }
+    
+    var dayLabelAlignment: YMDayLabelAlignment = .left
     
     var dayLabelHeight: CGFloat = 15
     
@@ -64,7 +66,17 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
     override public func layoutSubviews() {
         super.layoutSubviews()
         
-        dayLabel.frame = CGRect(x: dayLabelMargin, y: dayLabelMargin, width: dayLabelHeight, height: dayLabelHeight)
+        let x: CGFloat
+        switch dayLabelAlignment {
+        case .left:
+            x = dayLabelMargin
+            dayLabel.frame = CGRect(x: dayLabelMargin, y: dayLabelMargin, width: dayLabelHeight, height: dayLabelHeight)
+        case .center:
+            x = (bounds.width - dayLabelHeight)/2
+        case .right:
+            x = bounds.width - dayLabelMargin - dayLabelHeight
+        }
+        dayLabel.frame = CGRect(x: x, y: dayLabelMargin, width: dayLabelHeight, height: dayLabelHeight)
         dayLabel.layer.cornerRadius = dayLabelHeight / 2
     }
     
