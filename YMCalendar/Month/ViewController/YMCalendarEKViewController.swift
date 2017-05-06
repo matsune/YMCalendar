@@ -186,20 +186,17 @@ extension YMCalendarEKViewController: YMCalendarDataSource {
         return range
     }
 
-    public func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
+    open func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
         let events = eventsAtDate(date)
-        var cell: YMEventStandardView? = nil
-        if index <= events.count {
-            let event = events[index]
-            cell = view.dequeueReusableCellWithIdentifier(YMEventStandardViewIdentifier, forEventAtIndex: index, date: date)
-            cell?.layer.cornerRadius = 1.5
-            cell?.layer.masksToBounds = true
-            cell?.backgroundColor = UIColor(cgColor: event.calendar.cgColor)
-            cell?.title = event.title
-            cell?.font = .systemFont(ofSize: 10.0)
-            cell?.baselineOffset = -1.5
+        precondition(index <= events.count)
+        
+        let event = events[index]
+        guard let cell = view.dequeueReusableCellWithIdentifier(YMEventStandardViewIdentifier, forEventAtIndex: index, date: date) as? YMEventStandardView else {
+            fatalError()
         }
-        return cell ?? YMEventStandardView()
+        cell.backgroundColor = UIColor(cgColor: event.calendar.cgColor)
+        cell.title = event.title
+        return cell
     }
 }
 

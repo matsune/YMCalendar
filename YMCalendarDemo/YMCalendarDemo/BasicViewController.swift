@@ -18,26 +18,9 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
     let symbols = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     var calendar = Calendar.current
     
-    
-    var events: [Date : [String]] = [:]
-    
-    enum Color {
-        case dark, deeppink, turquoise, seagreen
-        
-        var uiColor: UIColor {
-            switch self {
-            case .dark:
-                return UIColor(red: 42/255, green: 52/255, blue: 58/255, alpha: 1.0)
-            case .deeppink:
-                return UIColor(red: 253/255, green: 63/255, blue: 127/255, alpha: 1.0)
-            case .turquoise:
-                return UIColor(red: 0, green: 206/255, blue: 209/255, alpha: 1.0)
-            case .seagreen:
-                return UIColor(red: 67/255, green: 205/255, blue: 128/255, alpha: 1.0)
-            }
-        }
-    }
-    
+//    
+//    var events: [Date : [String]] = [:]
+//    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,7 +29,7 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
         calendarWeekBarView.calendar = calendar
         calendarWeekBarView.horizontalGridColor = .white
         calendarWeekBarView.verticalGridColor = .white
-        calendarWeekBarView.backgroundColor = Color.dark.uiColor
+        calendarWeekBarView.backgroundColor = .dark
 
         
         /// MonthCalendar
@@ -58,7 +41,7 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
         
         // Month calendar settings
         calendarView.calendar = calendar
-        calendarView.backgroundColor = Color.dark.uiColor
+        calendarView.backgroundColor = .dark
         calendarView.scrollDirection = .horizontal
         calendarView.isPagingEnabled = true
 //        calendarView.selectAnimation   = .fade
@@ -67,16 +50,18 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
         calendarView.eventViewHeight  = 14
         calendarView.registerClass(YMEventStandardView.self, forEventCellReuseIdentifier: "YMEventStandardView")
         
-        // make 5 events on today and 1 event on 5 days from today
-        let today = calendar.startOfDay(for: Date())
-        events[today] = ["You can", "scroll", "down", "↓", "😃"]
-        events[calendar.date(byAdding: .day, value: 5, to: today)!] = ["3 days event"]
+//        // make 5 events on today and 1 event on 5 days from today
+//        let today = calendar.startOfDay(for: Date())
+//        events[today] = ["You can", "scroll", "down", "↓", "😃"]
+//        events[calendar.date(byAdding: .day, value: 5, to: today)!] = ["3 days event"]
     }
     
     
     @IBAction func allowsMultipleSelectSwitchChanged(_ sender: UISwitch) {
         calendarView.allowsMultipleSelection = sender.isOn
     }
+    
+    // firstWeekday picker
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return 7
@@ -116,9 +101,9 @@ extension BasicViewController: YMCalendarWeekBarDataSource {
     func calendarWeekBarView(_ view: YMCalendarWeekBarView, textColorAtWeekday weekday: Int) -> UIColor {
         switch weekday {
         case 1: // Sun
-            return Color.deeppink.uiColor
+            return .deeppink
         case 7: // Sat
-            return Color.turquoise.uiColor
+            return .turquoise
         default:
             return .white
         }
@@ -143,30 +128,36 @@ extension BasicViewController: YMCalendarDelegate {
 // MARK: - YMCalendarDataSource
 extension BasicViewController: YMCalendarDataSource {
     func calendarView(_ view: YMCalendarView, numberOfEventsAtDate date: Date) -> Int {
-        return events[date]?.count ?? 0
+        if calendar.isDateInToday(date)
+            || calendar.isDate(date, inSameDayAs: calendar.endOfMonthForDate(date))
+            || calendar.isDate(date, inSameDayAs: calendar.startOfMonthForDate(date)) {
+            return 1
+        }
+        return 0
     }
     
     func calendarView(_ view: YMCalendarView, dateRangeForEventAtIndex index: Int, date: Date) ->  DateRange? {
-        if let events = events[date] {
-            if events.count > 1 { // today
-                return DateRange(start: calendar.startOfDay(for: date), end: calendar.endOfDayForDate(date))
-            } else { // 5 days from today
-                if let end = calendar.date(byAdding: .day, value: 2, to: date) { // this event is 3 days over
-                    return DateRange(start: calendar.startOfDay(for: date), end: calendar.endOfDayForDate(end))
-                }
-            }
+        if calendar.isDateInToday(date)
+            || calendar.isDate(date, inSameDayAs: calendar.endOfMonthForDate(date))
+            || calendar.isDate(date, inSameDayAs: calendar.startOfMonthForDate(date)) {
+            return DateRange(start: date, end: calendar.endOfDayForDate(date))
         }
         return nil
     }
     
     func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
-        guard let events = events[date],
-            let view = view.dequeueReusableCellWithIdentifier("YMEventStandardView", forEventAtIndex: index, date: date) as? YMEventStandardView else {
+        guard let view = view.dequeueReusableCellWithIdentifier("YMEventStandardView", forEventAtIndex: index, date: date) as? YMEventStandardView else {
             fatalError()
         }
-        view.title = events[index]
+        if calendar.isDateInToday(date) {
+            view.title = "today😃"
+        } else if calendar.isDate(date, inSameDayAs: calendar.startOfMonthForDate(date)) {
+            view.title = "startOfMonth"
+        } else if calendar.isDate(date, inSameDayAs: calendar.endOfMonthForDate(date)) {
+            view.title = "endOfMonth"
+        }
         view.textColor = .white
-        view.backgroundColor = Color.seagreen.uiColor
+        view.backgroundColor = .seagreen
         return view
     }
 }
@@ -189,9 +180,9 @@ extension BasicViewController: YMCalendarAppearance {
         let weekday = calendar.component(.weekday, from: date)
         switch weekday {
         case 1: // Sun
-            return Color.deeppink.uiColor
+            return .deeppink
         case 7: // Sat
-            return Color.turquoise.uiColor
+            return .turquoise
         default:
             return .white
         }
@@ -204,6 +195,6 @@ extension BasicViewController: YMCalendarAppearance {
     }
     
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedBackgroundColorAtDate date: Date) -> UIColor {
-        return Color.deeppink.uiColor
+        return .deeppink
     }
 }

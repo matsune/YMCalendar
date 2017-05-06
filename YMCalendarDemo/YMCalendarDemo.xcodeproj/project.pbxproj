@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1345C7121EBD51680076FF31 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1345C7111EBD51680076FF31 /* Color.swift */; };
 		138392C91EAC5792007A36D2 /* BasicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138392C81EAC5792007A36D2 /* BasicViewController.swift */; };
 		138392D41EAC5ADA007A36D2 /* YMCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138392D31EAC5ADA007A36D2 /* YMCalendar.framework */; };
 		138392D51EAC5ADA007A36D2 /* YMCalendar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 138392D31EAC5ADA007A36D2 /* YMCalendar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -32,6 +33,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1345C7111EBD51680076FF31 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		138392C81EAC5792007A36D2 /* BasicViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicViewController.swift; sourceTree = "<group>"; };
 		138392D31EAC5ADA007A36D2 /* YMCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = YMCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518C61E72E6BA00F539ED /* YMCalendarDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YMCalendarDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +81,7 @@
 				13A518C91E72E6BA00F539ED /* AppDelegate.swift */,
 				138392C81EAC5792007A36D2 /* BasicViewController.swift */,
 				13FCCEE71E90E4350070B038 /* EKEventKitViewController.swift */,
+				1345C7111EBD51680076FF31 /* Color.swift */,
 				13A518D01E72E6BA00F539ED /* Assets.xcassets */,
 				13A518D21E72E6BA00F539ED /* LaunchScreen.storyboard */,
 				13A518CD1E72E6BA00F539ED /* Main.storyboard */,
@@ -168,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13A518CA1E72E6BA00F539ED /* AppDelegate.swift in Sources */,
+				1345C7121EBD51680076FF31 /* Color.swift in Sources */,
 				138392C91EAC5792007A36D2 /* BasicViewController.swift in Sources */,
 				13FCCEE81E90E4350070B038 /* EKEventKitViewController.swift in Sources */,
 			);
