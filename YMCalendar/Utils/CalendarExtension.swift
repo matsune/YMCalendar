@@ -72,4 +72,12 @@ extension Calendar {
     public func numberOfWeeksInMonth(date: Date) -> Int {
         return range(of: .weekOfMonth, in: .month, for: date)?.count ?? 0
     }
+    
+    func date(from monthDate: MonthDate) -> Date {
+        let dateComponents = DateComponents(year: monthDate.year, month: monthDate.month, day: 1)
+        guard let date = date(from: dateComponents) else {
+            fatalError()
+        }
+        return date
+    }
 }

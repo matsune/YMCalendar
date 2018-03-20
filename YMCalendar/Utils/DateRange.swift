@@ -21,18 +21,14 @@ public struct DateRange {
     }
     
     public func components(_ unitFlags: Set<Calendar.Component>, forCalendar calendar: Calendar) -> DateComponents {
-//        checkIfValid()
         return calendar.dateComponents(unitFlags, from: start, to: end)
     }
     
     public func contains(date: Date) -> Bool {
-//        checkIfValid()
         return date.compare(start) != .orderedAscending && date.compare(end) == .orderedAscending
     }
     
     public mutating func intersectDateRange(_ range: DateRange) {
-//        checkIfValid()
-        
         if range.end.compare(start) != .orderedDescending || end.compare(range.start) != .orderedDescending {
             end = start
             return

@@ -27,7 +27,7 @@ final class GradientViewController: UIViewController {
         calendarWeekBarView.gradientColors = [.sienna, .violetred]
         calendarWeekBarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarWeekBarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
-        calendarView.dateRange = DateRange(start: makeDate(year: 2017, month: 12, day: 1), end: makeDate(year: 2018, month: 3, day: 1))
+        calendarView.monthRange = MonthRange(start: MonthDate(year: 2017, month: 12), end: MonthDate(year: 2018, month: 3))
         
         calendarView.appearance = self
         calendarView.delegate   = self
