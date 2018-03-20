@@ -11,16 +11,13 @@ import UIKit
 
 final public class YMCalendarView: UIView, YMCalendarAppearance {
     
-    fileprivate var collectionView: UICollectionView!
+    private lazy var collectionView: UICollectionView = createCollectionView()
     
-    fileprivate var layout: YMCalendarLayout {
-        set {
-            collectionView.collectionViewLayout = newValue
-        }
-        get {
-            return collectionView.collectionViewLayout as! YMCalendarLayout
-        }
-    }
+    private lazy var layout: YMCalendarLayout = {
+        let calendarLayout = YMCalendarLayout(scrollDirection: scrollDirection)
+        calendarLayout.delegate = self
+        return calendarLayout
+    }()
     
     public weak var appearance: YMCalendarAppearance?
 
@@ -36,13 +33,11 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
 
     override public var backgroundColor: UIColor? {
         didSet {
-            if collectionView != nil {
-                collectionView.backgroundColor = backgroundColor
-            }
+            collectionView.backgroundColor = backgroundColor
         }
     }
     
-    fileprivate var gradientLayer = CAGradientLayer()
+    private var gradientLayer = CAGradientLayer()
     
     public var gradientColors: [UIColor]? {
         didSet {
@@ -141,7 +136,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     fileprivate var reuseQueue = ReusableObjectQueue()
     
     
-    fileprivate var dateRange: DateRange?
+    private var dateRange: DateRange?
     
     /// Set date range of CalendarView. If you set nil, calendar will be infinite.
     public func setDateRange(_ dateRange: DateRange?) {
@@ -214,13 +209,13 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     public var deselectAnimation: YMSelectAnimation = .fade
     
-    fileprivate var selectedEventDate: Date?
+    private var selectedEventDate: Date?
     
-    fileprivate lazy var selectedEventIndex: Int = 0
+    private lazy var selectedEventIndex: Int = 0
     
-    fileprivate lazy var showingMonthDate: Date = Date()
+    private lazy var showingMonthDate: Date = Date()
     
-    fileprivate var numberOfLoadedMonths: Int {
+    private var numberOfLoadedMonths: Int {
         if let dateRange = dateRange,
             let diff = calendar.dateComponents([.month], from: dateRange.start, to: dateRange.end).month {
             return min(diff, 9)
@@ -228,7 +223,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         return 9
     }
     
-    fileprivate var loadedDateRange: DateRange {
+    private var loadedDateRange: DateRange {
         var comps = DateComponents()
         comps.month = numberOfLoadedMonths
         let endDate = calendar.date(byAdding: comps, to: startDate)
@@ -247,14 +242,16 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     }
     
     private func commonInit() {
+        backgroundColor = .white
         startDate = calendar.startOfMonthForDate(Date())
         
         reuseQueue.registerClass(YMEventsRowView.self, forObjectWithReuseIdentifier: "YMEventsRowViewIdentifier")
-
-        let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
-        monthLayout.delegate = self
         
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: monthLayout)
+        addSubview(collectionView)
+    }
+    
+    private func createCollectionView() -> UICollectionView {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate   = self
         collectionView.dataSource = self
         collectionView.bounces = false
@@ -265,17 +262,16 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         collectionView.backgroundView = UIView()
         collectionView.backgroundView?.layer.insertSublayer(gradientLayer, at: 0)
         
-        // Register ReusableCell
-        collectionView.register(YMMonthDayCollectionCell.self, forCellWithReuseIdentifier: YMMonthDayCollectionCell.identifier)
-        // Register ReusableSupplementaryView
-        collectionView.register(YMMonthBackgroundView.self, forSupplementaryViewOfKind: YMMonthBackgroundView.kind, withReuseIdentifier: YMMonthBackgroundView.identifier)
-        collectionView.register(YMMonthWeekView.self, forSupplementaryViewOfKind: YMMonthWeekView.kind, withReuseIdentifier: YMMonthWeekView.identifier)
-        
-        addSubview(collectionView)
-        
-        backgroundColor = .white
+        collectionView.register(YMMonthDayCollectionCell.self,
+                                forCellWithReuseIdentifier: YMMonthDayCollectionCell.identifier)
+        collectionView.register(YMMonthBackgroundView.self,
+                                forSupplementaryViewOfKind: YMMonthBackgroundView.kind,
+                                withReuseIdentifier: YMMonthBackgroundView.identifier)
+        collectionView.register(YMMonthWeekView.self,
+                                forSupplementaryViewOfKind: YMMonthWeekView.kind,
+                                withReuseIdentifier: YMMonthWeekView.identifier)
+        return collectionView
     }
-    
     
     // MARK: - UIView
     override public func layoutSubviews() {
@@ -332,13 +328,13 @@ extension YMCalendarView {
         return paths
     }
     
-    fileprivate func dateStartingMonthAtIndex(_ month: Int) -> Date {
-        return dateForDayAtIndexPath(IndexPath(item: 0, section: month))
+    private func startDayAtMonth(in section: Int) -> Date {
+        return dateForDayAtIndexPath(IndexPath(item: 0, section: section))
     }
     
-    fileprivate func numberOfDaysForMonthAtMonth(_ month: Int) -> Int {
-        let date = dateStartingMonthAtIndex(month)
-        return calendar.numberOfDaysInMonthForDate(date)
+    private func numberOfDaysForMonth(in section: Int) -> Int {
+        let startDay = startDayAtMonth(in: section)
+        return calendar.numberOfDaysInMonth(date: startDay)
     }
     
     fileprivate func columnForDayAtIndexPath(_ indexPath: IndexPath) -> Int {
@@ -769,7 +765,7 @@ extension YMCalendarView: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return numberOfDaysForMonthAtMonth(section)
+        return numberOfDaysForMonth(in: section)
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -799,10 +795,10 @@ extension YMCalendarView: UICollectionViewDataSource {
     }
     
     fileprivate func backgroundViewForAtIndexPath(_ indexPath: IndexPath) -> UICollectionReusableView {
-        let date = dateStartingMonthAtIndex(indexPath.section)
+        let date = startDayAtMonth(in: indexPath.section)
         
         let lastColumn: Int = columnForDayAtIndexPath(IndexPath(item: 0, section: indexPath.section + 1))
-        let numRows: Int = calendar.numberOfWeeksInMonthForDate(date)
+        let numRows: Int = calendar.numberOfWeeksInMonth(date: date)
         
         guard let view = collectionView
             .dequeueReusableSupplementaryView(ofKind: YMMonthBackgroundView.kind,

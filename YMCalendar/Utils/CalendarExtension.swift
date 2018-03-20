@@ -9,40 +9,40 @@
 import Foundation
 
 extension Calendar {
-     func year(_ date: Date) -> Int {
+    public func year(_ date: Date) -> Int {
         guard let year = dateComponents([.year], from: date).year else {
             fatalError()
         }
         return year
     }
     
-    func month(_ date: Date) -> Int {
+    public func month(_ date: Date) -> Int {
         guard let month = dateComponents([.month], from: date).month else {
             fatalError()
         }
         return month
     }
     
-    func day(_ date: Date) -> Int {
+    public func day(_ date: Date) -> Int {
         guard let day = dateComponents([.day], from: date).day else {
             fatalError()
         }
         return day
     }
     
-    func endOfDayForDate(_ date: Date) -> Date {
+    public func endOfDayForDate(_ date: Date) -> Date {
         var comps = dateComponents([.year, .month, .day], from: self.date(byAdding: .day, value: 1, to: date)!)
         comps.second = -1
         return self.date(from: comps)!
     }
     
-    func startOfMonthForDate(_ date: Date) -> Date {
+    public func startOfMonthForDate(_ date: Date) -> Date {
         var comp = self.dateComponents([.year, .month, .day], from: date)
         comp.day = 1
         return self.date(from: comp)!
     }
     
-    func endOfMonthForDate(_ date: Date) -> Date {
+    public func endOfMonthForDate(_ date: Date) -> Date {
         var comp = self.dateComponents([.year, .month, .day], from: date)
         if let month = comp.month {
             comp.month = month + 1
@@ -51,25 +51,25 @@ extension Calendar {
         return self.date(from: comp)!
     }
     
-    func nextStartOfMonthForDate(_ date: Date) -> Date {
+    public func nextStartOfMonthForDate(_ date: Date) -> Date {
         let firstDay = startOfMonthForDate(date)
         var comp = DateComponents()
         comp.month = 1
         return self.date(byAdding: comp, to: firstDay)!
     }
     
-    func prevStartOfMonthForDate(_ date: Date) -> Date {
+    public func prevStartOfMonthForDate(_ date: Date) -> Date {
         let firstDay = startOfMonthForDate(date)
         var comp = DateComponents()
         comp.month = -1
         return self.date(byAdding: comp, to: firstDay)!
     }
     
-    func numberOfDaysInMonthForDate(_ date: Date) -> Int {
+    public func numberOfDaysInMonth(date: Date) -> Int {
         return range(of: .day, in: .month, for: date)?.count ?? 0
     }
     
-    func numberOfWeeksInMonthForDate(_ date: Date) -> Int {
+    public func numberOfWeeksInMonth(date: Date) -> Int {
         return range(of: .weekOfMonth, in: .month, for: date)?.count ?? 0
     }
 }
