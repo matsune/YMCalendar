@@ -139,7 +139,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     /// Manager of registered class and identifiers.
     fileprivate var reuseQueue = ReusableObjectQueue()
     
-    fileprivate var maxStartDate: Date? {
+    private var maxStartDate: Date? {
         var date: Date? = nil
         if let dateRange = dateRange {
             var comps = DateComponents()
@@ -182,6 +182,8 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     private var showingMonthDate: Date = Date()
     
+    // 読み込む月の数
+    // 最大9ヶ月分を読み込む
     private var numberOfLoadedMonths: Int {
         if let range = dateRange,
             let diff = calendar.dateComponents([.month], from: range.start, to: range.end).month {
@@ -238,10 +240,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         super.layoutSubviews()
         collectionView.frame = bounds
         gradientLayer.frame = bounds
-        
-        
-        layout.invalidateLayout()
-        collectionView.layoutIfNeeded()
+
         recenterIfNeeded()
     }
 }
@@ -528,39 +527,28 @@ extension YMCalendarView {
         delegate?.calendarViewDidScroll?(self)
     }
     
-    fileprivate func adjustStartDateForCenteredMonth(date: Date) -> Int {
-        let offset: Int
-        if scrollDirection == .vertical {
-            let contentHeight = collectionView.contentSize.height
-            let boundsHeight = collectionView.bounds.height
-            offset = Int(floor((contentHeight - boundsHeight) / boundsHeight) / 2)
-        } else {
-            let contentWidth = collectionView.contentSize.width
-            let boundsWidth = collectionView.bounds.width
-            offset = Int(floor((contentWidth - boundsWidth) / boundsWidth) / 2)
-        }
-        
+    private func adjustStartDateToCenter(date: Date) -> Int {
+        let offset = (numberOfLoadedMonths - 1) / 2
         guard let start = calendar.date(byAdding: .month, value: -offset, to: date) else {
-            fatalError()
+            return 0
         }
         var s = start
         if let dateRange = dateRange, let maxStartDate = maxStartDate {
+            // dateRange.start <= start <= maxStartDate
             if start.compare(dateRange.start) == .orderedAscending {
                 s = dateRange.start
             } else if start.compare(maxStartDate) == .orderedDescending {
                 s = maxStartDate
             }
         }
-        
         guard let diff = calendar.dateComponents([.month], from: startDate, to: s).month else {
-                fatalError()
+            return 0
         }
-        
         self.startDate = s
         return diff
     }
     
-    func recenterIfNeeded() {
+    private func recenterIfNeeded() {
         if scrollDirection == .vertical {
             let yOffset = max(collectionView.contentOffset.y, 0)
             let contentHeight = collectionView.contentSize.height
@@ -570,7 +558,7 @@ extension YMCalendarView {
                 let oldStart = startDate
                 
                 let centerMonth = monthFromOffset(yOffset)
-                let monthOffset = adjustStartDateForCenteredMonth(date: centerMonth)
+                let monthOffset = adjustStartDateToCenter(date: centerMonth)
                 
                 if monthOffset != 0 {
                     let y = offsetForMonth(date: oldStart)
@@ -590,7 +578,7 @@ extension YMCalendarView {
                 let oldStart = startDate
                 
                 let centerMonth = monthFromOffset(xOffset)
-                let monthOffset = adjustStartDateForCenteredMonth(date: centerMonth)
+                let monthOffset = adjustStartDateToCenter(date: centerMonth)
                 
                 if monthOffset != 0 {
                     let x = offsetForMonth(date: oldStart)
@@ -728,11 +716,6 @@ extension YMCalendarView: UICollectionViewDataSource {
         if selectedIndexes.contains(indexPath) {
             cell.select(withAnimation: .none)
         }
-//        selectedDates.forEach {
-//            if date == $0 {
-//                cell.select(withAnimation: .none)
-//            }
-//        }
         return cell
     }
     
@@ -915,29 +898,6 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
             }
             cellForItem(at: indexPath)?.select(withAnimation: selectAnimation)
             selectedIndexes = [indexPath]
-//            var needsReload = false
-//
-//            // deselect all selected dates
-//            selectedDates.forEach {
-//                if let index = indexPathForDate($0),
-//                    let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
-//                    deselectCell.deselect(withAnimation: deselectAnimation)
-//                } else {
-//                    // if collectionView couldn't find cell by cellForItem(at:_),
-//                    // should reload() in completion after animation.
-//                    needsReload = true
-//                }
-//            }
-//            selectedDates = [date]
-            
-//            // animate select cell
-//            if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-//                selectedCell.select(withAnimation: selectAnimation) { _ in
-//                    if needsReload {
-//                        self.reload()
-//                    }
-//                }
-//            }
         }
         
         delegate?.calendarView?(self, didSelectDayCellAtDate: dateForDayAtIndexPath(indexPath))
