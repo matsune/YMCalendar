@@ -67,7 +67,7 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let title = symbols[row]
-        let attrString = NSAttributedString(string: title, attributes: [NSForegroundColorAttributeName : UIColor.white])
+        let attrString = NSAttributedString(string: title, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
         return attrString
     }
     

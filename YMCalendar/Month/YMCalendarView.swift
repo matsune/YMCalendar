@@ -408,7 +408,7 @@ extension YMCalendarView {
         
         var fontSize = font.pointSize
         for str in strings {
-            let attrStr = NSAttributedString(string: str, attributes: [NSFontAttributeName : font])
+            let attrStr = NSAttributedString(string: str, attributes: [NSAttributedStringKey.font : font])
             attrStr.boundingRect(with: size, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: context)
             fontSize = min(fontSize, font.pointSize * context.actualScaleFactor)
         }

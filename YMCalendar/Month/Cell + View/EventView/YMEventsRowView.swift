@@ -103,7 +103,7 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
         var lines = [IndexSet]()
         
         eventRanges
-            .sorted(by: {$0.0.key.section < $0.1.key.section || $0.0.key.row < $0.1.key.row})
+            .sorted(by: {$0.key.section < $1.key.section || $0.key.row < $1.key.row})
             .forEach { indexPath, range in
             
                 var numLine = -1
@@ -229,7 +229,7 @@ final internal class YMEventsRowView: UIScrollView, ReusableObject {
     
     
     
-    func handleTap(_ recognizer: UITapGestureRecognizer) {
+    @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
         let pt = recognizer.location(in: self)
         for (indexPath, cell) in cells {
             if cell.frame.contains(pt) {

@@ -39,10 +39,10 @@ public class YMEventStandardView: YMEventView {
         
         let attributedString = NSMutableAttributedString(string: title,
                                                          attributes: [
-                                                            NSFontAttributeName : font,
-                                                            NSParagraphStyleAttributeName : style,
-                                                            NSForegroundColorAttributeName : textColor,
-                                                            NSBaselineOffsetAttributeName : baselineOffset])
+                                                            NSAttributedStringKey.font : font,
+                                                            NSAttributedStringKey.paragraphStyle : style,
+                                                            NSAttributedStringKey.foregroundColor : textColor,
+                                                            NSAttributedStringKey.baselineOffset : baselineOffset])
         
         attrString = attributedString
     }
