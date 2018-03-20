@@ -8,7 +8,7 @@
 
 import Foundation
 
-final internal class ReusableObjectQueue {
+final class ReusableObjectQueue {
     typealias T = ReusableObject
     
     var reusableObjects: [String : T] = [:]

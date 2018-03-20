@@ -8,8 +8,6 @@
 
 import Foundation
 
-/// ReusableObject will be reused for many times, such as UICollectionViewCell.
-/// This object can be registared and dequeued. 
 public protocol ReusableObject: class {
     
     init()

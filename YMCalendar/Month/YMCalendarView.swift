@@ -174,14 +174,13 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         guard let index = collectionView.indexPathsForVisibleItems.first else {
             return nil
         }
-        let date = dateForDayAtIndexPath(index)
-        let start = calendar.startOfMonthForDate(date)
-        let end = calendar.endOfMonthForDate(date)
+        let start = calendar.startOfMonthForDate(dateAt(index))
+        let end = calendar.endOfMonthForDate(dateAt(index))
         return DateRange(start: start, end: end)
     }
     
     // selection
-    public var selectAnimation: YMSelectAnimation   = .bounce
+    public var selectAnimation: YMSelectAnimation = .bounce
     
     public var deselectAnimation: YMSelectAnimation = .fade
     
@@ -214,9 +213,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     private func commonInit() {
         backgroundColor = .white
-        
         reuseQueue.registerClass(YMEventsRowView.self, forObjectWithReuseIdentifier: "YMEventsRowViewIdentifier")
-        
         addSubview(collectionView)
     }
     
@@ -247,7 +244,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         super.layoutSubviews()
         collectionView.frame = bounds
         gradientLayer.frame = bounds
-
         recenterIfNeeded()
     }
 }
@@ -255,7 +251,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
 extension YMCalendarView {
     // MARK: - Utils
 
-    private func dateForDayAtIndexPath(_ indexPath: IndexPath) -> Date {
+    private func dateAt(_ indexPath: IndexPath) -> Date {
         var comp   = DateComponents()
         comp.month = indexPath.section
         comp.day   = indexPath.row
@@ -276,7 +272,7 @@ extension YMCalendarView {
     }
     
     private func startDayAtMonth(in section: Int) -> Date {
-        return dateForDayAtIndexPath(IndexPath(item: 0, section: section))
+        return dateAt(IndexPath(item: 0, section: section))
     }
     
     private func numberOfDaysForMonth(in section: Int) -> Int {
@@ -284,9 +280,8 @@ extension YMCalendarView {
         return calendar.numberOfDaysInMonth(date: startDay)
     }
     
-    fileprivate func columnForDayAtIndexPath(_ indexPath: IndexPath) -> Int {
-        let date = dateForDayAtIndexPath(indexPath)
-        var weekday = calendar.component(.weekday, from: date)
+    private func column(at indexPath: IndexPath) -> Int {
+        var weekday = calendar.component(.weekday, from: dateAt(indexPath))
         weekday = (weekday + 7 - calendar.firstWeekday) % 7
         return weekday
     }
@@ -297,51 +292,10 @@ extension YMCalendarView {
         return DateRange(start: start!, end: end!)
     }
     
-    private func offsetForMonth(_ monthDate: MonthDate) -> CGFloat {
-        let diff = startDate.monthDiff(with: monthDate)
-        let size = scrollDirection == .vertical ? bounds.height : bounds.width
-        return size * CGFloat(diff)
-    }
-    
-    fileprivate func monthFromOffset(_ offset: CGFloat) -> MonthDate {
-        var month = startDate
-        if scrollDirection == .vertical {
-            let height = bounds.height
-            var y = offset > 0 ? height : 0
-            
-            while y < fabs(offset) {
-                month = month.add(month: offset > 0 ? 1 : -1)
-                y += height
-            }
-        } else {
-            let width = bounds.width
-            var x = offset > 0 ? width : 0
-            
-            while x < fabs(offset) {
-                month = month.add(month: offset > 0 ? 1 : -1)
-                x += width
-            }
-        }
-        return month
-    }
-    
     public func reload() {
         deselectEventWithDelegate(true)
         clearRowsCacheInDateRange(nil)
         collectionView.reloadData()
-    }
-    
-    fileprivate func maxSizeForFont(_ font: UIFont, toFitStrings strings: [String], inSize size: CGSize) -> CGFloat {
-        let context = NSStringDrawingContext()
-        context.minimumScaleFactor = 0.1
-        
-        var fontSize = font.pointSize
-        for str in strings {
-            let attrStr = NSAttributedString(string: str, attributes: [NSAttributedStringKey.font : font])
-            attrStr.boundingRect(with: size, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: context)
-            fontSize = min(fontSize, font.pointSize * context.actualScaleFactor)
-        }
-        return floor(fontSize)
     }
 }
 
@@ -455,6 +409,7 @@ extension YMCalendarView {
 }
 
 extension YMCalendarView {
+    
     // MARK: - Selection
     
     public var selectedEventView: YMEventView? {
@@ -497,6 +452,7 @@ extension YMCalendarView {
 }
 
 extension YMCalendarView {
+    
     // MARK: - Scrolling
     
     public func scrollToDate(_ date: Date, animated: Bool) {
@@ -513,6 +469,34 @@ extension YMCalendarView {
         }
         
         delegate?.calendarViewDidScroll?(self)
+    }
+    
+    private func offsetForMonth(_ monthDate: MonthDate) -> CGFloat {
+        let diff = startDate.monthDiff(with: monthDate)
+        let size = scrollDirection == .vertical ? bounds.height : bounds.width
+        return size * CGFloat(diff)
+    }
+    
+    private func monthFromOffset(_ offset: CGFloat) -> MonthDate {
+        var month = startDate
+        if scrollDirection == .vertical {
+            let height = bounds.height
+            var y = offset > 0 ? height : 0
+            
+            while y < fabs(offset) {
+                month = month.add(month: offset > 0 ? 1 : -1)
+                y += height
+            }
+        } else {
+            let width = bounds.width
+            var x = offset > 0 ? width : 0
+            
+            while x < fabs(offset) {
+                month = month.add(month: offset > 0 ? 1 : -1)
+                x += width
+            }
+        }
+        return month
     }
     
     private func adjustStartDateToCenter(date: MonthDate) -> Int {
@@ -533,53 +517,42 @@ extension YMCalendarView {
     }
     
     private func recenterIfNeeded() {
-        if scrollDirection == .vertical {
-            let yOffset = max(collectionView.contentOffset.y, 0)
-            let contentHeight = collectionView.contentSize.height
-            let boundsHeight = collectionView.bounds.height
+        let offset, content, bounds, boundsMax: CGFloat
+        switch scrollDirection {
+        case .vertical:
+            offset = max(collectionView.contentOffset.y, 0)
+            content = collectionView.contentSize.height
+            bounds = collectionView.bounds.height
+            boundsMax = collectionView.bounds.maxY
+        case .horizontal:
+            offset = max(collectionView.contentOffset.x, 0)
+            content = collectionView.contentSize.width
+            bounds = collectionView.bounds.width
+            boundsMax = collectionView.bounds.maxX
+        }
+        
+        guard content > 0 else {
+            return
+        }
+        
+        if offset < bounds || boundsMax + bounds > content {
+            let oldStart = startDate
             
-            guard contentHeight > 0 else {
-                return
-            }
+            let centerMonth = monthFromOffset(offset)
+            let monthOffset = adjustStartDateToCenter(date: centerMonth)
             
-            if yOffset < boundsHeight || collectionView.bounds.maxY + boundsHeight > contentHeight {
-                let oldStart = startDate
+            if monthOffset != 0 {
+                let k = offsetForMonth(oldStart)
+                collectionView.reloadData()
                 
-                let centerMonth = monthFromOffset(yOffset)
-                let monthOffset = adjustStartDateToCenter(date: centerMonth)
-                
-                if monthOffset != 0 {
-                    let y = offsetForMonth(oldStart)
-                    collectionView.reloadData()
-                    
-                    var offset = collectionView.contentOffset
-                    offset.y = y + yOffset
-                    collectionView.contentOffset = offset
+                var contentOffset = collectionView.contentOffset
+                switch scrollDirection {
+                case .vertical:
+                    contentOffset.y = k + offset
+                case .horizontal:
+                    contentOffset.x = k + offset
                 }
-            }
-        } else {
-            let xOffset = max(collectionView.contentOffset.x, 0)
-            let contentWidth = collectionView.contentSize.width
-            let monthMaxWidth = collectionView.bounds.width
-            
-            guard contentWidth > 0 else {
-                return
-            }
-            
-            if xOffset < monthMaxWidth || collectionView.bounds.maxX + monthMaxWidth > contentWidth {
-                let oldStart = startDate
-                
-                let centerMonth = monthFromOffset(xOffset)
-                let monthOffset = adjustStartDateToCenter(date: centerMonth)
-                
-                if monthOffset != 0 {
-                    let x = offsetForMonth(oldStart)
-                    collectionView.reloadData()
-                    
-                    var offset = collectionView.contentOffset
-                    offset.x = x + xOffset
-                    collectionView.contentOffset = offset
-                }
+                collectionView.contentOffset = contentOffset
             }
         }
     }
@@ -623,7 +596,8 @@ extension YMCalendarView {
     fileprivate func eventsRowViewAtDate(_ rowStart: Date) -> YMEventsRowView {
         var eventsRowView = eventRowsCache.value(forKey: rowStart)
         if eventsRowView == nil {
-            eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier("YMEventsRowViewIdentifier") as! YMEventsRowView?
+//            eventsRowView = reuseQueue.dequeueReusableObjectWithIdentifier("YMEventsRowViewIdentifier") as! YMEventsRowView?
+            eventsRowView = YMEventsRowView()
             let referenceDate = calendar.startOfMonthForDate(rowStart)
             let first = calendar.dateComponents([.day], from: referenceDate, to: rowStart).day
             if let range = calendar.range(of: .day, in: .weekOfMonth, for: rowStart) {
@@ -656,7 +630,7 @@ extension YMCalendarView {
     }
     
     fileprivate func monthRowViewAtIndexPath(_ indexPath: IndexPath) -> YMMonthWeekView {
-        let rowStart = dateForDayAtIndexPath(indexPath)
+        let rowStart = dateAt(indexPath)
         var rowView: YMMonthWeekView!
         var dequeued: Bool = false
         while !dequeued {
@@ -693,7 +667,7 @@ extension YMCalendarView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: YMMonthDayCollectionCell.identifier, for: indexPath) as? YMMonthDayCollectionCell else {
             fatalError()
         }
-        let date = dateForDayAtIndexPath(indexPath)
+        let date = dateAt(indexPath)
         let font = appearance.calendarViewAppearance(self, dayLabelFontAtDate: date)
         cell.day = calendar.day(date)
         cell.dayLabel.font = font
@@ -711,11 +685,22 @@ extension YMCalendarView: UICollectionViewDataSource {
         return cell
     }
     
-    fileprivate func backgroundViewForAtIndexPath(_ indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case YMMonthBackgroundView.kind:
+            return backgroundViewForAtIndexPath(indexPath)
+        case YMMonthWeekView.kind:
+            return monthRowViewAtIndexPath(indexPath)
+        default:
+            fatalError()
+        }
+    }
+    
+    private func backgroundViewForAtIndexPath(_ indexPath: IndexPath) -> UICollectionReusableView {
         let date = startDayAtMonth(in: indexPath.section)
         
-        let lastColumn: Int = columnForDayAtIndexPath(IndexPath(item: 0, section: indexPath.section + 1))
-        let numRows: Int = calendar.numberOfWeeksInMonth(date: date)
+        let lastColumn = column(at: IndexPath(item: 0, section: indexPath.section + 1))
+        let numRows = calendar.numberOfWeeksInMonth(date: date)
         
         guard let view = collectionView
             .dequeueReusableSupplementaryView(ofKind: YMMonthBackgroundView.kind,
@@ -735,17 +720,6 @@ extension YMCalendarView: UICollectionViewDataSource {
         view.setNeedsDisplay()
         
         return view
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case YMMonthBackgroundView.kind:
-            return backgroundViewForAtIndexPath(indexPath)
-        case YMMonthWeekView.kind:
-            return monthRowViewAtIndexPath(indexPath)
-        default:
-            fatalError()
-        }
     }
 }
 
@@ -867,7 +841,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     // MARK: - YMCalendarLayoutDelegate
     
     func collectionView(_ collectionView: UICollectionView, layout: YMCalendarLayout, columnForDayAtIndexPath indexPath: IndexPath) -> Int {
-        return columnForDayAtIndexPath(indexPath)
+        return column(at: indexPath)
     }
     
     // MARK: - UICollectionViewDelegate
@@ -892,7 +866,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
             selectedIndexes = [indexPath]
         }
         
-        delegate?.calendarView?(self, didSelectDayCellAtDate: dateForDayAtIndexPath(indexPath))
+        delegate?.calendarView?(self, didSelectDayCellAtDate: dateAt(indexPath))
     }
     
     // MARK: - UIScrollViewDelegate
@@ -901,7 +875,7 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         recenterIfNeeded()
         
         if let indexPath = collectionView.indexPathForItem(at: center) {
-            let date = dateForDayAtIndexPath(indexPath)
+            let date = dateAt(indexPath)
             let startMonth = calendar.startOfMonthForDate(date)
             if displayingMonthDate != startMonth {
                 displayingMonthDate = startMonth
