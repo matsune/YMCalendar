@@ -40,7 +40,6 @@ final class GradientViewController: UIViewController {
         calendarView.gradientColors  = [.sienna, .violetred]
         calendarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
-        calendarView.registerClass(MyCustomEventView.self, forEventCellReuseIdentifier: MyCustomEventViewIdentifier)
     }
     
     private func makeDate(year: Int, month: Int, day: Int) -> Date {
@@ -112,13 +111,9 @@ extension GradientViewController: YMCalendarDataSource {
         return nil
     }
     
-    func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
-        guard let view = view.dequeueReusableCellWithIdentifier(MyCustomEventViewIdentifier, forEventAtIndex: index, date: date) as? MyCustomEventView else {
-            fatalError()
+    func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<YMEventView> {
+        return Style<YMEventView> {
+            $0.backgroundColor = .green
         }
-        view.label.text = "today"
-        view.label.textColor = .white
-        view.backgroundColor = UIColor(white: 1.0, alpha: 0.25)
-        return view
     }
 }

@@ -13,7 +13,7 @@ public struct MonthDate {
     let month: Int
     
     public init(year: Int, month: Int) {
-        guard year > 0 && 1...12 ~= month else {
+        guard year >= 0 && 1...12 ~= month else {
             fatalError("Invalid year or month")
         }
         self.year = year
