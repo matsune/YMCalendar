@@ -63,6 +63,11 @@ final internal class YMMonthDayCollectionCell: UICollectionViewCell, YMCollectio
         contentView.addSubview(dayLabel)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        deselect(withAnimation: .none)
+    }
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
         

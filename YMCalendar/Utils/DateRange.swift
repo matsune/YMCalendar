@@ -13,7 +13,7 @@ public struct DateRange {
     public var end: Date
     
     public init(start: Date = Date(), end: Date = Date()) {
-        if start.compare(end) != .orderedAscending {
+        if start.compare(end) == .orderedDescending {
             fatalError("start and end are not ordered ascendingly")
         }
         self.start = start

@@ -27,6 +27,7 @@ final class GradientViewController: UIViewController {
         calendarWeekBarView.gradientColors = [.sienna, .violetred]
         calendarWeekBarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarWeekBarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
+        calendarView.dateRange = DateRange(start: makeDate(year: 2017, month: 12, day: 1), end: makeDate(year: 2018, month: 3, day: 1))
         
         calendarView.appearance = self
         calendarView.delegate   = self
@@ -40,6 +41,15 @@ final class GradientViewController: UIViewController {
         calendarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
         calendarView.registerClass(MyCustomEventView.self, forEventCellReuseIdentifier: MyCustomEventViewIdentifier)
+    }
+    
+    private func makeDate(year: Int, month: Int, day: Int) -> Date {
+        let dateComponents = DateComponents(year: year, month: month, day: day)
+        guard let date = Calendar.current.date(from: dateComponents) else {
+            assertionFailure("can`t crate Date")
+            return Date.distantPast
+        }
+        return date
     }
 }
 

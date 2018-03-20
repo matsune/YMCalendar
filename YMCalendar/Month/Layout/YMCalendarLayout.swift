@@ -13,7 +13,7 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
 
     typealias AttrDict = [IndexPath : UICollectionViewLayoutAttributes]
     
-    private var scrollDirection: YMScrollDirection
+    var scrollDirection: YMScrollDirection
     
     private var layoutAttrDict: [String : AttrDict] = [:]
     

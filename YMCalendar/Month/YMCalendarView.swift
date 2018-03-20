@@ -95,10 +95,8 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     public var scrollDirection: YMScrollDirection = .vertical {
         didSet {
-            let monthLayout = YMCalendarLayout(scrollDirection: scrollDirection)
-            monthLayout.delegate = self
-            monthLayout.dayHeaderHeight = dayLabelHeight
-            layout = monthLayout
+            layout.scrollDirection = scrollDirection
+            layout.invalidateLayout()
         }
     }
     
@@ -115,7 +113,13 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         }
     }
     
-    public var selectedDates: [Date] = []
+    public var dateRange: DateRange? {
+        didSet {
+            startDate = dateRange?.start ?? Date()
+        }
+    }
+    
+    private var selectedIndexes: [IndexPath] = []
     
     /// Height of event items in EventsRow. Default value is 16.
     public var eventViewHeight: CGFloat = 16
@@ -134,38 +138,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     /// Manager of registered class and identifiers.
     fileprivate var reuseQueue = ReusableObjectQueue()
-    
-    private var dateRange: DateRange?
-    
-    /// Set date range of CalendarView. If you set nil, calendar will be infinite.
-//    public func setDateRange(_ dateRange: DateRange?) {
-//        var first = visibleDays?.start
-//
-//        self.dateRange = nil
-//        if let dateRange = dateRange {
-//
-//
-//            let start = calendar.startOfMonthForDate(dateRange.start)
-//            let end = calendar.startOfMonthForDate(dateRange.end)
-//
-//            let range = DateRange(start: start, end: end)
-//
-//            self.dateRange = range
-//
-//            if !range.includesDateRange(loadedDateRange) {
-//                self.startDate = range.start
-//            }
-//
-//            if !range.contains(date: first) {
-//                first = Date()
-//                if !range.contains(date: first) {
-//                    first = range.start
-//                }
-//            }
-//        }
-//        collectionView.reloadData()
-//        scrollToDate(first!, animated: false)
-//    }
     
     fileprivate var maxStartDate: Date? {
         var date: Date? = nil
@@ -206,9 +178,9 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     private var selectedEventDate: Date?
     
-    private lazy var selectedEventIndex: Int = 0
+    private var selectedEventIndex: Int = 0
     
-    private lazy var showingMonthDate: Date = Date()
+    private var showingMonthDate: Date = Date()
     
     private var numberOfLoadedMonths: Int {
         if let range = dateRange,
@@ -217,13 +189,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         }
         return 9
     }
-    
-//    private var loadedDateRange: DateRange {
-//        var comps = DateComponents()
-//        comps.month = numberOfLoadedMonths
-//        let endDate = calendar.date(byAdding: comps, to: startDate)
-//        return DateRange(start: startDate, end: endDate!)
-//    }
 
     // MARK: - Initialize
     
@@ -254,10 +219,8 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
-        
         collectionView.backgroundView = UIView()
         collectionView.backgroundView?.layer.insertSublayer(gradientLayer, at: 0)
-        
         collectionView.register(YMMonthDayCollectionCell.self,
                                 forCellWithReuseIdentifier: YMMonthDayCollectionCell.identifier)
         collectionView.register(YMMonthBackgroundView.self,
@@ -762,11 +725,14 @@ extension YMCalendarView: UICollectionViewDataSource {
         cell.dayLabelHeight = dayLabelHeight
 
         // select cells which already selected dates
-        selectedDates.forEach {
-            if date == $0 {
-                cell.select(withAnimation: .none)
-            }
+        if selectedIndexes.contains(indexPath) {
+            cell.select(withAnimation: .none)
         }
+//        selectedDates.forEach {
+//            if date == $0 {
+//                cell.select(withAnimation: .none)
+//            }
+//        }
         return cell
     }
     
@@ -930,53 +896,51 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
     }
     
     // MARK: - UICollectionViewDelegate
+    private func cellForItem(at indexPath: IndexPath) -> YMMonthDayCollectionCell? {
+        return collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell
+    }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let date = dateForDayAtIndexPath(indexPath)
-        delegate?.calendarView?(self, didSelectDayCellAtDate: date)
-
-        collectionView.layoutIfNeeded()
-        
         if allowsMultipleSelection {
-            if let hasSelectedIndex = selectedDates.index(of: date) {
-                // if indexPath has been selected, deselect it.
-                if let index = indexPathForDate(selectedDates[hasSelectedIndex]),
-                    let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
-                    deselectCell.deselect(withAnimation: deselectAnimation)
-                }
-                selectedDates.remove(at: hasSelectedIndex)
+            if let i = selectedIndexes.index(of: indexPath) {
+                cellForItem(at: indexPath)?.deselect(withAnimation: deselectAnimation)
+                selectedIndexes.remove(at: i)
             } else {
-                // animate select cell
-                selectedDates.append(date)
-                if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-                    selectedCell.select(withAnimation: selectAnimation)
-                }
+                cellForItem(at: indexPath)?.select(withAnimation: selectAnimation)
+                selectedIndexes.append(indexPath)
             }
         } else {
-            var needsReload = false
-            
-            // deselect all selected dates
-            selectedDates.forEach {
-                if let index = indexPathForDate($0),
-                    let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
-                    deselectCell.deselect(withAnimation: deselectAnimation)
-                } else {
-                    // if collectionView couldn't find cell by cellForItem(at:_),
-                    // should reload() in completion after animation.
-                    needsReload = true
-                }
+            selectedIndexes.forEach {
+                cellForItem(at: $0)?.deselect(withAnimation: deselectAnimation)
             }
-            selectedDates = [date]
+            cellForItem(at: indexPath)?.select(withAnimation: selectAnimation)
+            selectedIndexes = [indexPath]
+//            var needsReload = false
+//
+//            // deselect all selected dates
+//            selectedDates.forEach {
+//                if let index = indexPathForDate($0),
+//                    let deselectCell = collectionView.cellForItem(at: index) as? YMMonthDayCollectionCell {
+//                    deselectCell.deselect(withAnimation: deselectAnimation)
+//                } else {
+//                    // if collectionView couldn't find cell by cellForItem(at:_),
+//                    // should reload() in completion after animation.
+//                    needsReload = true
+//                }
+//            }
+//            selectedDates = [date]
             
-            // animate select cell
-            if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
-                selectedCell.select(withAnimation: selectAnimation) { _ in
-                    if needsReload {
-                        self.reload()
-                    }
-                }
-            }
+//            // animate select cell
+//            if let selectedCell = collectionView.cellForItem(at: indexPath) as? YMMonthDayCollectionCell {
+//                selectedCell.select(withAnimation: selectAnimation) { _ in
+//                    if needsReload {
+//                        self.reload()
+//                    }
+//                }
+//            }
         }
+        
+        delegate?.calendarView?(self, didSelectDayCellAtDate: dateForDayAtIndexPath(indexPath))
     }
     
     // MARK: - UIScrollViewDelegate
