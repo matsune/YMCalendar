@@ -13,26 +13,25 @@ public struct DateRange {
     public var end: Date
     
     public init(start: Date = Date(), end: Date = Date()) {
+        if start.compare(end) != .orderedAscending {
+            fatalError("start and end are not ordered ascendingly")
+        }
         self.start = start
         self.end = end
     }
     
     public func components(_ unitFlags: Set<Calendar.Component>, forCalendar calendar: Calendar) -> DateComponents {
-        checkIfValid()
+//        checkIfValid()
         return calendar.dateComponents(unitFlags, from: start, to: end)
     }
     
-    public func contains(date : Date?) -> Bool {
-        checkIfValid()
-        
-        guard let date = date else {
-            return false
-        }
+    public func contains(date: Date) -> Bool {
+//        checkIfValid()
         return date.compare(start) != .orderedAscending && date.compare(end) == .orderedAscending
     }
     
     public mutating func intersectDateRange(_ range: DateRange) {
-        checkIfValid()
+//        checkIfValid()
         
         if range.end.compare(start) != .orderedDescending || end.compare(range.start) != .orderedDescending {
             end = start
@@ -56,12 +55,6 @@ public struct DateRange {
             return false
         }
         return true
-    }
-
-    func checkIfValid() {
-        if start.compare(end) != .orderedAscending {
-            assertionFailure("end date should be later than start date in DateRange object!")
-        }
     }
     
     public func enumerateDaysWithCalendar(_ calendar: Calendar, usingBlock block: (Date, inout Bool) -> ()) {

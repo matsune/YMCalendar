@@ -135,38 +135,37 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     /// Manager of registered class and identifiers.
     fileprivate var reuseQueue = ReusableObjectQueue()
     
-    
     private var dateRange: DateRange?
     
     /// Set date range of CalendarView. If you set nil, calendar will be infinite.
-    public func setDateRange(_ dateRange: DateRange?) {
-        var first = visibleDays?.start
-        
-        self.dateRange = nil
-        if let dateRange = dateRange {
-            
-            
-            let start = calendar.startOfMonthForDate(dateRange.start)
-            let end = calendar.startOfMonthForDate(dateRange.end)
-            
-            let range = DateRange(start: start, end: end)
-            
-            self.dateRange = range
-            
-            if !range.includesDateRange(loadedDateRange) {
-                self.startDate = range.start
-            }
-            
-            if !range.contains(date: first) {
-                first = Date()
-                if !range.contains(date: first) {
-                    first = range.start
-                }
-            }
-        }
-        collectionView.reloadData()
-        scrollToDate(first!, animated: false)
-    }
+//    public func setDateRange(_ dateRange: DateRange?) {
+//        var first = visibleDays?.start
+//
+//        self.dateRange = nil
+//        if let dateRange = dateRange {
+//
+//
+//            let start = calendar.startOfMonthForDate(dateRange.start)
+//            let end = calendar.startOfMonthForDate(dateRange.end)
+//
+//            let range = DateRange(start: start, end: end)
+//
+//            self.dateRange = range
+//
+//            if !range.includesDateRange(loadedDateRange) {
+//                self.startDate = range.start
+//            }
+//
+//            if !range.contains(date: first) {
+//                first = Date()
+//                if !range.contains(date: first) {
+//                    first = range.start
+//                }
+//            }
+//        }
+//        collectionView.reloadData()
+//        scrollToDate(first!, animated: false)
+//    }
     
     fileprivate var maxStartDate: Date? {
         var date: Date? = nil
@@ -183,25 +182,21 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     fileprivate var startDate = Date() {
         didSet {
-            let s = calendar.startOfMonthForDate(startDate)
-            if startDate != s {
-                startDate = s
+            let startOfMonth = calendar.startOfMonthForDate(startDate)
+            if startDate != startOfMonth {
+                startDate = startOfMonth
             }
         }
     }
     
     public var visibleDays: DateRange? {
-        collectionView.layoutIfNeeded()
-        var range: DateRange? = nil
-        
-        let visible = collectionView.indexPathsForVisibleItems.sorted()
-        if let firstIdx = visible.first, let lastIdx = visible.last, !visible.isEmpty {
-            let first = dateForDayAtIndexPath(firstIdx)
-            let last  = dateForDayAtIndexPath(lastIdx)
-            
-            range = DateRange(start: first, end: calendar.nextStartOfMonthForDate(last))
+        guard let index = collectionView.indexPathsForVisibleItems.first else {
+            return nil
         }
-        return range
+        let date = dateForDayAtIndexPath(index)
+        let start = calendar.startOfMonthForDate(date)
+        let end = calendar.endOfMonthForDate(date)
+        return DateRange(start: start, end: end)
     }
     
     // selection
@@ -216,21 +211,22 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     private lazy var showingMonthDate: Date = Date()
     
     private var numberOfLoadedMonths: Int {
-        if let dateRange = dateRange,
-            let diff = calendar.dateComponents([.month], from: dateRange.start, to: dateRange.end).month {
+        if let range = dateRange,
+            let diff = calendar.dateComponents([.month], from: range.start, to: range.end).month {
             return min(diff, 9)
         }
         return 9
     }
     
-    private var loadedDateRange: DateRange {
-        var comps = DateComponents()
-        comps.month = numberOfLoadedMonths
-        let endDate = calendar.date(byAdding: comps, to: startDate)
-        return DateRange(start: startDate, end: endDate!)
-    }
+//    private var loadedDateRange: DateRange {
+//        var comps = DateComponents()
+//        comps.month = numberOfLoadedMonths
+//        let endDate = calendar.date(byAdding: comps, to: startDate)
+//        return DateRange(start: startDate, end: endDate!)
+//    }
 
     // MARK: - Initialize
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -273,7 +269,8 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         return collectionView
     }
     
-    // MARK: - UIView
+    // MARK: - Layout
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
         collectionView.frame = bounds
@@ -289,43 +286,22 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
 extension YMCalendarView {
     // MARK: - Utils
 
-    fileprivate func dateForDayAtIndexPath(_ indexPath: IndexPath) -> Date {
+    private func dateForDayAtIndexPath(_ indexPath: IndexPath) -> Date {
         var comp   = DateComponents()
         comp.month = indexPath.section
         comp.day   = indexPath.row
         return calendar.date(byAdding: comp, to: startDate)!
     }
     
-    fileprivate func indexPathForDate(_ date: Date) -> IndexPath? {
-        var indexPath: IndexPath? = nil
-        if loadedDateRange.contains(date: date) {
-            let comps = calendar.dateComponents([.month, .day], from: startDate, to: date)
-            guard let day = comps.day, let month = comps.month else {
-                return nil
-            }
-            indexPath = IndexPath(item: day, section: month)
+    private func indexPathForDate(_ date: Date) -> IndexPath? {
+        guard let range = dateRange, range.contains(date: date) else {
+            return nil
         }
-        return indexPath
-    }
-    
-    fileprivate func indexPathsForDaysInRange(_ range: DateRange) -> [IndexPath] {
-        var paths: [IndexPath] = []
-        var comps = DateComponents()
-        comps.day = 0
-        
-        var date = calendar.startOfDay(for: range.start)
-        while range.contains(date: date) {
-            if let path = indexPathForDate(date) {
-                paths.append(path)
-            }
-            
-            guard let day = comps.day else {
-                return paths
-            }
-            comps.day = day + 1
-            date = calendar.date(byAdding: comps, to: range.start)!
+        let comps = calendar.dateComponents([.month, .day], from: startDate, to: date)
+        guard let day = comps.day, let month = comps.month else {
+            return nil
         }
-        return paths
+        return IndexPath(item: day, section: month)
     }
     
     private func startDayAtMonth(in section: Int) -> Date {
