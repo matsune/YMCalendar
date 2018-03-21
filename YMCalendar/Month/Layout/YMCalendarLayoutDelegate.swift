@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-internal protocol YMCalendarLayoutDelegate: UICollectionViewDelegate {
+protocol YMCalendarLayoutDelegate: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout: YMCalendarLayout, columnForDayAtIndexPath indexPath: IndexPath) -> Int
 }

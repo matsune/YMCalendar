@@ -14,8 +14,11 @@
 		135586BD20613AD000897CE8 /* MonthDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586BC20613AD000897CE8 /* MonthDate.swift */; };
 		135586BF2061710F00897CE8 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586BE2061710F00897CE8 /* Style.swift */; };
 		135586C12061713700897CE8 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C02061713700897CE8 /* UIViewExtension.swift */; };
+		135586C42062174900897CE8 /* ExtensionCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C32062174900897CE8 /* ExtensionCompatible.swift */; };
+		135586C72062179A00897CE8 /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C62062179A00897CE8 /* UICollectionView.swift */; };
+		135586C9206217F100897CE8 /* UICollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C8206217F100897CE8 /* UICollectionReusableView.swift */; };
+		135586CC20621C4E00897CE8 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586CB20621C4E00897CE8 /* Calendar.swift */; };
 		13A518B71E72E5A400F539ED /* YMCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = 13A518B51E72E5A400F539ED /* YMCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		13A519051E72EA3100F539ED /* CalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518EE1E72EA3100F539ED /* CalendarExtension.swift */; };
 		13A519071E72EA3100F539ED /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F01E72EA3100F539ED /* DateRange.swift */; };
 		13A519081E72EA3100F539ED /* YMDecelerationRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F11E72EA3100F539ED /* YMDecelerationRate.swift */; };
 		13A519091E72EA3100F539ED /* YMEventsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F21E72EA3100F539ED /* YMEventsRowView.swift */; };
@@ -28,7 +31,6 @@
 		13A519141E72EA3100F539ED /* YMCalendarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FD1E72EA3100F539ED /* YMCalendarDataSource.swift */; };
 		13A519151E72EA3100F539ED /* YMCalendarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FE1E72EA3100F539ED /* YMCalendarDelegate.swift */; };
 		13A519161E72EA3100F539ED /* YMMonthWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FF1E72EA3100F539ED /* YMMonthWeekView.swift */; };
-		13A519171E72EA3100F539ED /* YMCollectionReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519001E72EA3100F539ED /* YMCollectionReusable.swift */; };
 		13A519191E72EA3100F539ED /* YMScrollDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519021E72EA3100F539ED /* YMScrollDirection.swift */; };
 		13A519311E72F0B100F539ED /* YMEventsRowViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */; };
 		13AAAAF41EBC1CFD002C8AB5 /* YMSelectAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13AAAAF31EBC1CFD002C8AB5 /* YMSelectAnimation.swift */; };
@@ -47,10 +49,13 @@
 		135586BC20613AD000897CE8 /* MonthDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDate.swift; sourceTree = "<group>"; };
 		135586BE2061710F00897CE8 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		135586C02061713700897CE8 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		135586C32062174900897CE8 /* ExtensionCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionCompatible.swift; sourceTree = "<group>"; };
+		135586C62062179A00897CE8 /* UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
+		135586C8206217F100897CE8 /* UICollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionReusableView.swift; sourceTree = "<group>"; };
+		135586CB20621C4E00897CE8 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		13A518B21E72E5A400F539ED /* YMCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YMCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A518B51E72E5A400F539ED /* YMCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YMCalendar.h; sourceTree = "<group>"; };
 		13A518B61E72E5A400F539ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		13A518EE1E72EA3100F539ED /* CalendarExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarExtension.swift; sourceTree = "<group>"; };
 		13A518F01E72EA3100F539ED /* DateRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateRange.swift; sourceTree = "<group>"; };
 		13A518F11E72EA3100F539ED /* YMDecelerationRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMDecelerationRate.swift; sourceTree = "<group>"; };
 		13A518F21E72EA3100F539ED /* YMEventsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventsRowView.swift; sourceTree = "<group>"; };
@@ -63,7 +68,6 @@
 		13A518FD1E72EA3100F539ED /* YMCalendarDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarDataSource.swift; sourceTree = "<group>"; };
 		13A518FE1E72EA3100F539ED /* YMCalendarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarDelegate.swift; sourceTree = "<group>"; };
 		13A518FF1E72EA3100F539ED /* YMMonthWeekView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthWeekView.swift; sourceTree = "<group>"; };
-		13A519001E72EA3100F539ED /* YMCollectionReusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCollectionReusable.swift; sourceTree = "<group>"; };
 		13A519021E72EA3100F539ED /* YMScrollDirection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMScrollDirection.swift; sourceTree = "<group>"; };
 		13A519301E72F0B100F539ED /* YMEventsRowViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventsRowViewDelegate.swift; sourceTree = "<group>"; };
 		13AAAAF31EBC1CFD002C8AB5 /* YMSelectAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMSelectAnimation.swift; sourceTree = "<group>"; };
@@ -85,13 +89,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		132629CC1EB9639300261332 /* Cell + View */ = {
+		132629CC1EB9639300261332 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				13A5192E1E72EF6900F539ED /* EventView */,
 				13A5192F1E72EF9600F539ED /* UICollectionReusableView */,
 			);
-			path = "Cell + View";
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		133400081EB339CF007FE17E /* IndexableDictionry */ = {
@@ -108,15 +112,13 @@
 			children = (
 				13A518FB1E72EA3100F539ED /* YMCalendarView.swift */,
 				13A5192C1E72EF0C00F539ED /* Appearance */,
-				132629CC1EB9639300261332 /* Cell + View */,
+				132629CC1EB9639300261332 /* Cell */,
 				13A5192B1E72EF0100F539ED /* DataSource */,
 				13A5192A1E72EEF000F539ED /* Delegate */,
 				13A519261E72EE8A00F539ED /* Enum */,
 				13B518E41EAB9C6E002749AF /* EventKit */,
 				13A519281E72EECE00F539ED /* Layout */,
 				13FCCEE91E9135A60070B038 /* ViewController */,
-				135586BA20613ABA00897CE8 /* MonthRange.swift */,
-				135586BC20613AD000897CE8 /* MonthDate.swift */,
 			);
 			path = Month;
 			sourceTree = "<group>";
@@ -128,6 +130,33 @@
 				13B222651E85F0FB00BFF183 /* YMCalendarWeekBarView.swift */,
 			);
 			path = WeekBar;
+			sourceTree = "<group>";
+		};
+		135586C22062173A00897CE8 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				135586CA20621C4200897CE8 /* Foundation */,
+				135586C52062178C00897CE8 /* UIKit */,
+				135586C32062174900897CE8 /* ExtensionCompatible.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		135586C52062178C00897CE8 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				135586C62062179A00897CE8 /* UICollectionView.swift */,
+				135586C8206217F100897CE8 /* UICollectionReusableView.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		135586CA20621C4200897CE8 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				135586CB20621C4E00897CE8 /* Calendar.swift */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		13A518A81E72E5A400F539ED = {
@@ -149,6 +178,7 @@
 		13A518B41E72E5A400F539ED /* YMCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				135586C22062173A00897CE8 /* Extension */,
 				1334000D1EB369B4007FE17E /* Month */,
 				13A519251E72EE7A00F539ED /* Utils */,
 				1334000E1EB369C1007FE17E /* WeekBar */,
@@ -161,7 +191,8 @@
 		13A519251E72EE7A00F539ED /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				13A518EE1E72EA3100F539ED /* CalendarExtension.swift */,
+				135586BA20613ABA00897CE8 /* MonthRange.swift */,
+				135586BC20613AD000897CE8 /* MonthDate.swift */,
 				13A518F01E72EA3100F539ED /* DateRange.swift */,
 				135586BE2061710F00897CE8 /* Style.swift */,
 				135586C02061713700897CE8 /* UIViewExtension.swift */,
@@ -179,16 +210,6 @@
 				13AAAAF31EBC1CFD002C8AB5 /* YMSelectAnimation.swift */,
 			);
 			path = Enum;
-			sourceTree = "<group>";
-		};
-		13A519271E72EEA100F539ED /* YMCollectionReusables */ = {
-			isa = PBXGroup;
-			children = (
-				13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */,
-				13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */,
-				13A518FF1E72EA3100F539ED /* YMMonthWeekView.swift */,
-			);
-			path = YMCollectionReusables;
 			sourceTree = "<group>";
 		};
 		13A519281E72EECE00F539ED /* Layout */ = {
@@ -236,8 +257,9 @@
 		13A5192F1E72EF9600F539ED /* UICollectionReusableView */ = {
 			isa = PBXGroup;
 			children = (
-				13A519271E72EEA100F539ED /* YMCollectionReusables */,
-				13A519001E72EA3100F539ED /* YMCollectionReusable.swift */,
+				13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */,
+				13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */,
+				13A518FF1E72EA3100F539ED /* YMMonthWeekView.swift */,
 			);
 			path = UICollectionReusableView;
 			sourceTree = "<group>";
@@ -340,7 +362,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13FCCEE21E90DD460070B038 /* YMCalendarEKViewController.swift in Sources */,
+				135586C42062174900897CE8 /* ExtensionCompatible.swift in Sources */,
 				13A519101E72EA3100F539ED /* YMCalendarLayoutDelegate.swift in Sources */,
+				135586CC20621C4E00897CE8 /* Calendar.swift in Sources */,
 				13A519121E72EA3100F539ED /* YMCalendarView.swift in Sources */,
 				13AAAAF41EBC1CFD002C8AB5 /* YMSelectAnimation.swift in Sources */,
 				135586BB20613ABB00897CE8 /* MonthRange.swift in Sources */,
@@ -354,14 +378,14 @@
 				13A519191E72EA3100F539ED /* YMScrollDirection.swift in Sources */,
 				13B222661E85F0FB00BFF183 /* YMCalendarWeekBarView.swift in Sources */,
 				13A5190F1E72EA3100F539ED /* YMCalendarLayout.swift in Sources */,
-				13A519171E72EA3100F539ED /* YMCollectionReusable.swift in Sources */,
+				135586C9206217F100897CE8 /* UICollectionReusableView.swift in Sources */,
 				13A519141E72EA3100F539ED /* YMCalendarDataSource.swift in Sources */,
 				13A519071E72EA3100F539ED /* DateRange.swift in Sources */,
 				13A519311E72F0B100F539ED /* YMEventsRowViewDelegate.swift in Sources */,
-				13A519051E72EA3100F539ED /* CalendarExtension.swift in Sources */,
 				1334000C1EB339DE007FE17E /* IndexableDictionary+Description.swift in Sources */,
 				13A5190E1E72EA3100F539ED /* YMMonthDayCollectionCell.swift in Sources */,
 				135586BF2061710F00897CE8 /* Style.swift in Sources */,
+				135586C72062179A00897CE8 /* UICollectionView.swift in Sources */,
 				135586C12061713700897CE8 /* UIViewExtension.swift in Sources */,
 				1334000B1EB339DE007FE17E /* IndexableDictionary.swift in Sources */,
 				1345C7161EBD87790076FF31 /* YMDayLabelAlignment.swift in Sources */,

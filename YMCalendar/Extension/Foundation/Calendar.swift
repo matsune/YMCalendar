@@ -1,29 +1,15 @@
 //
-//  DateExtension.swift
+//  Calendar.swift
 //  YMCalendar
 //
-//  Created by Yuma Matsune on 2017/02/21.
-//  Copyright © 2017年 Yuma Matsune. All rights reserved.
+//  Created by Yuma Matsune on 2018/03/21.
+//  Copyright © 2018年 Yuma Matsune. All rights reserved.
 //
 
 import Foundation
 
 extension Calendar {
-    public func year(_ date: Date) -> Int {
-        guard let year = dateComponents([.year], from: date).year else {
-            fatalError()
-        }
-        return year
-    }
-    
-    public func month(_ date: Date) -> Int {
-        guard let month = dateComponents([.month], from: date).month else {
-            fatalError()
-        }
-        return month
-    }
-    
-    public func day(_ date: Date) -> Int {
+    func day(_ date: Date) -> Int {
         guard let day = dateComponents([.day], from: date).day else {
             fatalError()
         }
@@ -37,13 +23,13 @@ extension Calendar {
     }
     
     public func startOfMonthForDate(_ date: Date) -> Date {
-        var comp = self.dateComponents([.year, .month, .day], from: date)
+        var comp = dateComponents([.year, .month, .day], from: date)
         comp.day = 1
         return self.date(from: comp)!
     }
     
-    public func endOfMonthForDate(_ date: Date) -> Date {
-        var comp = self.dateComponents([.year, .month, .day], from: date)
+   public func endOfMonthForDate(_ date: Date) -> Date {
+        var comp = dateComponents([.year, .month, .day], from: date)
         if let month = comp.month {
             comp.month = month + 1
         }
@@ -51,25 +37,18 @@ extension Calendar {
         return self.date(from: comp)!
     }
     
-    public func nextStartOfMonthForDate(_ date: Date) -> Date {
+    func nextStartOfMonthForDate(_ date: Date) -> Date {
         let firstDay = startOfMonthForDate(date)
         var comp = DateComponents()
         comp.month = 1
         return self.date(byAdding: comp, to: firstDay)!
     }
     
-    public func prevStartOfMonthForDate(_ date: Date) -> Date {
-        let firstDay = startOfMonthForDate(date)
-        var comp = DateComponents()
-        comp.month = -1
-        return self.date(byAdding: comp, to: firstDay)!
-    }
-    
-    public func numberOfDaysInMonth(date: Date) -> Int {
+    func numberOfDaysInMonth(date: Date) -> Int {
         return range(of: .day, in: .month, for: date)?.count ?? 0
     }
     
-    public func numberOfWeeksInMonth(date: Date) -> Int {
+    func numberOfWeeksInMonth(date: Date) -> Int {
         return range(of: .weekOfMonth, in: .month, for: date)?.count ?? 0
     }
     
@@ -82,6 +61,10 @@ extension Calendar {
     }
     
     func monthDate(from date: Date) -> MonthDate {
-        return MonthDate(year: year(date), month: month(date))
+        let comp = dateComponents([.year, .month], from: date)
+        guard let year = comp.year, let month = comp.month else {
+            fatalError()
+        }
+        return MonthDate(year: year, month: month)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final internal class YMMonthWeekView: UICollectionReusableView, YMCollectionReusable {
+final class YMMonthWeekView: UICollectionReusableView {
 
     var eventsView = YMEventsRowView(frame: .zero) {
         didSet {
@@ -30,7 +30,6 @@ final internal class YMMonthWeekView: UICollectionReusableView, YMCollectionReus
     
     private func commonInit() {
         backgroundColor = .clear
-        
         addSubview(eventsView)
     }
     

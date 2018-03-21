@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-internal final class YMCalendarLayout: UICollectionViewLayout {
+final class YMCalendarLayout: UICollectionViewLayout {
 
     typealias AttrDict = [IndexPath : UICollectionViewLayoutAttributes]
     
@@ -72,7 +72,7 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
             for _ in 0..<numberOfRows {
                 let colRange = NSMakeRange(col, min(7 - col, numberOfdaysInMonth - day))
                 let path = IndexPath(item: day, section: month)
-                let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.kind, with: path)
+                let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.ym.kind, with: path)
                 let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
                 
                 // difference of scrollDirection is x-postition of frame.
@@ -122,7 +122,7 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
             }
             
             let path = IndexPath(item: 0, section: month)
-            let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthBackgroundView.kind, with: path)
+            let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthBackgroundView.ym.kind, with: path)
             attributes.frame = monthRect
             attributes.zIndex = 0
             monthsAttrDict.updateValue(attributes, forKey: path)
@@ -168,11 +168,11 @@ internal final class YMCalendarLayout: UICollectionViewLayout {
     
     override public func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         var attributes: UICollectionViewLayoutAttributes? = nil
-        if elementKind == YMMonthBackgroundView.kind {
+        if elementKind == YMMonthBackgroundView.ym.kind {
             if let layout = layoutAttrDict["MonthAttrDict"] {
                 attributes = layout[indexPath]
             }
-        } else if elementKind == YMMonthWeekView.kind {
+        } else if elementKind == YMMonthWeekView.ym.kind {
             if let layout = layoutAttrDict["WeekAttrDict"] {
                 attributes = layout[indexPath]
             }
