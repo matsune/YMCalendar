@@ -23,7 +23,7 @@ final internal class YMEventsRowView: UIScrollView {
     
     let cellSpacing: CGFloat = 2.0
     
-    var eventViews: [IndexPath: YMEventView] = [:]
+    var eventViews: [IndexPath: UIView] = [:]
     
     var maxVisibleLines: Int?
     
@@ -95,19 +95,20 @@ final internal class YMEventsRowView: UIScrollView {
     }
     
     private func createEventView(range: NSRange, line: Int, indexPath: IndexPath) {
-        let view = YMEventView()
+        let view = UIView()
         view.frame = rectForCell(range: range, line: line)
         if let style = eventsRowDelegate?.eventsRowView(self, styleForEventViewAt: indexPath) {
             view.apply(style)
         }
-        view.onTap = didTapCell
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        view.addGestureRecognizer(tapGesture)
         view.setNeedsDisplay()
         eventViews[indexPath] = view
         addSubview(view)
     }
     
-    func cellsInRect(_ rect: CGRect) -> [YMEventView] {
-        var rows: [YMEventView] = []
+    func viewsInRect(_ rect: CGRect) -> [UIView] {
+        var rows: [UIView] = []
         eventViews.forEach { indexPath, cell in
             if cell.frame.intersects(rect) {
                 rows.append(cell)
@@ -125,7 +126,7 @@ final internal class YMEventsRowView: UIScrollView {
         return nil
     }
     
-    func eventView(at indexPath: IndexPath) -> YMEventView? {
+    func eventView(at indexPath: IndexPath) -> UIView? {
         return eventViews[indexPath]
     }
 
@@ -139,14 +140,15 @@ final internal class YMEventsRowView: UIScrollView {
         return rect.insetBy(dx: cellSpacing, dy: 0)
     }
     
-    func didTapCell(_ cell: YMEventView) {
-        if let indexPath = eventViews.first(where: {$0.value == cell})?.key {
-            eventsRowDelegate?.eventsRowView(self, didSelectCellAtIndexPath: indexPath)
-        }
-    }
-    
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
         return hitView == self ? nil : hitView
+    }
+    
+    @objc
+    func handleTap(_ gesture: UITapGestureRecognizer) {
+        if let indexPath = eventViews.first(where: { $0.value == gesture.view })?.key {
+            eventsRowDelegate?.eventsRowView(self, didSelectCellAtIndexPath: indexPath)
+        }
     }
 }

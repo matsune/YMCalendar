@@ -140,12 +140,12 @@ extension BasicViewController: YMCalendarDataSource {
         return nil
     }
     
-    func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<YMEventView> {
-        return Style<YMEventView> {
+    func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<UIView> {
+        return Style<UIView> {
             $0.backgroundColor = .gray
         }
     }
-//    func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
+//    func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> UIView {
 //        guard let view = view.dequeueReusableCellWithIdentifier("YMEventStandardView", forEventAtIndex: index, date: date) as? YMEventStandardView else {
 //            fatalError()
 //        }

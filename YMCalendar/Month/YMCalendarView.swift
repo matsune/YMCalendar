@@ -143,7 +143,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     public var maxVisibleEvents: Int?
     
     /// Cache of EventsRowViews. EventsRowView belongs to MonthWeekView and
-    /// has events(YMEventViews) for a week. This dictionary has start of week
+    /// has events(UIViews) for a week. This dictionary has start of week
     /// as key and events as value.
     fileprivate var eventRowsCache = IndexableDictionary<Date, YMEventsRowView>()
     
@@ -340,13 +340,13 @@ extension YMCalendarView {
             .forEach { $0.value.reload() }
     }
     
-    public var visibleEventViews: [YMEventView] {
+    public var visibleEventViews: [UIView] {
         return visibleEventRows.flatMap {
-            $0.cellsInRect($0.convert(bounds, to: self))
+            $0.viewsInRect($0.convert(bounds, to: self))
         }
     }
     
-    public func eventViewForEventAtIndex(_ index: Int, date: Date) -> YMEventView? {
+    public func eventViewForEventAtIndex(_ index: Int, date: Date) -> UIView? {
         for rowView in visibleEventRows {
             guard let day = calendar.dateComponents([.day], from: rowView.monthStart, to: date).day else {
                 return nil
@@ -358,7 +358,7 @@ extension YMCalendarView {
         return nil
     }
     
-    public func eventCellAtPoint(_ pt: CGPoint, date: inout Date, index: inout Int) -> YMEventView? {
+    public func eventCellAtPoint(_ pt: CGPoint, date: inout Date, index: inout Int) -> UIView? {
         for rowView in visibleEventRows {
             let ptInRow = rowView.convert(pt, from: self)
             if let path = rowView.indexPathForCellAtPoint(ptInRow) {
@@ -666,13 +666,13 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         return NSMakeRange(start, end - start)
     }
     
-    private var defaultStyle: Style<YMEventView> {
-        return Style<YMEventView> {
+    private var defaultStyle: Style<UIView> {
+        return Style<UIView> {
             $0.backgroundColor = .orange
         }
     }
     
-    func eventsRowView(_ view: YMEventsRowView, styleForEventViewAt indexPath: IndexPath) -> Style<YMEventView> {
+    func eventsRowView(_ view: YMEventsRowView, styleForEventViewAt indexPath: IndexPath) -> Style<UIView> {
         var comp = DateComponents()
         comp.day = indexPath.section
         guard let date = calendar.date(byAdding: comp, to: view.monthStart) else {

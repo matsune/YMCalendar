@@ -111,8 +111,8 @@ extension GradientViewController: YMCalendarDataSource {
         return nil
     }
     
-    func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<YMEventView> {
-        return Style<YMEventView> {
+    func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<UIView> {
+        return Style<UIView> {
             $0.backgroundColor = .green
         }
     }

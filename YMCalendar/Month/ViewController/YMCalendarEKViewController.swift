@@ -75,13 +75,12 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         for event in events {
             let start = calendar.startOfDay(for: event.startDate)
             let eventRange = DateRange(start: start, end: event.endDate)
-            
-            eventRange.enumerateDaysWithCalendar(calendar, usingBlock: { date, _ in
-                if eventsDict[date] == nil {
-                    eventsDict[date] = []
+            eventRange.enumerateDaysWithCalendar(calendar) {
+                if eventsDict[$0] == nil {
+                    eventsDict[$0] = []
                 }
-                eventsDict[date]?.append(event)
-            })
+                eventsDict[$0]?.append(event)
+            }
         }
         
         cachedEvents[month] = eventsDict
@@ -152,8 +151,8 @@ extension YMCalendarEKViewController: YMCalendarDataSource {
         return range
     }
     
-    public func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<YMEventView> {
-        return Style<YMEventView> {
+    public func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<UIView> {
+        return Style<UIView> {
             $0.backgroundColor = .blue
         }
     }

@@ -42,7 +42,7 @@ public struct MonthDate {
     }
 }
 
-extension MonthDate: Equatable, Comparable {
+extension MonthDate: Comparable {
     public static func ==(lhs: MonthDate, rhs: MonthDate) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }

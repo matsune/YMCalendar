@@ -19,7 +19,6 @@
 		13A519071E72EA3100F539ED /* DateRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F01E72EA3100F539ED /* DateRange.swift */; };
 		13A519081E72EA3100F539ED /* YMDecelerationRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F11E72EA3100F539ED /* YMDecelerationRate.swift */; };
 		13A519091E72EA3100F539ED /* YMEventsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F21E72EA3100F539ED /* YMEventsRowView.swift */; };
-		13A5190B1E72EA3100F539ED /* YMEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F41E72EA3100F539ED /* YMEventView.swift */; };
 		13A5190C1E72EA3100F539ED /* YMMonthBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */; };
 		13A5190E1E72EA3100F539ED /* YMMonthDayCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */; };
 		13A5190F1E72EA3100F539ED /* YMCalendarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F81E72EA3100F539ED /* YMCalendarLayout.swift */; };
@@ -55,7 +54,6 @@
 		13A518F01E72EA3100F539ED /* DateRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateRange.swift; sourceTree = "<group>"; };
 		13A518F11E72EA3100F539ED /* YMDecelerationRate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMDecelerationRate.swift; sourceTree = "<group>"; };
 		13A518F21E72EA3100F539ED /* YMEventsRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventsRowView.swift; sourceTree = "<group>"; };
-		13A518F41E72EA3100F539ED /* YMEventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventView.swift; sourceTree = "<group>"; };
 		13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthBackgroundView.swift; sourceTree = "<group>"; };
 		13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthDayCollectionCell.swift; sourceTree = "<group>"; };
 		13A518F81E72EA3100F539ED /* YMCalendarLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarLayout.swift; sourceTree = "<group>"; };
@@ -230,7 +228,6 @@
 		13A5192E1E72EF6900F539ED /* EventView */ = {
 			isa = PBXGroup;
 			children = (
-				13A518F41E72EA3100F539ED /* YMEventView.swift */,
 				13A518F21E72EA3100F539ED /* YMEventsRowView.swift */,
 			);
 			path = EventView;
@@ -371,7 +368,6 @@
 				13FCCEEB1E9135B30070B038 /* YMCalendarViewController.swift in Sources */,
 				13A519161E72EA3100F539ED /* YMMonthWeekView.swift in Sources */,
 				13A519081E72EA3100F539ED /* YMDecelerationRate.swift in Sources */,
-				13A5190B1E72EA3100F539ED /* YMEventView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
