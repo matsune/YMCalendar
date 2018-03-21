@@ -9,29 +9,26 @@
 import Foundation
 import UIKit
 
-open class YMEventView: UIView, ReusableObject {
+open class YMEventView: UIView {
     
-    public var reuseIdentifier: String = ""
+    var onTap: ((YMEventView) -> Void)?
     
-    public var selected: Bool = false
-    
-    public var visibleHeight: CGFloat = 0
-    
-    override public init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
+        setup()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        commonInit()
+        setup()
     }
     
-    private func commonInit() {
-        clipsToBounds = true
+    private func setup() {
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapEventView(_:))))
     }
     
-    public func prepareForReuse() {
-        selected = false
+    @objc
+    func didTapEventView(_ sender: UITapGestureRecognizer) {
+        onTap?(self)
     }
 }

@@ -283,15 +283,16 @@ extension YMCalendarView {
         return weekday
     }
     
-    fileprivate func dateRangeForYMEventsRowView(_ rowView: YMEventsRowView) -> DateRange {
-        let start = calendar.date(byAdding: .day, value: rowView.daysRange.location, to: rowView.monthStart)
-        let end = calendar.date(byAdding: .day, value: NSMaxRange(rowView.daysRange), to: rowView.monthStart)
-        return DateRange(start: start!, end: end!)
+    private func dateRangeOf(rowView: YMEventsRowView) -> DateRange? {
+        guard let start = calendar.date(byAdding: .day, value: rowView.daysRange.location, to: rowView.monthStart),
+            let end = calendar.date(byAdding: .day, value: NSMaxRange(rowView.daysRange), to: rowView.monthStart) else {
+                return nil
+        }
+        return DateRange(start: start, end: end)
     }
     
     public func reload() {
-        deselectEventWithDelegate(true)
-        clearRowsCacheInDateRange(nil)
+        clearRowsCacheIn(range: nil)
         collectionView.reloadData()
     }
 }
@@ -301,67 +302,28 @@ extension YMCalendarView {
     // MARK: - Public
     
     public func reloadEvents() {
-        deselectEventWithDelegate(true)
-        guard let visibleDateRange = visibleDays else {
-            return
-        }
-        eventRowsCache.forEach { date, rowView in
-            let rowRange = dateRangeForYMEventsRowView(rowView)
-            if rowRange.intersectsDateRange(visibleDateRange) {
-                rowView.reload()
-            } else {
-                removeRowAtDate(date)
-            }
+        eventRowsCache.forEach {
+            $0.value.reload()
         }
     }
     
     public func reloadEventsAtDate(_ date: Date) {
-        if let selectedEventDate = selectedEventDate, calendar.isDate(selectedEventDate, inSameDayAs: date) {
-            deselectEventWithDelegate(true)
-        }
-        if let visibleDateRange = visibleDays {
-            eventRowsCache.forEach { date, rowView in
-                let rowRange = dateRangeForYMEventsRowView(rowView)
-                if rowRange.contains(date: date) {
-                    if visibleDateRange.contains(date: date) {
-                        rowView.reload()
-                    } else {
-                        removeRowAtDate(date)
-                    }
-                }
-            }
-        }
+        eventRowsCache.first(where: { $0.key == date })?.value.reload()
     }
     
     public func reloadEventsInRange(_ range: DateRange) {
-        if let selectedEventDate = selectedEventDate, range.contains(date: selectedEventDate) {
-            deselectEventWithDelegate(true)
-        }
-        if let visibleDateRange = visibleDays {
-            var reloadRowViews: [YMEventsRowView] = []
-            eventRowsCache.forEach({ date, rowView in
-                let rowRange = dateRangeForYMEventsRowView(rowView)
-                if rowRange.intersectsDateRange(range) {
-                    if rowRange.intersectsDateRange(visibleDateRange) {
-                        reloadRowViews.append(rowView)
-                    } else {
-                        removeRowAtDate(date)
-                    }
-                }
-            })
-            DispatchQueue.main.async {
-                reloadRowViews.forEach {$0.reload()}
+        eventRowsCache
+            .filter {
+                dateRangeOf(rowView: $0.value)?.intersectsDateRange(range) ?? false
+            }.forEach {
+                $0.value.reload()
             }
-        }
     }
     
-    public var visibleEventCells: [YMEventView] {
-        var cells: [YMEventView] = []
-        for rowView in visibleEventRows {
-            let rect = rowView.convert(bounds, from: self)
-            cells.append(contentsOf: rowView.cellsInRect(rect))
+    public var visibleEventViews: [YMEventView] {
+        return visibleEventRows.flatMap {
+            $0.cellsInRect($0.convert(bounds, to: self))
         }
-        return cells
     }
     
     public func eventViewForEventAtIndex(_ index: Int, date: Date) -> YMEventView? {
@@ -370,7 +332,7 @@ extension YMCalendarView {
                 return nil
             }
             if NSLocationInRange(day, rowView.daysRange) {
-                return rowView.cellAtIndexPath(IndexPath(item: index, section: day))
+                return rowView.eventView(at: IndexPath(item: index, section: day))
             }
         }
         return nil
@@ -384,53 +346,10 @@ extension YMCalendarView {
                 comps.day = path.section
                 date = calendar.date(byAdding: comps, to: rowView.monthStart)!
                 index = path.item
-                return rowView.cellAtIndexPath(path)
+                return rowView.eventView(at: path)
             }
         }
         return nil
-    }
-}
-
-extension YMCalendarView {
-    
-    // MARK: - Selection
-    
-    public var selectedEventView: YMEventView? {
-        if let date = selectedEventDate {
-            return eventViewForEventAtIndex(selectedEventIndex, date: date)
-        }
-        return nil
-    }
-    
-    public func deselectEventWithDelegate(_ tellDelegate: Bool) {
-        if let selectedDate = selectedEventDate {
-            let cell = eventViewForEventAtIndex(selectedEventIndex, date: selectedDate)
-            cell?.selected = false
-            
-            if tellDelegate {
-                delegate?.calendarView?(self, didDeselectEventAtIndex: selectedEventIndex, date: selectedDate)
-            }
-            
-            selectedEventDate = nil
-        }
-    }
-    
-    public func deselectEvent() {
-        if allowsSelection {
-            deselectEventWithDelegate(false)
-        }
-    }
-    
-    public func selectEventCellAtIndex(_ index: Int, date: Date) {
-        deselectEventWithDelegate(false)
-        
-        if allowsSelection {
-            let cell = eventViewForEventAtIndex(index, date: date)
-            cell?.selected = true
-            
-            selectedEventDate  = date
-            selectedEventIndex = index
-        }
     }
 }
 
@@ -544,34 +463,30 @@ extension YMCalendarView {
 extension YMCalendarView {
     // MARK: - Rows Handling
     
-    fileprivate var visibleEventRows: [YMEventsRowView] {
-        var rows: [YMEventsRowView] = []
-        if let visibleRange = visibleDays {
-            eventRowsCache.forEach({ date, rowView in
-                if visibleRange.contains(date: date) {
-                    rows.append(rowView)
-                }
-            })
-        }
-        return rows
-    }
-    
-    fileprivate func clearRowsCacheInDateRange(_ range: DateRange?) {
-        if let range = range {
-            eventRowsCache.forEach({ date, rowView in
-                if range.contains(date: date) {
-                    removeRowAtDate(date)
-                }
-            })
-        } else {
-            eventRowsCache.forEach({ date, rowView in
-                removeRowAtDate(date)
-            })
-        }
-    }
-    
-    fileprivate func removeRowAtDate(_ date: Date) {
+    private func removeRowCache(at date: Date) {
         eventRowsCache.removeValue(forKey: date)
+    }
+    
+    private var visibleEventRows: [YMEventsRowView] {
+        guard let visibleRange = visibleDays else {
+            return []
+        }
+        return eventRowsCache
+            .filter {
+                visibleRange.contains(date: $0.key)
+            }.map {
+                $0.value
+            }
+    }
+    
+    private func clearRowsCacheIn(range: DateRange?) {
+        if let range = range {
+            eventRowsCache
+                .filter { range.contains(date: $0.key) }
+                .forEach { removeRowCache(at: $0.key) }
+        } else {
+            eventRowsCache.forEach { removeRowCache(at: $0.key) }
+        }
     }
     
     private func eventsRowView(at rowStart: Date) -> YMEventsRowView {
@@ -602,7 +517,7 @@ extension YMCalendarView {
         
         if eventRowsCache.count >= rowCacheSize {
             if let first = eventRowsCache.first?.0 {
-                removeRowAtDate(first)
+                removeRowCache(at: first)
             }
         }
     }
@@ -764,8 +679,6 @@ extension YMCalendarView: YMEventsRowViewDelegate {
     }
     
     func eventsRowView(_ view: YMEventsRowView, didSelectCellAtIndexPath indexPath: IndexPath) {
-        deselectEventWithDelegate(true)
-        
         var comps = DateComponents()
         comps.day = indexPath.section
         guard let date = calendar.date(byAdding: comps, to: view.monthStart) else {

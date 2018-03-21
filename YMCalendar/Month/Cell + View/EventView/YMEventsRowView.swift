@@ -23,9 +23,7 @@ final internal class YMEventsRowView: UIScrollView {
     
     let cellSpacing: CGFloat = 2.0
     
-    var cells: [IndexPath: YMEventView] = [:]
-    
-    var eventsCount: [Int: Int] = [:]
+    var eventViews: [IndexPath: YMEventView] = [:]
     
     var maxVisibleLines: Int?
     
@@ -45,25 +43,11 @@ final internal class YMEventsRowView: UIScrollView {
         backgroundColor  = .clear
         showsVerticalScrollIndicator   = false
         showsHorizontalScrollIndicator = false
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        addGestureRecognizer(tapGesture)
-    }
-
-    func numberOfEventsAt(day: Int) -> Int {
-        if let count = eventsCount[day] {
-            return count
-        } else {
-            let numEvents = eventsRowDelegate?.eventsRowView(self, numberOfEventsAt: day) ?? 0
-            eventsCount[day] = numEvents
-            return numEvents
-        }
     }
     
     private func removeAllEventViews() {
-        cells.forEach { $0.value.removeFromSuperview() }
-        cells.removeAll()
-        eventsCount.removeAll()
+        eventViews.forEach { $0.value.removeFromSuperview() }
+        eventViews.removeAll()
     }
     
     func reload() {
@@ -72,7 +56,7 @@ final internal class YMEventsRowView: UIScrollView {
         var lines = [IndexSet]()
         
         for day in daysRange.location..<NSMaxRange(daysRange) {
-            for item in 0..<numberOfEventsAt(day: day) {
+            for item in 0..<(eventsRowDelegate?.eventsRowView(self, numberOfEventsAt: day) ?? 0) {
                 let indexPath = IndexPath(item: item, section: day)
                 
                 guard let eventRange = eventsRowDelegate?.eventsRowView(self, rangeForEventAtIndexPath: indexPath),
@@ -116,14 +100,15 @@ final internal class YMEventsRowView: UIScrollView {
         if let style = eventsRowDelegate?.eventsRowView(self, styleForEventViewAt: indexPath) {
             view.apply(style)
         }
+        view.onTap = didTapCell
         view.setNeedsDisplay()
-        cells[indexPath] = view
+        eventViews[indexPath] = view
         addSubview(view)
     }
     
     func cellsInRect(_ rect: CGRect) -> [YMEventView] {
         var rows: [YMEventView] = []
-        cells.forEach { indexPath, cell in
+        eventViews.forEach { indexPath, cell in
             if cell.frame.intersects(rect) {
                 rows.append(cell)
             }
@@ -132,7 +117,7 @@ final internal class YMEventsRowView: UIScrollView {
     }
     
     func indexPathForCellAtPoint(_ point: CGPoint) -> IndexPath? {
-        for (indexPath, cell) in cells {
+        for (indexPath, cell) in eventViews {
             if cell.frame.contains(point) {
                 return indexPath
             }
@@ -140,8 +125,8 @@ final internal class YMEventsRowView: UIScrollView {
         return nil
     }
     
-    func cellAtIndexPath(_ indexPath: IndexPath) -> YMEventView? {
-        return cells[indexPath]
+    func eventView(at indexPath: IndexPath) -> YMEventView? {
+        return eventViews[indexPath]
     }
 
     private func rectForCell(range: NSRange, line: Int) -> CGRect {
@@ -154,35 +139,9 @@ final internal class YMEventsRowView: UIScrollView {
         return rect.insetBy(dx: cellSpacing, dy: 0)
     }
     
-    func didTapCell(_ cell: YMEventView, atIndexPath indexPath: IndexPath) {
-        if cell.selected {
-            var shouldDeselect = true
-            if let deselect = eventsRowDelegate?.eventsRowView(self, shouldSelectCellAtIndexPath: indexPath) {
-                shouldDeselect = deselect
-            }
-            if shouldDeselect {
-                cell.selected = false
-                eventsRowDelegate?.eventsRowView(self, didDeselectCellAtIndexPath: indexPath)
-            }
-        } else {
-            var shouldSelect = true
-            if let select = eventsRowDelegate?.eventsRowView(self, shouldSelectCellAtIndexPath: indexPath) {
-                shouldSelect = select
-            }
-            if shouldSelect {
-                cell.selected = true
-                eventsRowDelegate?.eventsRowView(self, didSelectCellAtIndexPath: indexPath)
-            }
-        }
-    }
-    
-    @objc func handleTap(_ recognizer: UITapGestureRecognizer) {
-        let pt = recognizer.location(in: self)
-        for (indexPath, cell) in cells {
-            if cell.frame.contains(pt) {
-                didTapCell(cell, atIndexPath: indexPath)
-                break
-            }
+    func didTapCell(_ cell: YMEventView) {
+        if let indexPath = eventViews.first(where: {$0.value == cell})?.key {
+            eventsRowDelegate?.eventsRowView(self, didSelectCellAtIndexPath: indexPath)
         }
     }
     
