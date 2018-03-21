@@ -162,10 +162,24 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     }
 
     private func monthDate(from date: Date) -> MonthDate {
-        return MonthDate(year: calendar.year(date), month: calendar.month(date))
+        return calendar.monthDate(from: date)
     }
     
     private lazy var startDate = self.monthDate(from: Date())
+    
+    public var visibleMonths: [MonthDate] {
+        var res: [MonthDate] = []
+        if let first = collectionView.indexPathsForVisibleItems.first {
+            res.append(monthDate(from: dateAt(first)))
+        }
+        if let last = collectionView.indexPathsForVisibleItems.last {
+            let month = monthDate(from: dateAt(last))
+            if !res.contains(month) {
+                res.append(month)
+            }
+        }
+        return res
+    }
     
     public var visibleDays: DateRange? {
         guard let index = collectionView.indexPathsForVisibleItems.first else {
@@ -318,6 +332,12 @@ extension YMCalendarView {
             }.forEach {
                 $0.value.reload()
             }
+    }
+    
+    public func reloadEvents(in monthDate: MonthDate) {
+        eventRowsCache
+            .filter { self.monthDate(from: $0.key) == monthDate }
+            .forEach { $0.value.reload() }
     }
     
     public var visibleEventViews: [YMEventView] {
@@ -523,12 +543,21 @@ extension YMCalendarView {
     }
     
     private func monthRowView(at indexPath: IndexPath) -> YMMonthWeekView {
-        guard let weekView = collectionView
-            .dequeueReusableSupplementaryView(ofKind: YMMonthWeekView.kind,
-                                              withReuseIdentifier: YMMonthWeekView.identifier,
-                                              for: indexPath) as? YMMonthWeekView else {
-            fatalError()
+        var weekView: YMMonthWeekView!
+        while true {
+            guard let v = collectionView
+                .dequeueReusableSupplementaryView(ofKind: YMMonthWeekView.kind,
+                                                  withReuseIdentifier: YMMonthWeekView.identifier,
+                                                  for: indexPath) as? YMMonthWeekView else {
+                                                    fatalError()
+            }
+            
+            if !visibleEventRows.contains(v.eventsView) {
+                weekView = v
+                break
+            }
         }
+        
         weekView.eventsView = eventsRowView(at: dateAt(indexPath))
         return weekView
     }

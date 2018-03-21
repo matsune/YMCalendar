@@ -80,4 +80,8 @@ extension Calendar {
         }
         return date
     }
+    
+    func monthDate(from date: Date) -> MonthDate {
+        return MonthDate(year: year(date), month: month(date))
+    }
 }

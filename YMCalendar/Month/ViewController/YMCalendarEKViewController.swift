@@ -11,30 +11,18 @@ import UIKit
 import EventKit
 
 open class YMCalendarEKViewController: YMCalendarViewController {
-    
-    fileprivate var cachedMonths: [Date : [Date : [EKEvent]]] = [:]
-    
-    fileprivate var datesForMonthsToLoad: [Date] = []
-    
+    typealias EventsDict = [Date: [EKEvent]]
+    private var cachedEvents: [MonthDate: EventsDict] = [:]
+    private var queueToLoad: [MonthDate] = []
     fileprivate var bgQueue = DispatchQueue(label: "YMCalendarEKViewController.bgQueue")
     
+    private var visibleMonths: [MonthDate] = []
+
     public var calendar: Calendar = .current {
         didSet {
             calendarView.calendar = calendar
         }
     }
-
-    public var visibleMonthsRange: DateRange? {
-        var range: DateRange? = nil
-        if let visibleDaysRange = calendarView.visibleDays {
-            let start = calendar.startOfMonthForDate(visibleDaysRange.start)
-            let end = calendar.nextStartOfMonthForDate(visibleDaysRange.end)
-            range = DateRange(start: start, end: end)
-        }
-        return range
-    }
-    
-    public var visibleMonths: DateRange = DateRange()
     
     public let eventKitManager = EventKitManager()
     
@@ -56,13 +44,23 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         }
     }
     
-    public func reloadEvents() {
-        cachedMonths.removeAll()
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         loadEventsIfNeeded()
     }
     
-    fileprivate func fetchEvents(from startDate: Date, to endDate: Date, calendars: [EKCalendar]?) -> [EKEvent] {
-        let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
+    public func reloadEvents() {
+        cachedEvents.removeAll()
+        queueToLoad.removeAll()
+        visibleMonths.removeAll()
+        
+        loadEventsIfNeeded()
+    }
+    
+    private func fetchEvents(in month: MonthDate, calendars: [EKCalendar]?) -> [EKEvent] {
+        let start = calendar.date(from: month)
+        let end = calendar.nextStartOfMonthForDate(calendar.date(from: month))
+        let predicate = eventStore.predicateForEvents(withStart: start, end: end, calendars: calendars)
         if eventKitManager.isGranted {
             let events = eventStore.events(matching: predicate)
             return events
@@ -70,80 +68,48 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         return []
     }
     
-    fileprivate func allEventsInDateRange(_ range: DateRange) -> [Date : [EKEvent]] {
-        let events = fetchEvents(from: range.start, to: range.end, calendars: nil)
+    private func loadMonth(_ month: MonthDate) {
+        let events = fetchEvents(in: month, calendars: nil)
         
-        var eventsPerDay: [Date : [EKEvent]] = [:]
+        var eventsDict: EventsDict = [:]
         for event in events {
             let start = calendar.startOfDay(for: event.startDate)
             let eventRange = DateRange(start: start, end: event.endDate)
             
-            eventRange.enumerateDaysWithCalendar(calendar, usingBlock: { date, stop in
-                if eventsPerDay[date] == nil {
-                    eventsPerDay[date] = []
+            eventRange.enumerateDaysWithCalendar(calendar, usingBlock: { date, _ in
+                if eventsDict[date] == nil {
+                    eventsDict[date] = []
                 }
-                eventsPerDay[date]?.append(event)
+                eventsDict[date]?.append(event)
             })
         }
-        return eventsPerDay
-    }
-    
-    fileprivate func bg_loadMonthStartingAtDate(_ date: Date) {
-        let end = calendar.nextStartOfMonthForDate(date)
-        var range = DateRange(start: date, end: end)
-        let dic = allEventsInDateRange(range)
-        self.cachedMonths[date] = dic
         
-        let rangeEnd = self.calendar.nextStartOfMonthForDate(date)
-        range = DateRange(start: date, end: rangeEnd)
-        self.calendarView.reloadEventsInRange(range)
-    }
-    
-    fileprivate func bg_loadOneMonth() {
-        var date: Date? = nil
-        if let d = datesForMonthsToLoad.first {
-            date = d
-            datesForMonthsToLoad.removeFirst()
-        }
-        if let visibleDays = calendarView.visibleDays,
-            !visibleDays.intersectsDateRange(visibleMonths) {
-            date = nil
-        }
-        if let date = date {
-            bg_loadMonthStartingAtDate(date)
-        }
-    }
-    
-    fileprivate func addMonthToLoadingQueue(monthStart: Date) {
-        datesForMonthsToLoad.append(monthStart)
+        cachedEvents[month] = eventsDict
         
-        bgQueue.async {
-            self.bg_loadOneMonth()
+        DispatchQueue.main.async {
+            self.calendarView.reloadEvents(in: month)
         }
     }
     
-    public func loadEventsIfNeeded() {
-        datesForMonthsToLoad.removeAll()
-        
-        guard let visibleMonthsRange = visibleMonthsRange,
-            let months = visibleMonthsRange.components([.month], forCalendar: calendar).month else {
-                return
+    private func addMonthsToLoad(months: [MonthDate]) {
+        let loadMonths = months.filter { month -> Bool in
+            !cachedEvents.contains(where: { $0.key == month })
         }
-        for i in 0..<months {
-            var dc = DateComponents()
-            dc.month = i
-            if let date = calendar.date(byAdding: dc, to: visibleMonthsRange.start) {
-                if cachedMonths[date] == nil {
-                    addMonthToLoadingQueue(monthStart: date)
+        queueToLoad.append(contentsOf: loadMonths)
+        
+        bgQueue.async { [weak self] in
+            loadMonths.forEach {
+                self?.loadMonth($0)
+                if let idx = self?.queueToLoad.index(of: $0) {
+                    self?.queueToLoad.remove(at: idx)
                 }
             }
         }
     }
     
     public func eventsAtDate(_ date: Date) -> [EKEvent] {
-        let firstOfMonth = calendar.startOfMonthForDate(date)
-        if let days = cachedMonths[firstOfMonth] {
-            if let events = days[date] {
+        if let monthEvents = cachedEvents[calendar.monthDate(from: date)] {
+            if let events = monthEvents[date] {
                 return events
             }
         }
@@ -151,20 +117,22 @@ open class YMCalendarEKViewController: YMCalendarViewController {
     }
     
     public func eventAtIndex(_ index: Int, date: Date) -> EKEvent {
-        let events = eventsAtDate(date)
-        return events[index]
+        return eventsAtDate(date)[index]
     }
-
+    
+    public func loadEventsIfNeeded() {
+        if visibleMonths != calendarView.visibleMonths {
+            self.visibleMonths = calendarView.visibleMonths
+            addMonthsToLoad(months: visibleMonths)
+        }
+    }
 }
 
 
 // - MARK: YMCalendarDelegate
 extension YMCalendarEKViewController: YMCalendarDelegate {
     public func calendarViewDidScroll(_ view: YMCalendarView) {
-        if let visibleMonthsRange = visibleMonthsRange, visibleMonths != visibleMonthsRange {
-            self.visibleMonths = visibleMonthsRange
-            self.loadEventsIfNeeded()
-        }
+        loadEventsIfNeeded()
     }
 }
 

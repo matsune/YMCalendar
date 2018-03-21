@@ -44,14 +44,16 @@ public struct MonthDate {
 
 extension MonthDate: Equatable, Comparable {
     public static func ==(lhs: MonthDate, rhs: MonthDate) -> Bool {
-        let l = lhs.year * 12 + lhs.month
-        let r = rhs.year * 12 + rhs.month
-        return l == r
+        return lhs.hashValue == rhs.hashValue
     }
     
     public static func <(lhs: MonthDate, rhs: MonthDate) -> Bool {
-        let l = lhs.year * 12 + lhs.month
-        let r = rhs.year * 12 + rhs.month
-        return l < r
+        return lhs.hashValue < rhs.hashValue
+    }
+}
+
+extension MonthDate: Hashable {
+    public var hashValue: Int {
+        return year * 12 + month
     }
 }

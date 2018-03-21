@@ -34,7 +34,6 @@ final public class EventKitManager {
         case .notDetermined:
             requestCalendarAccess(completion: completion)
         case .denied, .restricted:
-            print("Permition to access the calendar is denied.")
             isGranted = false
             completion?(isGranted)
         }
