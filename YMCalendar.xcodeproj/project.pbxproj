@@ -25,7 +25,7 @@
 		13A5190C1E72EA3100F539ED /* YMMonthBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */; };
 		13A5190E1E72EA3100F539ED /* YMMonthDayCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */; };
 		13A5190F1E72EA3100F539ED /* YMCalendarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F81E72EA3100F539ED /* YMCalendarLayout.swift */; };
-		13A519101E72EA3100F539ED /* YMCalendarLayoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F91E72EA3100F539ED /* YMCalendarLayoutDelegate.swift */; };
+		13A519101E72EA3100F539ED /* YMCalendarLayoutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518F91E72EA3100F539ED /* YMCalendarLayoutDataSource.swift */; };
 		13A519121E72EA3100F539ED /* YMCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FB1E72EA3100F539ED /* YMCalendarView.swift */; };
 		13A519131E72EA3100F539ED /* YMCalendarAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FC1E72EA3100F539ED /* YMCalendarAppearance.swift */; };
 		13A519141E72EA3100F539ED /* YMCalendarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A518FD1E72EA3100F539ED /* YMCalendarDataSource.swift */; };
@@ -62,7 +62,7 @@
 		13A518F51E72EA3100F539ED /* YMMonthBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthBackgroundView.swift; sourceTree = "<group>"; };
 		13A518F71E72EA3100F539ED /* YMMonthDayCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMMonthDayCollectionCell.swift; sourceTree = "<group>"; };
 		13A518F81E72EA3100F539ED /* YMCalendarLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarLayout.swift; sourceTree = "<group>"; };
-		13A518F91E72EA3100F539ED /* YMCalendarLayoutDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarLayoutDelegate.swift; sourceTree = "<group>"; };
+		13A518F91E72EA3100F539ED /* YMCalendarLayoutDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarLayoutDataSource.swift; sourceTree = "<group>"; };
 		13A518FB1E72EA3100F539ED /* YMCalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarView.swift; sourceTree = "<group>"; };
 		13A518FC1E72EA3100F539ED /* YMCalendarAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarAppearance.swift; sourceTree = "<group>"; };
 		13A518FD1E72EA3100F539ED /* YMCalendarDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMCalendarDataSource.swift; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				13A518F81E72EA3100F539ED /* YMCalendarLayout.swift */,
-				13A518F91E72EA3100F539ED /* YMCalendarLayoutDelegate.swift */,
+				13A518F91E72EA3100F539ED /* YMCalendarLayoutDataSource.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -363,7 +363,7 @@
 			files = (
 				13FCCEE21E90DD460070B038 /* YMCalendarEKViewController.swift in Sources */,
 				135586C42062174900897CE8 /* ExtensionCompatible.swift in Sources */,
-				13A519101E72EA3100F539ED /* YMCalendarLayoutDelegate.swift in Sources */,
+				13A519101E72EA3100F539ED /* YMCalendarLayoutDataSource.swift in Sources */,
 				135586CC20621C4E00897CE8 /* Calendar.swift in Sources */,
 				13A519121E72EA3100F539ED /* YMCalendarView.swift in Sources */,
 				13AAAAF41EBC1CFD002C8AB5 /* YMSelectAnimation.swift in Sources */,

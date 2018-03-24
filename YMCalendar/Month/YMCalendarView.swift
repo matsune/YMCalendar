@@ -14,8 +14,8 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     private lazy var collectionView: UICollectionView = createCollectionView()
     
     private lazy var layout: YMCalendarLayout = {
-        let calendarLayout = YMCalendarLayout(scrollDirection: scrollDirection)
-        calendarLayout.delegate = self
+        let calendarLayout = YMCalendarLayout()
+        calendarLayout.dataSource = self
         return calendarLayout
     }()
     
@@ -281,9 +281,8 @@ extension YMCalendarView {
     }
     
     private func column(at indexPath: IndexPath) -> Int {
-        var weekday = calendar.component(.weekday, from: dateAt(indexPath))
-        weekday = (weekday + 7 - calendar.firstWeekday) % 7
-        return weekday
+        let weekday = calendar.component(.weekday, from: dateAt(indexPath))
+        return (weekday + 7 - calendar.firstWeekday) % 7
     }
     
     private func dateRangeOf(rowView: YMEventsRowView) -> DateRange? {
@@ -658,32 +657,6 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         return dataSource?.calendarView(self, styleForEventViewAt: indexPath.item, date: date) ?? defaultStyle
     }
     
-    func eventsRowView(_ view: YMEventsRowView, shouldSelectCellAtIndexPath indexPath: IndexPath) -> Bool {
-        if !allowsSelection {
-            return false
-        }
-        var comps = DateComponents()
-        comps.day = indexPath.section
-        guard let date = calendar.date(byAdding: comps, to: view.monthStart),
-            let shouldSelect = delegate?.calendarView?(self, shouldSelectEventAtIndex: indexPath.item, date: date) else {
-            return true
-        }
-        return shouldSelect
-    }
-    
-    func eventsRowView(_ view: YMEventsRowView, shouldDeselectCellAtIndexPath indexPath: IndexPath) -> Bool {
-        if !allowsSelection {
-            return false
-        }
-        var comps = DateComponents()
-        comps.day = indexPath.section
-        guard let date = calendar.date(byAdding: comps, to: view.monthStart),
-            let shouldDeselect = delegate?.calendarView?(self, shouldDeselectEventAtIndex: indexPath.item, date: date) else {
-                return true
-        }
-        return shouldDeselect
-    }
-    
     func eventsRowView(_ view: YMEventsRowView, didSelectCellAtIndexPath indexPath: IndexPath) {
         var comps = DateComponents()
         comps.day = indexPath.section
@@ -696,23 +669,18 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         
         delegate?.calendarView?(self, didSelectEventAtIndex: indexPath.item, date: date)
     }
+}
+
+extension YMCalendarView: YMCalendarLayoutDataSource {
     
-    func eventsRowView(_ view: YMEventsRowView, didDeselectCellAtIndexPath indexPath: IndexPath) {
-        var comps = DateComponents()
-        comps.day = indexPath.section
-        guard let date = calendar.date(byAdding: comps, to: view.monthStart) else {
-            return
-        }
-        if selectedEventDate == date && indexPath.item == selectedEventIndex {
-            selectedEventDate = nil
-            selectedEventIndex = 0
-        }
-        
-        delegate?.calendarView?(self, didDeselectEventAtIndex: indexPath.item, date: date)
+    // MARK: - YMCalendarLayoutDelegate
+    
+    func collectionView(_ collectionView: UICollectionView, layout: YMCalendarLayout, columnAt indexPath: IndexPath) -> Int {
+        return column(at: indexPath)
     }
 }
 
-extension YMCalendarView: YMCalendarLayoutDelegate {
+extension YMCalendarView: UICollectionViewDelegate {
     // MARK: - public
     
     /// Select cell item from date manually.
@@ -729,12 +697,6 @@ extension YMCalendarView: YMCalendarLayoutDelegate {
         collectionView.indexPathsForSelectedItems?.forEach {
             collectionView.deselectItem(at: $0, animated: false)
         }
-    }
-    
-    // MARK: - YMCalendarLayoutDelegate
-    
-    func collectionView(_ collectionView: UICollectionView, layout: YMCalendarLayout, columnForDayAtIndexPath indexPath: IndexPath) -> Int {
-        return column(at: indexPath)
     }
     
     // MARK: - UICollectionViewDelegate

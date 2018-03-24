@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final internal class YMMonthDayCollectionCell: UICollectionViewCell {
+final class YMMonthDayCollectionCell: UICollectionViewCell {
     typealias YMMonthDayAnimationCompletion = (Bool) -> ()
     
     let dayLabel = UILabel()

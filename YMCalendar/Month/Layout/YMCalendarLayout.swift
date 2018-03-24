@@ -9,29 +9,25 @@
 import Foundation
 import UIKit
 
+private enum AttrKey {
+    case dayCells
+    case weeks
+    case months
+}
+
 final class YMCalendarLayout: UICollectionViewLayout {
 
     typealias AttrDict = [IndexPath : UICollectionViewLayoutAttributes]
     
-    var scrollDirection: YMScrollDirection
+    var scrollDirection: YMScrollDirection = .horizontal
     
-    private var layoutAttrDict: [String : AttrDict] = [:]
+    private var layoutAttrDict: [AttrKey : AttrDict] = [:]
     
-    weak var delegate: YMCalendarLayoutDelegate!
-
+    weak var dataSource: YMCalendarLayoutDataSource?
+    
     var dayHeaderHeight: CGFloat = 18.0
     
     var contentSize: CGSize = .zero
-    
-    init(scrollDirection: YMScrollDirection) {
-        self.scrollDirection = scrollDirection
-        super.init()
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        self.scrollDirection = .horizontal
-        super.init(coder: aDecoder)
-    }
 
     fileprivate func widthForColumnRange(_ range: NSRange) -> CGFloat {
         let availableWidth = collectionView?.bounds.size.width ?? 300
@@ -48,68 +44,70 @@ final class YMCalendarLayout: UICollectionViewLayout {
     }
     
     override public func prepare() {
-        guard let collectionView = collectionView else { return }
+        super.prepare()
+        
+        contentSize = .zero
+        
+        guard let collectionView = collectionView else {
+            return
+        }
+        
         let numberOfMonths = collectionView.numberOfSections
         
         var monthsAttrDict: AttrDict = [:]
+        var weeksAttrDict: AttrDict = [:]
         var dayCellsAttrDict: AttrDict = [:]
-        var rowsAttrDict: AttrDict = [:]
         
         var x: CGFloat = 0
         var y: CGFloat = 0
         
         for month in 0..<numberOfMonths {
-            /// which column is first day of month from left
-            var col: Int = delegate.collectionView(collectionView, layout: self, columnForDayAtIndexPath: IndexPath(item: 0, section: month))
-            let numberOfdaysInMonth: Int = collectionView.numberOfItems(inSection: month)
-            let numberOfRows = Int(ceil(Double(col + numberOfdaysInMonth) / 7.0))
+            var column = dataSource?.collectionView(collectionView, layout: self, columnAt: IndexPath(item: 0, section: month)) ?? 0
+            let numberOfDaysInMonth = collectionView.numberOfItems(inSection: month)
+            let numberOfRows = Int(ceil(Double(column + numberOfDaysInMonth) / 7.0))
             let rowHeight = collectionView.bounds.height / CGFloat(numberOfRows)
-            var day: Int = 0
+            var day = 0
             
             var monthRect = CGRect()
             monthRect.origin = CGPoint(x: x, y: y)
             
             for _ in 0..<numberOfRows {
-                let colRange = NSMakeRange(col, min(7 - col, numberOfdaysInMonth - day))
-                let path = IndexPath(item: day, section: month)
-                let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.ym.kind, with: path)
-                let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
+                let colRange = NSMakeRange(column, min(7 - column, numberOfDaysInMonth - day))
+                let indexPath = IndexPath(item: day, section: month)
+                let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: YMMonthWeekView.ym.kind, with: indexPath)
+                let width = widthForColumnRange(NSRange(location: column, length: colRange.length))
                 
-                // difference of scrollDirection is x-postition of frame.
                 if scrollDirection == .vertical {
-                    // In vertical, x-postion of rowViews must be between 0 ~ bouds.width.
-                    let px: CGFloat = widthForColumnRange(NSRange(location: 0, length: col))
+                    let px = widthForColumnRange(NSRange(location: 0, length: column))
                     attributes.frame = CGRect(x: px, y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
                 } else {
-                    let width = widthForColumnRange(NSRange(location: col, length: colRange.length))
-                    // In horizontal, x-position will be between 0 ~ contentSize.width.
-                    // `var x` represents left edge of its month.
-                    attributes.frame = CGRect(x: x + widthForColumnRange(NSRange(location: 0, length: col)), y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
+                    let width = widthForColumnRange(NSRange(location: column, length: colRange.length))
+                    attributes.frame = CGRect(x: x + widthForColumnRange(NSRange(location: 0, length: column)), y: y + dayHeaderHeight + 4, width: width, height: rowHeight - dayHeaderHeight - 4)
                 }
                 attributes.zIndex = 1
-                rowsAttrDict.updateValue(attributes, forKey: path)
+                weeksAttrDict.updateValue(attributes, forKey: indexPath)
 
-                while col < NSMaxRange(colRange) {
+                while column < NSMaxRange(colRange) {
                     let path = IndexPath(item: day, section: month)
                     let attributes = UICollectionViewLayoutAttributes(forCellWith: path)
                     
                     let px: CGFloat
                     if scrollDirection == .vertical {
-                        px = widthForColumnRange(NSRange(location: 0, length: col))
+                        px = widthForColumnRange(NSRange(location: 0, length: column))
                     } else {
-                        px = widthForColumnRange(NSRange(location: 0, length: col)) + x
+                        px = widthForColumnRange(NSRange(location: 0, length: column)) + x
                     }
                     
-                    let width = widthForColumnRange(NSRange(location: col, length: 1))
+                    let width = widthForColumnRange(NSRange(location: column, length: 1))
                     attributes.frame = CGRect(x: px, y: y, width: width, height: rowHeight)
                     dayCellsAttrDict.updateValue(attributes, forKey: path)
                     
-                    col += 1
+                    column += 1
                     day += 1
                 }
                 
                 y += rowHeight
-                col = 0
+                column = 0
             }
             
             if scrollDirection == .vertical {
@@ -137,9 +135,9 @@ final class YMCalendarLayout: UICollectionViewLayout {
         
         collectionView.contentInset = .zero
         
-        layoutAttrDict.updateValue(dayCellsAttrDict, forKey: "DayCellAttrDict")
-        layoutAttrDict.updateValue(monthsAttrDict, forKey: "MonthsAttrDict")
-        layoutAttrDict.updateValue(rowsAttrDict, forKey: "WeekAttrDict")
+        layoutAttrDict.updateValue(dayCellsAttrDict, forKey: .dayCells)
+        layoutAttrDict.updateValue(monthsAttrDict, forKey: .months)
+        layoutAttrDict.updateValue(weeksAttrDict, forKey: .weeks)
     }
     
     override public var collectionViewContentSize: CGSize {
@@ -147,7 +145,7 @@ final class YMCalendarLayout: UICollectionViewLayout {
     }
     
     override public func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        guard let layout = layoutAttrDict["DayCellAttrDict"],
+        guard let layout = layoutAttrDict[.dayCells],
             let attr = layout[indexPath] else {
             return nil
         }
@@ -157,11 +155,11 @@ final class YMCalendarLayout: UICollectionViewLayout {
     override public func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var allAttributes: [UICollectionViewLayoutAttributes] = []
         layoutAttrDict.forEach { (kind, attributeDict) in
-            attributeDict.forEach({ (path, attributes) in
+            attributeDict.forEach { (path, attributes) in
                 if rect.intersects(attributes.frame) {
                     allAttributes.append(attributes)
                 }
-            })
+            }
         }
         return allAttributes
     }
@@ -169,11 +167,11 @@ final class YMCalendarLayout: UICollectionViewLayout {
     override public func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         var attributes: UICollectionViewLayoutAttributes? = nil
         if elementKind == YMMonthBackgroundView.ym.kind {
-            if let layout = layoutAttrDict["MonthAttrDict"] {
+            if let layout = layoutAttrDict[.months] {
                 attributes = layout[indexPath]
             }
         } else if elementKind == YMMonthWeekView.ym.kind {
-            if let layout = layoutAttrDict["WeekAttrDict"] {
+            if let layout = layoutAttrDict[.weeks] {
                 attributes = layout[indexPath]
             }
         }

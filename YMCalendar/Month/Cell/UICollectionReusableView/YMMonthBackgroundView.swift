@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-final internal class YMMonthBackgroundView: UICollectionReusableView {
+final class YMMonthBackgroundView: UICollectionReusableView {
     
     // number of days in week
     let numberOfColumns: Int = 7
