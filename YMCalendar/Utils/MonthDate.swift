@@ -9,8 +9,8 @@
 import Foundation
 
 public struct MonthDate {
-    let year: Int
-    let month: Int
+    public let year: Int
+    public let month: Int
     
     public init(year: Int, month: Int) {
         guard year >= 0 && 1...12 ~= month else {

@@ -14,7 +14,7 @@ open class YMCalendarEKViewController: YMCalendarViewController {
     typealias EventsDict = [Date: [EKEvent]]
     private var cachedEvents: [MonthDate: EventsDict] = [:]
     private var queueToLoad: [MonthDate] = []
-    fileprivate var bgQueue = DispatchQueue(label: "YMCalendarEKViewController.bgQueue")
+    private var bgQueue = DispatchQueue(label: "YMCalendarEKViewController.bgQueue")
     
     private var visibleMonths: [MonthDate] = []
 
@@ -26,11 +26,11 @@ open class YMCalendarEKViewController: YMCalendarViewController {
     
     public let eventKitManager = EventKitManager()
     
-    fileprivate var eventStore: EKEventStore {
+    private var eventStore: EKEventStore {
         return eventKitManager.eventStore
     }
     
-    fileprivate let YMEventStandardViewIdentifier = "YMEventStandardView"
+    private let YMEventStandardViewIdentifier = "YMEventStandardView"
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,9 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         queueToLoad.removeAll()
         visibleMonths.removeAll()
         
-        loadEventsIfNeeded()
+        DispatchQueue.main.async {
+            self.loadEventsIfNeeded()
+        }
     }
     
     private func fetchEvents(in month: MonthDate, calendars: [EKCalendar]?) -> [EKEvent] {

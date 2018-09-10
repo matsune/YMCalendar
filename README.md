@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/license-MIT-000000.svg)](https://github.com/matsune/YMCalendar/blob/master/LICENSE)
 
 # YMCalendar
-YMCalendar is a library of monthly event calendar for iOS written in Swift 3.
+YMCalendar is a library of monthly event calendar for iOS written in Swift.
 
 ## Screenshots
 ![creen](Images/screenshots.png)

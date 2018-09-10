@@ -9,8 +9,8 @@
 import Foundation
 
 public struct MonthRange {
-    let start: MonthDate
-    let end: MonthDate
+    public let start: MonthDate
+    public let end: MonthDate
     
     public init(start: MonthDate, end: MonthDate) {
         guard start <= end else {

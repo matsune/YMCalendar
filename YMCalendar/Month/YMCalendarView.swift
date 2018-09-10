@@ -182,8 +182,8 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     }
     
     public var visibleDays: DateRange? {
-        guard let first = collectionView.indexPathsForVisibleItems.first,
-            let last = collectionView.indexPathsForVisibleItems.last else {
+        guard let first = collectionView.indexPathsForVisibleItems.lazy.sorted().first,
+            let last = collectionView.indexPathsForVisibleItems.lazy.sorted().last else {
             return nil
         }
         return DateRange(start: dateAt(first), end: dateAt(last))
