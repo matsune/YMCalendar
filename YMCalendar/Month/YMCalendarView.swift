@@ -112,7 +112,7 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
     
     public var decelerationRate: YMDecelerationRate = .normal {
         didSet {
-            collectionView.decelerationRate = decelerationRate.value
+            collectionView.decelerationRate = UIScrollView.DecelerationRate(rawValue: decelerationRate.value)
         }
     }
     
@@ -393,7 +393,7 @@ extension YMCalendarView {
             let height = bounds.height
             var y = offset > 0 ? height : 0
             
-            while y < fabs(offset) {
+            while y < abs(offset) {
                 month = month.add(month: offset > 0 ? 1 : -1)
                 y += height
             }
@@ -401,7 +401,7 @@ extension YMCalendarView {
             let width = bounds.width
             var x = offset > 0 ? width : 0
             
-            while x < fabs(offset) {
+            while x < abs(offset) {
                 month = month.add(month: offset > 0 ? 1 : -1)
                 x += width
             }
@@ -687,7 +687,7 @@ extension YMCalendarView: UICollectionViewDelegate {
     public func selectDayCell(at date: Date) {
         // select cells
         guard let indexPath = indexPathForDate(date) else { return }
-        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition(rawValue: 0))
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition(rawValue: 0))
         collectionView(collectionView, didSelectItemAt: indexPath)
     }
     

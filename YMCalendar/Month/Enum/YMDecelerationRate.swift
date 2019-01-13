@@ -15,9 +15,9 @@ public enum YMDecelerationRate {
     var value: CGFloat {
         switch self {
         case .normal:
-            return UIScrollViewDecelerationRateNormal
+            return UIScrollView.DecelerationRate.normal.rawValue
         case .fast:
-            return UIScrollViewDecelerationRateFast
+            return UIScrollView.DecelerationRate.fast.rawValue
         }
     }
 }
