@@ -36,7 +36,9 @@ open class YMCalendarEKViewController: YMCalendarViewController {
         super.viewDidLoad()
         calendarView.delegate   = self
         calendarView.dataSource = self
-
+        calendarView.registerClass(YMEventStandardView.self,
+                                   forEventCellReuseIdentifier: YMEventStandardViewIdentifier)
+        
         eventKitManager.checkEventStoreAccessForCalendar { [weak self] granted in
             if granted {
                 self?.reloadEvents()
@@ -152,9 +154,17 @@ extension YMCalendarEKViewController: YMCalendarDataSource {
         return range
     }
 
-    public func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<UIView> {
-        return Style<UIView> {
-            $0.backgroundColor = .blue
+    open func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
+        let events = eventsAtDate(date)
+        precondition(index <= events.count)
+        
+        let event = events[index]
+        guard let cell = view.dequeueReusableCellWithIdentifier(YMEventStandardViewIdentifier, forEventAtIndex: index, date: date) as? YMEventStandardView else {
+            fatalError()
         }
+        cell.backgroundColor = UIColor(cgColor: event.calendar.cgColor)
+        cell.title = event.title
+        return cell
+        
     }
 }

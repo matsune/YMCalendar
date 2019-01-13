@@ -41,6 +41,8 @@ final class BasicViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
         // Events settings
         calendarView.eventViewHeight  = 14
+        calendarView.registerClass(YMEventStandardView.self,
+                                   forEventCellReuseIdentifier: "YMEventStandardView")
     }
 
     @IBAction func allowsMultipleSelectSwitchChanged(_ sender: UISwitch) {
@@ -137,26 +139,21 @@ extension BasicViewController: YMCalendarDataSource {
         return nil
     }
 
-    func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<UIView> {
-        return Style<UIView> {
-            $0.backgroundColor = .gray
+    func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> YMEventView {
+        guard let view = view.dequeueReusableCellWithIdentifier("YMEventStandardView", forEventAtIndex: index, date: date) as? YMEventStandardView else {
+            fatalError()
         }
+        if calendar.isDateInToday(date) {
+            view.title = "today😃"
+        } else if calendar.isDate(date, inSameDayAs: calendar.startOfMonthForDate(date)) {
+            view.title = "startOfMonth"
+        } else if calendar.isDate(date, inSameDayAs: calendar.endOfMonthForDate(date)) {
+            view.title = "endOfMonth"
+        }
+        view.textColor = .white
+        view.backgroundColor = .seagreen
+        return view
     }
-//    func calendarView(_ view: YMCalendarView, eventViewForEventAtIndex index: Int, date: Date) -> UIView {
-//        guard let view = view.dequeueReusableCellWithIdentifier("YMEventStandardView", forEventAtIndex: index, date: date) as? YMEventStandardView else {
-//            fatalError()
-//        }
-//        if calendar.isDateInToday(date) {
-//            view.title = "today😃"
-//        } else if calendar.isDate(date, inSameDayAs: calendar.startOfMonthForDate(date)) {
-//            view.title = "startOfMonth"
-//        } else if calendar.isDate(date, inSameDayAs: calendar.endOfMonthForDate(date)) {
-//            view.title = "endOfMonth"
-//        }
-//        view.textColor = .white
-//        view.backgroundColor = .seagreen
-//        return view
-//    }
 }
 
 // MARK: - YMCalendarAppearance

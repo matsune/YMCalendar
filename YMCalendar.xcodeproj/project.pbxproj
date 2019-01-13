@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13273C3621EAE47B00DE8D7E /* ReusableObjectQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13273C3421EAE47B00DE8D7E /* ReusableObjectQueue.swift */; };
+		13273C3721EAE47B00DE8D7E /* ReusableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13273C3521EAE47B00DE8D7E /* ReusableObject.swift */; };
+		13273C3A21EAE48F00DE8D7E /* YMEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13273C3821EAE48F00DE8D7E /* YMEventView.swift */; };
+		13273C3B21EAE48F00DE8D7E /* YMEventStandardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13273C3921EAE48F00DE8D7E /* YMEventStandardView.swift */; };
 		1334000B1EB339DE007FE17E /* IndexableDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133400091EB339DE007FE17E /* IndexableDictionary.swift */; };
 		1334000C1EB339DE007FE17E /* IndexableDictionary+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1334000A1EB339DE007FE17E /* IndexableDictionary+Description.swift */; };
 		1345C7161EBD87790076FF31 /* YMDayLabelAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1345C7151EBD87790076FF31 /* YMDayLabelAlignment.swift */; };
 		135586BB20613ABB00897CE8 /* MonthRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586BA20613ABA00897CE8 /* MonthRange.swift */; };
 		135586BD20613AD000897CE8 /* MonthDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586BC20613AD000897CE8 /* MonthDate.swift */; };
-		135586BF2061710F00897CE8 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586BE2061710F00897CE8 /* Style.swift */; };
-		135586C12061713700897CE8 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C02061713700897CE8 /* UIView.swift */; };
 		135586C42062174900897CE8 /* ExtensionCompatible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C32062174900897CE8 /* ExtensionCompatible.swift */; };
 		135586C72062179A00897CE8 /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C62062179A00897CE8 /* UICollectionView.swift */; };
 		135586C9206217F100897CE8 /* UICollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135586C8206217F100897CE8 /* UICollectionReusableView.swift */; };
@@ -51,13 +53,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		13273C3421EAE47B00DE8D7E /* ReusableObjectQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableObjectQueue.swift; sourceTree = "<group>"; };
+		13273C3521EAE47B00DE8D7E /* ReusableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableObject.swift; sourceTree = "<group>"; };
+		13273C3821EAE48F00DE8D7E /* YMEventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventView.swift; sourceTree = "<group>"; };
+		13273C3921EAE48F00DE8D7E /* YMEventStandardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMEventStandardView.swift; sourceTree = "<group>"; };
 		133400091EB339DE007FE17E /* IndexableDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexableDictionary.swift; sourceTree = "<group>"; };
 		1334000A1EB339DE007FE17E /* IndexableDictionary+Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexableDictionary+Description.swift"; sourceTree = "<group>"; };
 		1345C7151EBD87790076FF31 /* YMDayLabelAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YMDayLabelAlignment.swift; sourceTree = "<group>"; };
 		135586BA20613ABA00897CE8 /* MonthRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthRange.swift; sourceTree = "<group>"; };
 		135586BC20613AD000897CE8 /* MonthDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthDate.swift; sourceTree = "<group>"; };
-		135586BE2061710F00897CE8 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
-		135586C02061713700897CE8 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		135586C32062174900897CE8 /* ExtensionCompatible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionCompatible.swift; sourceTree = "<group>"; };
 		135586C62062179A00897CE8 /* UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
 		135586C8206217F100897CE8 /* UICollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionReusableView.swift; sourceTree = "<group>"; };
@@ -172,7 +176,6 @@
 		135586C52062178C00897CE8 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				135586C02061713700897CE8 /* UIView.swift */,
 				135586C62062179A00897CE8 /* UICollectionView.swift */,
 				135586C8206217F100897CE8 /* UICollectionReusableView.swift */,
 			);
@@ -225,7 +228,6 @@
 				135586BA20613ABA00897CE8 /* MonthRange.swift */,
 				135586BC20613AD000897CE8 /* MonthDate.swift */,
 				13A518F01E72EA3100F539ED /* DateRange.swift */,
-				135586BE2061710F00897CE8 /* Style.swift */,
 				133400081EB339CF007FE17E /* IndexableDictionry */,
 			);
 			path = Utils;
@@ -279,7 +281,11 @@
 		13A5192E1E72EF6900F539ED /* EventView */ = {
 			isa = PBXGroup;
 			children = (
+				13273C3521EAE47B00DE8D7E /* ReusableObject.swift */,
+				13273C3421EAE47B00DE8D7E /* ReusableObjectQueue.swift */,
 				13A518F21E72EA3100F539ED /* YMEventsRowView.swift */,
+				13273C3921EAE48F00DE8D7E /* YMEventStandardView.swift */,
+				13273C3821EAE48F00DE8D7E /* YMEventView.swift */,
 			);
 			path = EventView;
 			sourceTree = "<group>";
@@ -451,10 +457,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				13FCCEE21E90DD460070B038 /* YMCalendarEKViewController.swift in Sources */,
+				13273C3721EAE47B00DE8D7E /* ReusableObject.swift in Sources */,
 				135586C42062174900897CE8 /* ExtensionCompatible.swift in Sources */,
 				13A519101E72EA3100F539ED /* YMCalendarLayoutDataSource.swift in Sources */,
 				135586CC20621C4E00897CE8 /* Calendar.swift in Sources */,
 				13A519121E72EA3100F539ED /* YMCalendarView.swift in Sources */,
+				13273C3621EAE47B00DE8D7E /* ReusableObjectQueue.swift in Sources */,
 				13AAAAF41EBC1CFD002C8AB5 /* YMSelectAnimation.swift in Sources */,
 				135586BB20613ABB00897CE8 /* MonthRange.swift in Sources */,
 				13A519151E72EA3100F539ED /* YMCalendarDelegate.swift in Sources */,
@@ -467,15 +475,15 @@
 				13A519191E72EA3100F539ED /* YMScrollDirection.swift in Sources */,
 				13B222661E85F0FB00BFF183 /* YMCalendarWeekBarView.swift in Sources */,
 				13A5190F1E72EA3100F539ED /* YMCalendarLayout.swift in Sources */,
+				13273C3A21EAE48F00DE8D7E /* YMEventView.swift in Sources */,
 				135586C9206217F100897CE8 /* UICollectionReusableView.swift in Sources */,
 				13A519141E72EA3100F539ED /* YMCalendarDataSource.swift in Sources */,
 				13A519071E72EA3100F539ED /* DateRange.swift in Sources */,
 				13A519311E72F0B100F539ED /* YMEventsRowViewDelegate.swift in Sources */,
 				1334000C1EB339DE007FE17E /* IndexableDictionary+Description.swift in Sources */,
 				13A5190E1E72EA3100F539ED /* YMMonthDayCollectionCell.swift in Sources */,
-				135586BF2061710F00897CE8 /* Style.swift in Sources */,
 				135586C72062179A00897CE8 /* UICollectionView.swift in Sources */,
-				135586C12061713700897CE8 /* UIView.swift in Sources */,
+				13273C3B21EAE48F00DE8D7E /* YMEventStandardView.swift in Sources */,
 				1334000B1EB339DE007FE17E /* IndexableDictionary.swift in Sources */,
 				1345C7161EBD87790076FF31 /* YMDayLabelAlignment.swift in Sources */,
 				13FCCEEB1E9135B30070B038 /* YMCalendarViewController.swift in Sources */,

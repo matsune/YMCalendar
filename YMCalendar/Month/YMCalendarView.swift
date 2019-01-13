@@ -12,6 +12,8 @@ import UIKit
 final public class YMCalendarView: UIView, YMCalendarAppearance {
 
     private lazy var collectionView: UICollectionView = createCollectionView()
+    
+    private var reuseQueue = ReusableObjectQueue()
 
     private lazy var layout: YMCalendarLayout = {
         let calendarLayout = YMCalendarLayout()
@@ -189,7 +191,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
         return DateRange(start: dateAt(first), end: dateAt(last))
     }
 
-    // selection
     public var selectAnimation: YMSelectAnimation = .bounce
 
     public var deselectAnimation: YMSelectAnimation = .fade
@@ -200,8 +201,6 @@ final public class YMCalendarView: UIView, YMCalendarAppearance {
 
     private var displayingMonthDate: Date = Date()
 
-    // 読み込む月の数
-    // 最大9ヶ月分を読み込む
     private var numberOfLoadedMonths: Int {
         if let range = monthRange {
             return min(range.start.monthDiff(with: range.end), 9)
@@ -302,6 +301,21 @@ extension YMCalendarView {
 extension YMCalendarView {
 
     // MARK: - Public
+    
+    public func registerClass(_ objectClass: ReusableObject.Type, forEventCellReuseIdentifier identifier: String) {
+        reuseQueue.registerClass(objectClass, forObjectWithReuseIdentifier: identifier)
+    }
+    
+    public func dequeueReusableCellWithIdentifier<T: YMEventView>(_ identifier: String, forEventAtIndex index: Int, date: Date) -> T? {
+        guard let cell = reuseQueue.dequeueReusableObjectWithIdentifier(identifier) as? T? else {
+            return nil
+        }
+        if let selectedDate = selectedEventDate,
+            calendar.isDate(selectedDate, inSameDayAs: date) && index == selectedEventIndex {
+            cell?.selected = true
+        }
+        return cell
+    }
 
     public func reloadEvents() {
         eventRowsCache.forEach {
@@ -642,19 +656,14 @@ extension YMCalendarView: YMEventsRowViewDelegate {
         return NSRange(location: start, length: end - start)
     }
 
-    private var defaultStyle: Style<UIView> {
-        return Style<UIView> {
-            $0.backgroundColor = .orange
+    func eventsRowView(_ view: YMEventsRowView, cellForEventAtIndexPath indexPath: IndexPath) -> YMEventView {
+        var comps = DateComponents()
+        comps.day = indexPath.section
+        guard let date = calendar.date(byAdding: comps, to: view.monthStart),
+            let eventView = dataSource?.calendarView(self, eventViewForEventAtIndex: indexPath.item, date: date) else {
+            fatalError()
         }
-    }
-
-    func eventsRowView(_ view: YMEventsRowView, styleForEventViewAt indexPath: IndexPath) -> Style<UIView> {
-        var comp = DateComponents()
-        comp.day = indexPath.section
-        guard let date = calendar.date(byAdding: comp, to: view.monthStart) else {
-            return defaultStyle
-        }
-        return dataSource?.calendarView(self, styleForEventViewAt: indexPath.item, date: date) ?? defaultStyle
+        return eventView
     }
 
     func eventsRowView(_ view: YMEventsRowView, didSelectCellAtIndexPath indexPath: IndexPath) {

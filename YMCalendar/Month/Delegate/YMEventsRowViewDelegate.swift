@@ -12,6 +12,6 @@ import UIKit
 protocol YMEventsRowViewDelegate: UIScrollViewDelegate {
     func eventsRowView(_ view: YMEventsRowView, numberOfEventsAt day: Int) -> Int
     func eventsRowView(_ view: YMEventsRowView, rangeForEventAtIndexPath indexPath: IndexPath) -> NSRange
-    func eventsRowView(_ view: YMEventsRowView, styleForEventViewAt indexPath: IndexPath) -> Style<UIView>
     func eventsRowView(_ view: YMEventsRowView, didSelectCellAtIndexPath indexPath: IndexPath)
+    func eventsRowView(_ view: YMEventsRowView, cellForEventAtIndexPath indexPath: IndexPath) -> YMEventView
 }

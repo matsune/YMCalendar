@@ -23,7 +23,7 @@ final class YMEventsRowView: UIScrollView {
 
     let cellSpacing: CGFloat = 2.0
 
-    var eventViews: [IndexPath: UIView] = [:]
+    var eventViews: [IndexPath: YMEventView] = [:]
 
     var maxVisibleLines: Int?
 
@@ -94,27 +94,21 @@ final class YMEventsRowView: UIScrollView {
         contentSize = CGSize(width: bounds.width, height: (cellSpacing + itemHeight) * CGFloat(lineCount))
     }
 
+    private let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+    
     private func createEventView(range: NSRange, line: Int, indexPath: IndexPath) {
-        let view = UIView()
-        view.frame = rectForCell(range: range, line: line)
-        if let style = eventsRowDelegate?.eventsRowView(self, styleForEventViewAt: indexPath) {
-            view.apply(style)
+        if let cell = eventsRowDelegate?.eventsRowView(self, cellForEventAtIndexPath: indexPath) {
+            cell.frame = rectForCell(range: range, line: line)
+            cell.removeGestureRecognizer(tapGesture)
+            cell.addGestureRecognizer(tapGesture)
+            cell.setNeedsDisplay()
+            eventViews[indexPath] = cell
+            addSubview(cell)
         }
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        view.addGestureRecognizer(tapGesture)
-        view.setNeedsDisplay()
-        eventViews[indexPath] = view
-        addSubview(view)
     }
 
-    func viewsInRect(_ rect: CGRect) -> [UIView] {
-        var rows: [UIView] = []
-        eventViews.forEach { _, cell in
-            if cell.frame.intersects(rect) {
-                rows.append(cell)
-            }
-        }
-        return rows
+    func viewsInRect(_ rect: CGRect) -> [YMEventView] {
+        return eventViews.filter { $0.value.frame.intersects(rect) }.map { $0.value }
     }
 
     func indexPathForCellAtPoint(_ point: CGPoint) -> IndexPath? {
@@ -126,13 +120,12 @@ final class YMEventsRowView: UIScrollView {
         return nil
     }
 
-    func eventView(at indexPath: IndexPath) -> UIView? {
+    func eventView(at indexPath: IndexPath) -> YMEventView? {
         return eventViews[indexPath]
     }
 
     private func rectForCell(range: NSRange, line: Int) -> CGRect {
         let colStart = range.location - daysRange.location
-
         let x = dayWidth * CGFloat(colStart)
         let y = CGFloat(line) * (itemHeight + cellSpacing)
         let w = dayWidth * CGFloat(range.length)
