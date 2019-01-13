@@ -12,7 +12,7 @@ import UIKit
 final public class YMCalendarView: UIView, YMCalendarAppearance {
 
     private lazy var collectionView: UICollectionView = createCollectionView()
-    
+
     private var reuseQueue = ReusableObjectQueue()
 
     private lazy var layout: YMCalendarLayout = {
@@ -301,11 +301,11 @@ extension YMCalendarView {
 extension YMCalendarView {
 
     // MARK: - Public
-    
+
     public func registerClass(_ objectClass: ReusableObject.Type, forEventCellReuseIdentifier identifier: String) {
         reuseQueue.registerClass(objectClass, forObjectWithReuseIdentifier: identifier)
     }
-    
+
     public func dequeueReusableCellWithIdentifier<T: YMEventView>(_ identifier: String, forEventAtIndex index: Int, date: Date) -> T? {
         guard let cell = reuseQueue.dequeueReusableObjectWithIdentifier(identifier) as? T? else {
             return nil

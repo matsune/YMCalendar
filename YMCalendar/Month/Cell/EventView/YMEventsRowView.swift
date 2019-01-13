@@ -95,7 +95,7 @@ final class YMEventsRowView: UIScrollView {
     }
 
     private let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-    
+
     private func createEventView(range: NSRange, line: Int, indexPath: IndexPath) {
         if let cell = eventsRowDelegate?.eventsRowView(self, cellForEventAtIndexPath: indexPath) {
             cell.frame = rectForCell(range: range, line: line)

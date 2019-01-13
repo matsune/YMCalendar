@@ -10,17 +10,17 @@ import Foundation
 
 final internal class ReusableObjectQueue {
     typealias T = ReusableObject
-    
-    var reusableObjects: [String : T] = [:]
-    
-    var objectClasses: [String : T.Type] = [:]
-    
+
+    var reusableObjects: [String: T] = [:]
+
+    var objectClasses: [String: T.Type] = [:]
+
     var totalCreated = 0
-    
+
     var count: Int {
         return reusableObjects.count
     }
-    
+
     func registerClass(_ objectClass: T.Type?, forObjectWithReuseIdentifier identifier: String) {
         if let objClass = objectClass {
             objectClasses[identifier] = objClass
@@ -29,11 +29,11 @@ final internal class ReusableObjectQueue {
             reusableObjects.removeValue(forKey: identifier)
         }
     }
-    
+
     func enqueueReusableObject(_ object: T) {
         reusableObjects[object.reuseIdentifier] = object
     }
-    
+
     func dequeueReusableObjectWithIdentifier(_ identifier: String) -> T? {
         if let object = reusableObjects[identifier] {
             reusableObjects.removeValue(forKey: identifier)
@@ -49,7 +49,7 @@ final internal class ReusableObjectQueue {
             return object
         }
     }
-    
+
     func removeAll() {
         reusableObjects.removeAll()
     }
