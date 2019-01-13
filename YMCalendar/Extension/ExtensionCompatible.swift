@@ -25,7 +25,7 @@ extension ExtensionCompatible {
     static var ym: Extension<Self>.Type {
         return Extension<Self>.self
     }
-    
+
     var ym: Extension<Self> {
         return Extension(self)
     }

@@ -23,27 +23,27 @@ extension IndexableDictionary: CustomDebugStringConvertible {
 extension IndexableDictionary {
     fileprivate func makeDescription(debug: Bool) -> String {
         if isEmpty { return "[:]" }
-        
-        let printFunction: (Any, inout String) -> () = {
+
+        let printFunction: (Any, inout String) -> Void = {
             if debug {
                 return { debugPrint($0, separator: "", terminator: "", to: &$1) }
             } else {
                 return { print($0, separator: "", terminator: "", to: &$1) }
             }
         }()
-        
+
         let descriptionForItem: (Any) -> String = { item in
             var description = ""
             printFunction(item, &description)
             return description
         }
-        
+
         let bodyComponents = map { element in
             return descriptionForItem(element.key) + ": " + descriptionForItem(element.value)
         }
-        
+
         let body = bodyComponents.joined(separator: ", ")
-        
+
         return "[\(body)]"
     }
 }

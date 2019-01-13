@@ -14,21 +14,21 @@ final class GradientViewController: UIViewController {
 
     @IBOutlet weak var calendarWeekBarView: YMCalendarWeekBarView!
     @IBOutlet weak var calendarView: YMCalendarView!
-    
+
     let calendar = Calendar.current
-    
+
     let MyCustomEventViewIdentifier = "MyCustomEventViewIdentifier"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         calendarWeekBarView.appearance = self
         calendarWeekBarView.calendar = calendar
         calendarWeekBarView.gradientColors = [.sienna, .violetred]
         calendarWeekBarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarWeekBarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
         calendarView.monthRange = MonthRange(start: MonthDate(year: 2017, month: 12), end: MonthDate(year: 2018, month: 3))
-        
+
         calendarView.appearance = self
         calendarView.delegate   = self
         calendarView.dataSource = self
@@ -41,7 +41,7 @@ final class GradientViewController: UIViewController {
         calendarView.gradientStartPoint = CGPoint(x: 0.0, y: 0.5)
         calendarView.gradientEndPoint   = CGPoint(x: 1.0, y: 0.5)
     }
-    
+
     private func makeDate(year: Int, month: Int, day: Int) -> Date {
         let dateComponents = DateComponents(year: year, month: month, day: day)
         guard let date = Calendar.current.date(from: dateComponents) else {
@@ -56,11 +56,11 @@ extension GradientViewController: YMCalendarWeekBarAppearance {
     func weekBarHorizontalGridColor(in view: YMCalendarWeekBarView) -> UIColor {
         return .clear
     }
-    
+
     func weekBarVerticalGridColor(in view: YMCalendarWeekBarView) -> UIColor {
         return .white
     }
-    
+
     func calendarWeekBarView(_ view: YMCalendarWeekBarView, textColorAtWeekday weekday: Int) -> UIColor {
         return .white
     }
@@ -70,19 +70,19 @@ extension GradientViewController: YMCalendarAppearance {
     func horizontalGridColor(in view: YMCalendarView) -> UIColor {
         return .white
     }
-    
+
     func verticalGridColor(in view: YMCalendarView) -> UIColor {
         return .clear
     }
-    
+
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelTextColorAtDate date: Date) -> UIColor {
         return .white
     }
-    
+
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedTextColorAtDate date: Date) -> UIColor {
         return .sienna
     }
-    
+
     func calendarViewAppearance(_ view: YMCalendarView, dayLabelSelectedBackgroundColorAtDate date: Date) -> UIColor {
         return .white
     }
@@ -103,14 +103,14 @@ extension GradientViewController: YMCalendarDataSource {
         }
         return 0
     }
-    
+
     func calendarView(_ view: YMCalendarView, dateRangeForEventAtIndex index: Int, date: Date) -> DateRange? {
         if calendar.isDateInToday(date) {
             return DateRange(start: date, end: calendar.endOfDayForDate(date))
         }
         return nil
     }
-    
+
     func calendarView(_ view: YMCalendarView, styleForEventViewAt index: Int, date: Date) -> Style<UIView> {
         return Style<UIView> {
             $0.backgroundColor = .green

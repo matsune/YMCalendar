@@ -17,27 +17,27 @@ final class YMMonthWeekView: UICollectionReusableView {
             addSubview(eventsView)
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
-    
+
     private func commonInit() {
         backgroundColor = .clear
         addSubview(eventsView)
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         eventsView.frame = bounds
     }
-    
+
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hitView = super.hitTest(point, with: event)
         return hitView == self ? nil : hitView

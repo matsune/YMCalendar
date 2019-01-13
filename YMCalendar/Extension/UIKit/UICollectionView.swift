@@ -19,7 +19,7 @@ extension Extension where Base: UICollectionView {
             base.register(type, forSupplementaryViewOfKind: type.ym.kind, withReuseIdentifier: type.ym.identifier)
         }
     }
-    
+
     func dequeue<T: UICollectionReusableView>(_ type: T.Type, for indexPath: IndexPath) -> T {
         if type is UICollectionViewCell.Type {
             guard let cell = base.dequeueReusableCell(withReuseIdentifier: type.ym.identifier, for: indexPath) as? T else {

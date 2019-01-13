@@ -12,9 +12,9 @@ import EventKit
 
 final public class EventKitManager {
     public typealias EventSaveCompletionBlockType = (_ accessGranted: Bool) -> Void
-    
+
     public var eventStore: EKEventStore
-    
+
     public init(eventStore: EKEventStore?=nil) {
         if let eventStore = eventStore {
             self.eventStore = eventStore
@@ -22,9 +22,9 @@ final public class EventKitManager {
             self.eventStore = EKEventStore()
         }
     }
-    
+
     public var isGranted: Bool = false
-    
+
     public func checkEventStoreAccessForCalendar(completion: EventSaveCompletionBlockType?) {
         let status = EKEventStore.authorizationStatus(for: .event)
         switch status {
@@ -38,9 +38,9 @@ final public class EventKitManager {
             completion?(isGranted)
         }
     }
-    
+
     private func requestCalendarAccess(completion: EventSaveCompletionBlockType?) {
-        eventStore.requestAccess(to: .event) { [weak self] granted, error in
+        eventStore.requestAccess(to: .event) { [weak self] granted, _ in
             self?.isGranted = granted
             completion?(granted)
         }

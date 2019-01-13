@@ -11,7 +11,7 @@ import Foundation
 public struct MonthDate {
     public let year: Int
     public let month: Int
-    
+
     public init(year: Int, month: Int) {
         guard year >= 0 && 1...12 ~= month else {
             fatalError("Invalid year or month")
@@ -19,7 +19,7 @@ public struct MonthDate {
         self.year = year
         self.month = month
     }
-    
+
     public func add(month: Int) -> MonthDate {
         let plusYear = month / 12
         let plusMonth = month % 12
@@ -34,7 +34,7 @@ public struct MonthDate {
         }
         return MonthDate(year: y, month: m)
     }
-    
+
     public func monthDiff(with other: MonthDate) -> Int {
         let yDiff = other.year - year
         let mDiff = other.month - month
@@ -46,7 +46,7 @@ extension MonthDate: Comparable {
     public static func ==(lhs: MonthDate, rhs: MonthDate) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
-    
+
     public static func <(lhs: MonthDate, rhs: MonthDate) -> Bool {
         return lhs.hashValue < rhs.hashValue
     }

@@ -11,7 +11,7 @@ import UIKit
 
 public enum YMDecelerationRate {
     case normal, fast
-    
+
     var value: CGFloat {
         switch self {
         case .normal:

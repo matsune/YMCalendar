@@ -10,7 +10,7 @@ import Foundation
 import EventKit
 
 open class YMCalendarViewController: UIViewController {
-    
+
     public var calendarView: YMCalendarView {
         get {
             return view as! YMCalendarView
@@ -19,7 +19,7 @@ open class YMCalendarViewController: UIViewController {
             view = newValue
         }
     }
-    
+
     open override func loadView() {
         calendarView = YMCalendarView()
     }

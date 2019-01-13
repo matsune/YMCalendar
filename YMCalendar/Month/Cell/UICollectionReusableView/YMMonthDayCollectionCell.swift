@@ -10,50 +10,50 @@ import Foundation
 import UIKit
 
 final class YMMonthDayCollectionCell: UICollectionViewCell {
-    typealias YMMonthDayAnimationCompletion = (Bool) -> ()
-    
+    typealias YMMonthDayAnimationCompletion = (Bool) -> Void
+
     let dayLabel = UILabel()
-    
+
     var dayLabelColor: UIColor = .black {
         didSet {
             dayLabel.textColor = dayLabelColor
         }
     }
-    
+
     var dayLabelBackgroundColor: UIColor = .clear {
         didSet {
             dayLabel.backgroundColor = dayLabelBackgroundColor
         }
     }
-    
+
     var dayLabelSelectedColor: UIColor = .white
-    
+
     var dayLabelSelectedBackgroundColor: UIColor = .black
-    
+
     var day: Int = 1 {
         didSet {
             dayLabel.text = "\(day)"
         }
     }
-    
+
     var dayLabelAlignment: YMDayLabelAlignment = .left
-    
+
     var dayLabelHeight: CGFloat = 15
-    
+
     let dayLabelMargin: CGFloat = 2.0
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setup() {
         backgroundColor = .clear
-        
+
         dayLabel.numberOfLines = 1
         dayLabel.adjustsFontSizeToFitWidth = true
         dayLabel.font = UIFont.systemFont(ofSize: 12.0)
@@ -62,15 +62,15 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
         dayLabel.textAlignment = .center
         contentView.addSubview(dayLabel)
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         deselect(withAnimation: .none)
     }
-    
+
     override public func layoutSubviews() {
         super.layoutSubviews()
-        
+
         let x: CGFloat
         switch dayLabelAlignment {
         case .left:
@@ -84,7 +84,7 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
         dayLabel.frame = CGRect(x: x, y: dayLabelMargin, width: dayLabelHeight, height: dayLabelHeight)
         dayLabel.layer.cornerRadius = dayLabelHeight / 2
     }
-    
+
     public func select(withAnimation animation: YMSelectAnimation, completion: YMMonthDayAnimationCompletion? = nil) {
         switch animation {
         case .none:
@@ -95,7 +95,7 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
             animationWithFade(true, completion: completion)
         }
     }
-    
+
     public func deselect(withAnimation animation: YMSelectAnimation, completion: YMMonthDayAnimationCompletion? = nil) {
         switch animation {
         case .none:
@@ -106,7 +106,7 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
             animationWithFade(false, completion: completion)
         }
     }
-    
+
     // - MARK: Animation None
     private func animationWithNone(_ isSelected: Bool, completion: YMMonthDayAnimationCompletion?=nil) {
         if isSelected {
@@ -118,7 +118,7 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
         }
         completion?(true)
     }
-    
+
     // - MARK: Animation Bounce
     private func animationWithBounce(_ isSelected: Bool, completion: YMMonthDayAnimationCompletion?) {
         dayLabel.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
@@ -130,17 +130,17 @@ final class YMMonthDayCollectionCell: UICollectionViewCell {
                        options: .beginFromCurrentState,
                        animations: {
                         self.dayLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
-                        
+
                         self.animationWithNone(isSelected)
                        }, completion: completion)
     }
-    
+
     // - MARK: Animation Fade
     private func animationWithFade(_ isSelected: Bool, completion: YMMonthDayAnimationCompletion?) {
         UIView.transition(with: dayLabel,
                           duration: 0.2,
                           options: .transitionCrossDissolve,
-                          animations: { 
+                          animations: {
                             self.animationWithNone(isSelected)
                           }, completion: completion)
     }
